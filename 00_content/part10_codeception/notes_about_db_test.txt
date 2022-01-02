@@ -1,0 +1,5 @@
+https://medium.com/@ger86/symfony-improving-your-tests-with-doctrinefixturesbundle-1a37b704ac05
+
+good article about testing
+
+

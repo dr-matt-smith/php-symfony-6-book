@@ -1,0 +1,180 @@
+(1)
+clone Fortabbit locally?
+
+(2)
+setup .htaccess in /public
+
+https://github.com/symfony/recipes-contrib
+https://github.com/symfony/recipes-contrib/tree/master/symfony/apache-pack/1.0/public
+https://raw.githubusercontent.com/symfony/recipes-contrib/master/symfony/apache-pack/1.0/public/.htaccess
+
+
+SYMFONY:
+composer require symfony/apache-pack
+
+basic PHP project
+(a) create file "/public/.htaccess"
+(b) copy contents from here:
+https://raw.githubusercontent.com/symfony/recipes-contrib/master/symfony/apache-pack/1.0/public/.htaccess
+
+
+
+
+FIXTURES:
+
+(1)
+set ENV variable "APP_END=dev"
+
+(2)
+run fixtures load
+
+(3)
+set ENV variable "APP_END=prod"
+
+
+(0) move Doctrine  fixtures our of "dev" JSON requirements:
+        "doctrine/doctrine-fixtures-bundle": "^3.3",
+
+
+IF CHANGING "composer.json" then useful to do the following in SSH terminal:
+
+(a) remove "composer.lock"
+SSH$ rm composer.lock
+
+(b) remove whole vendor folder:
+SSH$ rm -r vendor
+
+(c) PUSH your changed Github repo
+LOCAL$ git push
+
+(d) re-install vendor with changed composer.json
+SSH$ composer install
+
+(0) in /config/bundles.php -need to change Fixtures for "all" environments
+
+change from:
+    Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
+
+to:
+    Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['all' => true],
+
+
+(0) add migrations command to post-install-cmd
+        "post-install-cmd": [
+            "@auto-scripts",
+            "php bin/console doctrine:migrations:migrate"
+        ],
+
+(0) add the following ".htaccess" Apache configuration file in /public:
+
+
+composer require symfony/apache-pack
+
+which copies in the file from here:
+https://github.com/symfony/recipes-contrib
+
+(0) change names of variables in ".env" to match those in Fortrabbit:
+
+MYSQL_USER=root
+MYSQL_PASSWORD=passpass
+MYSQL_HOST=127.0.0.1:3306
+MYSQL_DATABASE=security01test
+DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}/${MYSQL_DATABASE}
+
+(1) create new app in Fortrabbit, e.g, "mgw2020" (for My Great Website)
+- choose Symfony
+
+(2) click link for the customized Git deploy guide "How to deploy with Git here"
+
+- cd to your PHP projects directory (e.g. c:\github)
+- git clone your repo
+- copy your project into the new folder (e.g. c:\github\mgw2020)
+
+- git add .
+- git commit -m "files copied into Fortrabbit project"
+- git push
+
+Enumerating objects: 118, done.
+Counting objects: 100% (118/118), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (107/107), done.
+Writing objects: 100% (118/118), 61.41 KiB | 3.41 MiB/s, done.
+Total 118 (delta 10), reused 0 (delta 0)
+remote: Resolving deltas: 100% (10/10), done.
+
+Commit received, starting build of branch master
+
+–––––––––––––––––––––––  ∙ƒ  –––––––––––––––––––––––
+
+B U I L D
+
+
+Checksum:
+  f03a2aa7f77f2aacd7310006659479682ec55bb1
+
+Deployment file:
+  not found
+
+Pre-script:
+  not found
+  0ms
+
+Composer:
+  - - -
+  Loading composer repositories with package information
+  Installing dependencies (including require-dev) from lock file
+  Package operations: 147 installs, 0 updates, 0 removals
+    - Installing ocramius/package-versions (1.5.1): Downloading (100%)
+    - Installing symfony/flex (v1.6.2): Downloading (100%)
+  
+  Prefetching 145 packages 
+    - Downloading (100%)
+  
+    - Installing behat/gherkin (v4.6.2): Loading from cache
+    - Installing sebastian/version (3.0.0): Loading from cache
+    ... lots more Composer installs ............
+    - Installing symfony/test-pack (v1.0.6): Loading from cache
+  Package zendframework/zend-eventmanager is abandoned, you should avoid using it. Use laminas/laminas-eventmanager instead.
+  Package zendframework/zend-code is abandoned, you should avoid using it. Use laminas/laminas-code instead.
+  Generating autoload files
+  
+  ocramius/package-versions: Generating version class...
+  ocramius/package-versions: ...done generating version class
+  
+  3 packages you are using are looking for funding.
+  Use the `composer fund` command to find out more!
+  Executing script cache:clear [OK]
+  Executing script assets:install public [OK]
+  
+  
+  
+  - - -
+  9s 732ms
+
+Post-script:
+  not found
+  0ms
+
+
+
+R E L E A S E
+
+
+Packaging:
+  658ms
+
+Revision:
+  1585234133053997322.f03a2aa7f77f2aacd7310006659479682ec55bb1
+
+Size:
+  8.7 MB
+
+Uploading:
+  222ms
+
+Build & release done in 10s 622ms, now queued for final distribution.
+
+–––––––––––––––––––––––  ∙ƒ  –––––––––––––––––––––––
+
+To deploy.eu2.frbit.com:evote2020.git
+ * [new branch]      master -> master

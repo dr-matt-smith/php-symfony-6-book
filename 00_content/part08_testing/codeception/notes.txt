@@ -1,0 +1,305 @@
+https://codeception.com/for/symfony
+
+
+
+1. add Codeception to the project
+
+composer require codeception/codeception --dev
+
+(note this will automatically 'bootstrap' this project for Coception, so you don't need to bootstrap it yourself)
+
+then replace PHPUnit with the Symofony PHPUnit bridge
+
+(a) remove PHPUnit
+ composer remove --dev phpunit/phpunit
+
+(b) add Symfony's PHPUnit bridge: 
+composer require --dev phpunit
+
+
+You should now have:
+
+(a) 
+in main project folder:
+
+	codeception.yaml
+	
+	(Note: default URL for testing is: localost:8000 - you may need to change this if using a web server other than the Symfony one ...)
+	
+(b)
+a new folder 
+	/tests
+	
+(c)
+a new folder 
+	vendor/bin/
+containing executable: codecept
+
+you run Codeception commands with:
+
+vendor/bin/codecept <command>
+
+
+e.g. to run all tests type:
+vendor/bin/codecept run
+
+
+
+1. check working (although no tests) by running from /vendor
+
+vendor/bin/codecept run
+
+
+
+
+
+====== data provider ====
+
+https://codeception.com/docs/07-AdvancedUsage#DataProvider-Annotations
+
+class PageCest
+{
+   /**
+    * @dataProvider pageProvider
+    */
+    public function staticPages(AcceptanceTester $I, \Codeception\Example $example)
+    {
+        $I->amOnPage($example['url']);
+        $I->see($example['title'], 'h1');
+        $I->seeInTitle($example['title']);
+    }
+
+    /**
+     * @return array
+     */
+    protected function pageProvider() // alternatively, if you want the function to be public, be sure to prefix it with `_`
+    {
+        return [
+            ['url'=>"/", 'title'=>"Welcome"],
+            ['url'=>"/info", 'title'=>"Info"],
+            ['url'=>"/about", 'title'=>"About Us"],
+            ['url'=>"/contact", 'title'=>"Contact Us"]
+        ];
+    }
+}
+
+but can use simpler Doctrine style annotations:
+class PageCest
+{
+ /**
+  * @example(url="/", title="Welcome")
+  * @example(url="/info", title="Info")
+  * @example(url="/about", title="About Us")
+  * @example(url="/contact", title="Contact Us")
+  */
+  public function staticPages(AcceptanceTester $I, \Codeception\Example $example)
+  {
+    $I->amOnPage($example['url']);
+    $I->see($example['title'], 'h1');
+    $I->seeInTitle($example['title']);
+  }
+}
+
+
+
+
+
+
+====== my first acceptance test ======
+
+1. Create new acceptance test
+
+vendor/bin/codecept g:cest acceptance DefaultCest
+
+
+1. Test
+
+/vendor/bin/codecept run
+
+it should pass - but then it is an empty test class at present
+
+/tests/acceptance/DefaultCest.php
+
+<?php 
+namespace App\Tests;
+use App\Tests\AcceptanceTester;
+
+class DefaultCest
+{
+    public function _before(AcceptanceTester $I)
+    {
+    }
+
+    // tests
+    public function tryToTest(AcceptanceTester $I)
+    {
+    }
+}
+
+1. Add detail to new acceptance test - to look for text 'home page' in the home page
+
+namespace App\Tests;
+
+
+use App\Tests\AcceptanceTester;
+
+class DefaultCest
+{
+    public function homePageContent(AcceptanceTester $I)
+    {
+        $I->amOnPage('/');
+        $I->see('home page');
+    }
+}
+
+
+1. Test - red
+
+/vendor/bin/codecept run
+
+should fail - since not running web server
+
+
+1. Test
+
+
+(a)
+run web server
+
+(b)
+in separate terminal window, run the tests
+/vendor/bin/codecept run
+
+will pass IF you have text content 'home page' when visiting "/"
+(You kmay need to create a Default congtroller and add test 'home page' to the Twig template ...)
+
+
+=====
+
+
+public function homePageHasLinkToAbout()
+{
+	$I->amOnPage('/');
+	$I->click('about');	
+	
+	$I->see('about page');
+	$I->seeCurrentUrlEquals('/about'); // full URL
+	$I->seeInCurrentUrl('/about'); // part of URL
+}
+
+
+Details of $I can be found in the docs for the PhpBrowser module:
+https://codeception.com/docs/modules/PhpBrowser
+
+
+
+1. Run acceptance tests
+
+php bin/codecept run acceptance
+
+
+
+
+==== unit testing ==-
+
+1. create unit testing suite
+
+php bin/codecept g:suite unit
+
+1. Generate a unit test 
+
+php bin/codecept g:test unit MyUnitTestClass
+
+1. See unit testing guide
+
+https://codeception.com/docs/05-UnitTests
+
+e.g.
+create Util class for GPA
+
+
+namespace App\Util;
+
+class Gpa
+{
+	public function letterToGpa($letter)
+	{
+		switch($letter){
+			case 'A':
+				return 4;
+				
+			case 'B':
+				return 3.5;
+				
+			case 'C':
+				return 2;
+				
+			case 'D':
+				return 1.5;
+				
+			case 'F':
+				return 0;
+				
+			default:
+				throw(new \Exception("grade '$letter" not recognised - try A/B/C/D""));
+		}
+	}
+}
+
+1. Write unit test for class
+
+namespace App\Util\Test
+
+use  \Codeception\Test\Unit;
+use App\Util\Gpa;
+
+class UserTest extends Unit
+{
+    public function testValidation()
+    {
+    	// arrrange
+        $gpa = new Gpa();
+        $letter = 'A';
+        $expectedResult = 4;
+
+		// act
+		$result = $gpa->letterToGpa('A');
+		
+		// assert        
+        $this->assertEqual($expectedResult, $result);
+        $this->assertEqual($expectedResult, $result);
+	    $this->assertInternalType('number', $result);        
+        
+
+1. Run all unit tests
+
+php vendor/bin/codecept run unit
+
+
+
+
+
+==== acceptance testing -====
+
+1. Create an acceptance suite
+
+php bin/codecept g:suite acceptance
+
+1. Configure project: acceptance.suite.yml
+
+(a) localhost
+
+Set localhost URL to: localhost:8000
+
+(b) browser: chrome or firefox etc.
+
+class_name: AcceptanceTester
+modules:
+    enabled:
+        - WebDriver:
+            url: 'https://localhost:8000
+            browser: chrome
+        - \Helper\Acceptance  
+        
+
+

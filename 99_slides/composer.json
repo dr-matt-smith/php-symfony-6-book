@@ -1,0 +1,5 @@
+{
+  "scripts":{
+    "run":"pandoc -t beamer -o filter.pdf --filter=./filter.py --slide-level=2 sample.md"
+  }
+}

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Student LIST page</h1>
+    <ul>
+        {% for student in students %}
+            <li>
+                id = {{ student.id }}
+                <br>
+                name = {{ student.firstName }} {{ student.surname }}
+                <br>
+                <a href="{{ path('student_show', {id : student.id} ) }}">(details)</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
