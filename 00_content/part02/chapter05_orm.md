@@ -51,14 +51,17 @@ to
 NOTE: If you prefer to parametize the database connection, use environment variables and then `${VAR}` in your URL:
 
 ```bash
-    DB_USER=root
-    DB_PASSWORD=pass
-    DB_HOST=127.0.0.1
-    DB_PORT=3306
-    DB_NAME=web3
-    DATABASE_URL=mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+    MYSQL_USER=root
+    MYSQL_PASSWORD=SQLpass
+    MYSQL_HOST=127.0.0.1
+    MYSQL_PORT=3306
+    MYSQL_DATABASE=web3
+    DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}
 ```
 
+NOTE:
+
+- if you use exactly the parameter names above, then you are already using the same values needed to publish your website on Fortrabbit - so it makese sense just to use tese from the word go...
 
 ## Setting the database connection URL for SQLite
 
@@ -79,16 +82,39 @@ to
 This will work with SQLite database file `data.db` in directory `/var`.
 
 ## Quick start
-Once you've learnt how to work with Entity classes and Doctrine, these are the 3 commands you need to know (executed from the CLI console `php bin/console ...`):
 
-1. `doctrine:database:create`
-1. `doctrine:migrations:diff`
-1. `doctrine:migrations:migrate` (or possibly `doctrine:schema:update --force`)
-1. `doctrine:schema:validate`
-1. `doctrine:fixtures:load`
-1. `doctrine:query:sql`
+## Creat a database
 
-This should make sense by the time you've reached the end of this database introduction.
+- create the database scema defined in the `.env` file
+
+  `doctrine:database:create' (`do:da:cr`)
+
+## 3 main commands for working with databases
+Once you've learnt how to work with Entity classes and Doctrine, these are the 4 commands you need to know (executed from the CLI console `php bin/console ...`):
+
+- create a migration PHP class, containing the SQL to updatee the DB scema to match the entity classes in `/src`
+
+    'make:migration' (`ma:mi`)
+
+- execute a migration (to update schema to match entity classes)
+
+    `doctrine:migrations:migrate` (`do:mi:mi`) (or possibly `doctrine:schema:update --force`)
+
+- load all initial DB data declared in fixture classes
+
+  `doctrine:fixtures;load` (`do:fi:lo`)
+
+## Other useful commands
+
+Validate the DB schema against the entity classes in `/src`
+
+`doctrine:schema:validate`
+
+Run a simple SQL query, to check data in the DB tables:
+
+    `doctrine:query:sql "select * from modules"`
+
+All the above should make sense by the time you've reached the end of this database introduction.
 
 ## Make your database
 
@@ -96,4 +122,9 @@ We can now use the settings in the `.env` file to connect to the MySQL server an
 
 ```bash
     $ php bin/console doctrine:database:create
+```
+
+Or the abbreviated version:
+```bash
+    $ php bin/console do:da:cr
 ```

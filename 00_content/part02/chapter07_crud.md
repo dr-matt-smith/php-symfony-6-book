@@ -1,17 +1,22 @@
 
 
-# Symfony approach to database CRUD
+# Symfony way of doing database CRUD
 
+## Getting data into the DB
+
+before we can test our DB entity class and repository, we need to get some data into the DB.
+
+Let]'s create a new **route**, in the form: `/students/create/{firstName}/{surname}` that would create a new `Student` row in the DB table containing `{firstName}` and `{surname}`.
+
+We also need to fix our controller, to be able to use the Doctrine DB repository class, rather than our previous D.I.Y. (do-it-yourself) repository class - but more of that later ...
 
 ## Creating new student records (project `db02`)
 
-Let's add a new route and controller method to our `StudentController` class. This will define the `create()` method that receives parameter `$firstName`  and `$surname` extracted from the route `/students/create/{firstName}/{surname}`. This is all done automatically for us, through Symfony seeing the route parameters in the `@Route(...)` annotation comment that immediately precedes the controller method. The 'signature' for our new `create(...)` method names 2 parameters that match those in the `@Route(...)` annotation comment `create($firstName, $surame)`:
+Let's add a new route and controller method to our `StudentController` class. This will define the `create()` method that receives parameter `$firstName`  and `$surname` extracted from the route `/student/create/{firstName}/{surname}`. This is all done automatically for us, through Symfony seeing the route parameters in the `Route(...)` attribute that immediately precedes the controller method. The 'signature' for our new `create(...)` method names 2 parameters that match those in the `#[Route(...)` annotation comment `create($firstName, $surame)`:
 
 ```php
-    /**
-     * @Route("/student/create/{firstName}/{surname}")
-     */
-    public function create($firstName, $surname)
+   #[Route('/student/create/{firstName}/{surname}', name: 'student_create')]
+   public function create(string $firstName, string $surname)
 ```
 
 
@@ -23,40 +28,99 @@ Creating a new `Student` object is straightforward, given `$firstName` and `$sur
     $student->setSurname($surname);
 ```
 
-Then we see the Doctrine code, to get a reference to the ORM `EntityManager`, to tell it to store (`persist`) the object `$product`, and then we tell it to finalise (i.e. write to the database) any entities waiting to be persisted:
+Then we see the Doctrine code, to get a reference to an ORM object `EntityManager`, to tell it to store (`persist`) the object `$product`, and then we tell it to finalise (i.e. write to the database) any entities waiting to be persisted.
+
+
+What we need is a special object reference `$doctrine` that is a `ManagerRegistry` object, and then we can write the following to create a variable `$em` that is a reference to the ORM  `EntityManager`:
+```php
+   $em = $doctrine->getManager();
+```
+
+
+One aspect of Symfony that make take some getting used to is how to get access to service objects like the `ManagerRegistry`. We add a typed argument to a controller method signature, and Symfony will **inject** a reference to the desired object. So to get a variable `$doctrine` that is a reference to the Doctrine `ManagerRegistry` we need to do 2 things:
+
+1. Add an appropriate `use` statement at the top of the file
+
+2. Add this as a parameter to the method signature: `ManagerRegistry $doctrine`
+
+So the beginning of our class will have this new `use` statement:
 
 ```php
-    $em = $this->getDoctrine()->getManager();
+   <?php
+   
+   namespace App\Controller;
+   
+   use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+   use Symfony\Component\HttpFoundation\Response;
+   use Symfony\Component\Routing\Annotation\Route;
+   
+   use App\Repository\StudentRepository;  
+   use Doctrine\Persistence\ManagerRegistry;
+```
+
+And our method will look like this:
+
+```php
+    #[Route('/student/create/{firstName}/{surname}', name: 'student_create')]
+    public function create(string $firstName, string $surname, ManagerRegistry $doctrine)
+    {
+        $student = new Student();
+        $student->setFirstName($firstName);
+        $student->setSurname($surname);
+```
+
+
+Let's now get that reference to the EntityManager:
+
+```php
+   $em = $doctrine->getManager();
+```
+
+Now we can use this `$em` EntityManager object to queue the new object for storate in the DB (persist), and then action all queded DB updated (flush):
+
+```php
     $em->persist($student);
     $em->flush();
 ```
 
+When the `$student` object has been successfully added to the DB, its `id` property will be updated to new auto-generated primary key integer. So we can access the ID of this object via `$student->getId()`.
+
+Finally, let's create a `Response` message to the user telling them the ID of the newly created DB row. For this we need to add a `use` statement, so we can create a `Response` object.
+
 So the code for our create controller method is:
 
 ```php
-    ...
+    <?php
+   
+    namespace App\Controller;
+   
+    use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+    use Symfony\Component\HttpFoundation\Response;
+    use Symfony\Component\Routing\Annotation\Route;
+   
+    use App\Repository\StudentRepository;  
+    use Doctrine\Persistence\ManagerRegistry;
+   
     // we need to add a 'use' statement so we can create a Response object...
     use Symfony\Component\HttpFoundation\Response;
     ...
-
-    /**
-     * @Route("/student/create/{firstName}/{surname}")
-     */
-    public function create($firstName, $surname)
+   
+    #[Route('/student/create/{firstName}/{surname}', name: 'student_create')]
+    public function create(string $firstName, string $surname, ManagerRegistry $doctrine): Response
     {
         $student = new Student();
         $student->setFirstName($firstName);
         $student->setSurame($surname);
-
+   
         // entity manager
-        $em = $this->getDoctrine()->getManager();
-
+        $em = $doctrine->getManager();
+   
         // tells Doctrine you want to (eventually) save the Product (no queries yet)
         $em->persist($student);
-
+   
         // actually executes the queries (i.e. the INSERT query)
         $em->flush();
-
+   
         return new Response('Created new student with id '.$student->getId());
     }
 ```
@@ -93,14 +157,48 @@ The `doctrine:query:sql` CLI command allows us to run SQL queries to our databas
 
 ```
 
+As usual, we can use the 2-letter shortcut to make writing this SQL query command a bit faster:
 
-## Updating the listAction() to use Doctrine
 
-Doctrine creates repository objects for us. So we change the first line of method `list()` to the following:
+```bash
+    $ php bin/console do:qu:sql "select * from student"
+```
+
+## Updating the `list()` method to use Doctrine
+
+Of course, we already have a route for viewing `Student` objects: `/student/list`. So we just have to update the code for this method to use the generated `StudentRepository` rather than our original D.I.Y. class.
+
+If we have a reference to the ORM ManagerRegistry (`$doctrine`) we can get a reference to the repository class for any of our entity classes as follows:
 
 ```php
-    $studentRepository = $this->getDoctrine()->getRepository('App:Student');
+     $repositoryObject = $doctrine->getRepository(<EntityClass>::class);
 ```
+
+so to get a `$studentRepository` object we write:
+
+```php
+     $studentRepository = $doctrine->getRepository(Student::class);
+```
+
+Again, we use the Symfony param-converter to **inject** an object reference for us, by simply adding a new parameter to the `list(...)` method signature. So our `list(...)` mehod now looks as follows:
+
+```php
+    #[Route('/student', name: 'student_list')]
+    public function list(ManagerRegistry $doctrine): Response
+    {
+        $studentRepository = $doctrine->getRepository(Student::class);
+        $students = $studentRepository->findAll();
+
+        $template = 'student/list.html.twig';
+        $args = [
+            'students' => $students
+        ];
+        return $this->render($template, $args);
+    }
+ ```
+
+
+## Doctrine Repository "free" methods
 
 Doctrine repositories offer us lots of useful methods, including:
 
@@ -119,28 +217,6 @@ Doctrine repositories offer us lots of useful methods, including:
     $products = $repository->findBySurname('smith');
 ```
 
-So we need to change the second line of of method `list()`  to use the `findAll()` repository method:
-
-```php
-    $students = $studentRepository->findAll();
-```
-
-Our listAction() method now looks as follows:
-
-```php
-    public function listAction()
-    {
-        $studentRepository = $this->getDoctrine()->getRepository('App:Student');
-        $students = $studentRepository->findAll();
-
-        $argsArray = [
-            'students' => $students
-        ];
-
-        $templateName = 'students/list';
-        return $this->render($templateName . '.html.twig', $argsArray);
-    }
-```
 
 Figure \ref{student_list2} shows Twig HTML page listing all students generated from route `/student`.
 
@@ -151,19 +227,14 @@ Figure \ref{student_list2} shows Twig HTML page listing all students generated f
 Let's define a delete route `/student/delete/{id}` and a `delete()` controller method. This method needs to first retreive the object (from the database) with the given ID, then ask to remove it, then flush the changes to the database (i.e. actually remove the record from the database). Note in this method we need both a reference to the entity manager `$em` and also to the student repository object `$studentRepository`:
 
 ```php
-    /**
-     * @Route("/student/delete/{id}")
-     */
-    public function delete($id)
+    #[Route('/student/delete/{id}', name: 'student_delete')]
+    public function delete(int $id, ManagerRegistry $doctrine)
     {
-        // entity manager
-        $em = $this->getDoctrine()->getManager();
-        $studentRepository = $this->getDoctrine()->getRepository('App:Student');
-
-        // find thge student with this ID
+        $studentRepository = $doctrine->getRepository(Student::class);
         $student = $studentRepository->find($id);
 
         // tells Doctrine you want to (eventually) delete the Student (no queries yet)
+        $em = $doctrine->getManager();
         $em->remove($student);
 
         // actually executes the queries (i.e. the DELETE query)
@@ -178,25 +249,23 @@ Let's define a delete route `/student/delete/{id}` and a `delete()` controller m
 We can do something similar to update. In this case we need 3 parameters: the id and the new first and surname. We'll also follow the Symfony examples (and best practice) by actually testing whether or not we were successful retrieving a record for the given id, and if not then throwing a 'not found' exception.
 
 ```php
-    /**
-     * @Route("/student/update/{id}/{newFirstName}/{newSurname}")
-     */
-    public function update($id, $newFirstName, $newSurname)
+    #[Route('/student/update/{id}/{newFirstName}/{newSurname}', name: 'student_update')]
+    public function update(int $id, string $newFirstName, string $newSurname, ManagerRegistry $doctrine)
     {
-        $em = $this->getDoctrine()->getManager();
-        $student = $em->getRepository('App:Student')->find($id);
+        $studentRepository = $doctrine->getRepository(Student::class);
+        $student = $studentRepository->find($id);
 
-        if (!$student) {
-            throw $this->createNotFoundException(
-                'No student found for id '.$id
-            );
-        }
+//        $student = $doctrine->getRepository(Student::class)->find($id);
 
         $student->setFirstName($newFirstName);
         $student->setSurname($newSurname);
+
+        $em = $doctrine->getManager();
         $em->flush();
 
-        return $this->redirectToRoute('homepage');
+        return $this->redirectToRoute('student_show', [
+            'id' => $student->getId()
+        ]);
     }
 ```
 
@@ -207,8 +276,8 @@ Until we write an error handler we'll get Symfony style exception pages, such as
 Note, to illustrate a few more aspects of Symfony some of the coding in `update()` has been written a little differently:
 
 - we are getting the reference to the repository via the entity manager `$em->getRepository('App:Student')`
-- we are 'chaining' the `find($id)` method call onto the end of the code to get a reference to the repository (rather than storing the repository object reference and then invoking  `find($id)`). This is an example of using the 'fluent' interface^[read about it at [Wikipedia](https://en.wikipedia.org/wiki/Fluent_interface)] offered by Doctrine (where methods finish by returning an reference to their object, so that a sequence of method calls can be written in a single statement.
-- rather than returning a `Response` containing a message, this controller method redirect the webapp to the route named `homepage`
+- we could also have 'chained' the `find($id)` method call onto the end of the code to get a reference to the repository (rather than storing the repository object reference and then invoking  `find($id)`). I.e. we could have written `$student = $doctrine->getRepository(Student::class)->find($id)`. This would be an example of using the 'fluent' interface^[read about it at [Wikipedia](https://en.wikipedia.org/wiki/Fluent_interface)] offered by Doctrine (where methods finish by returning an reference to their object, so that a sequence of method calls can be written in a single statement.
+- rather than returning a `Response` containing a message, this controller method redirect the webapp to the route named `student_show` for the current object's `id`
 
 We should also add the 'no student for id' test in our `delete()` method ...
 
@@ -217,22 +286,21 @@ We should also add the 'no student for id' test in our `delete()` method ...
 We can now update our code in our `show(...)` to retrieve the record from the database:
 
 ```php
-    public function show($id)
+    #[Route('/student/{id}', name: 'student_show')]
+    public function show(int $id, ManagerRegistry $doctrine): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $student = $em->getRepository('App:Student')->find($id);
+        $studentRepository = $doctrine->getRepository(Student::class);
+        $student = $studentRepository->find($id);
 ```
 
 So our full method for the show action looks as follows:
 
 ```php
-    /**
-     * @Route("/student/{id}", name="student_show")
-     */
-    public function shown($id)
+    #[Route('/student/{id}', name: 'student_show')]
+    public function show(int $id, ManagerRegistry $doctrine): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $student = $em->getRepository('App:Student')->find($id);
+        $studentRepository = $doctrine->getRepository(Student::class);
+        $student = $studentRepository->find($id);
 
         $template = 'student/show.html.twig';
         $args = [
@@ -242,7 +310,6 @@ So our full method for the show action looks as follows:
         if (!$student) {
             $template = 'error/404.html.twig';
         }
-
         return $this->render($template, $args);
     }
 ```
@@ -274,7 +341,7 @@ Let's go back to the list page after a create or update action. Tell Symfony to 
     ]);
 ```
 
-e.g. refactor the `update()` method to be as follows:
+e.g. add an `update(...)` method to be as follows:
 
 ```php
     /**
@@ -307,16 +374,16 @@ e.g. refactor the `update()` method to be as follows:
 One of the features added when we installed the `annotations` bundle was the **Param Converter**.
 Perhaps the most used param converter is when we can substitute an entity `id` for a reference to the entity itself.
 
+So while we list an `{id}` parameter in the attribute preceding the method, in the method signautre itself we have a parmater that is a reference to a complete `Student` object, retrieved from the DB using the provided id value!
+
 We can simplify our `show(...)` from:
 
 ```php
-    /**
-     * @Route("/student/{id}", name="student_show")
-     */
-    public function show($id)
+    #[Route('/student/{id}', name: 'student_show')]
+    public function show(int $id, ManagerRegistry $doctrine): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $student = $em->getRepository('App:Student')->find($id);
+        $studentRepository = $doctrine->getRepository(Student::class);
+        $student = $studentRepository->find($id);
 
         $template = 'student/show.html.twig';
         $args = [
@@ -326,7 +393,6 @@ We can simplify our `show(...)` from:
         if (!$student) {
             $template = 'error/404.html.twig';
         }
-
         return $this->render($template, $args);
     }
 ```
@@ -334,10 +400,8 @@ We can simplify our `show(...)` from:
 to just:
 
 ```php
-    /**
-     * @Route("/student/{id}", name="student_show")
-     */
-    public function show(Student $student)
+    #[Route('/student/{id}', name: 'student_show')]
+    public function show(Student $student): Response
     {
         $template = 'student/show.html.twig';
         $args = [
@@ -347,7 +411,6 @@ to just:
         if (!$student) {
             $template = 'error/404.html.twig';
         }
-
         return $this->render($template, $args);
     }
 ```
@@ -366,39 +429,33 @@ Learn more about the Param-Converter on the Symfony documentation pages:
 Likewise for delete action:
 
 ```php
-        /**
-         * @Route("/student/delete/{id}")
-         */
-        public function delete(Student $student)
-        {
-            // entity manager
-            $em = $this->getDoctrine()->getManager();
+    #[Route('/student/delete/{id}', name: 'student_delete')]
+    public function delete(Student $student, ManagerRegistry $doctrine)
+    {
+        // store ID so can report it later
+        $id = $student->getId();
 
-            // store ID before deleting, so can report ID later
-            $id = $student->getId();
+        // tells Doctrine you want to (eventually) delete the Student (no queries yet)
+        $em = $doctrine->getManager();
+        $em->remove($student);
 
-            // tells Doctrine you want to (eventually) delete the Student (no queries yet)
-            $em->remove($student);
+        // actually executes the queries (i.e. the DELETE query)
+        $em->flush();
 
-            // actually executes the queries (i.e. the DELETE query)
-            $em->flush();
-
-            return new Response('Deleted student with id = '. $id);
-        }
+        return new Response('Deleted student with id '.$id);
+    }
 ```
 
 Likewise for update action:
 
 ```php
-    /**
-     * @Route("/student/update/{id}/{newFirstName}/{newSurname}")
-     */
-    public function update(Student $student, $newFirstName, $newSurname)
+    #[Route('/student/update/{id}/{newFirstName}/{newSurname}', name: 'student_update')]
+    public function update(Student $student, string $newFirstName, string $newSurname, ManagerRegistry $doctrine)
     {
-        $em = $this->getDoctrine()->getManager();
-
         $student->setFirstName($newFirstName);
         $student->setSurname($newSurname);
+
+        $em = $doctrine->getManager();
         $em->flush();
 
         return $this->redirectToRoute('student_show', [
@@ -407,7 +464,7 @@ Likewise for update action:
     }
 ```
 
-NOTE - we will now get ParamConverter errors rather than 404 errors if no record matches ID through ...
+NOTE - we will now get ParamConverter errors/exceptions rather than 404 errors if no record matches ID through ... so need to deal with those in a different way ...
 
 ## Creating the CRUD controller automatically from the CLI (project `db04`)
 
@@ -419,9 +476,11 @@ To try this out do the following:
 
 1. Delete the `StudentController` class, since we'll be generating one automatically
 
-1. Delete the `templates/student` directory, since we'll be generating those templates automatically
+2. Delete the `templates/student` directory, since we'll be generating those templates automatically
 
-1. Then use the make crud command:
+3. Delete the `var` directory, since we'll be generating one automatically
+
+4. Then use the make crud command:
     
     ```bash
         $ php bin/console make:crud Student
@@ -443,11 +502,37 @@ You should see the following output in the CLI:
                    
       Success! 
                    
-     Next: Check your new CRUD by going to /student/
+     Next: Check your new CRUD by going to /student
 ``` 
 
 You should find that you have now forms for creating and editing Student records, and controller routes for listing and showing records, and Twig templates to support all of this...
 
-NOTE: As usualy, if you get any messages about 'Route not found' or whatever, you need to delete the `/var/cache` ...
+NOTE: As usually, if you get any messages about 'Route not found' or whatever, you need to delete the `/var/cache`,. Or the whole `/var` folder (as long as you aren't using an SQLite file in there instead of MySQL ...)
 
+If you look at the code for controller methods like `show(...)` and `delete(...)` you'll find they are very similar to what we wrote by hand previously. For example the `show(...)` method should look something like the following:
+
+```php
+    #[Route('/{id}', name: 'student_show', methods: ['GET'])]
+    public function show(Student $student): Response
+    {
+        return $this->render('student/show.html.twig', [
+            'student' => $student,
+        ]);
+    }
+```
+
+which is just a more succinct way of writing the same as we had before
+
+```php
+    #[Route('/student/{id}', name: 'student_show')]
+    public function show(Student $student): Response
+    {
+        $template = 'student/show.html.twig';
+        $args = [
+            'student' => $student
+        ];
+
+        return $this->render($template, $args);
+    }
+```
 

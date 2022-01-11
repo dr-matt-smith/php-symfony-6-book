@@ -9,7 +9,7 @@ Doctrine expects to find entity classes in a directory named `/src/Entity`, and 
 Although we'll have to make some changes to these classes of course.
 
 
-## Using annotation comments to declare DB mappings
+## Using PHP attributes to declare DB mappings
 
 We need to tell Doctrine what table name this entity should map to, and also confirm the data types of each field. We'll do this using annotation comments (although this can be also be declare in separate YAML or XML files if you prefer). We need to add a `use` statement and we define the namespace alias `ORM` to keep our comments simpler.
 
@@ -18,11 +18,10 @@ Our first comment is for the class, stating that it is an ORM entity and mapping
 ```php
     namespace App\Entity;
 
+    use App\Repository\StudentRepository;
     use Doctrine\ORM\Mapping as ORM;
 
-    /**
-     * @ORM\Entity(repositoryClass="App\Repository\StudentRepository")
-     */
+    #[ORM\Entity(repositoryClass: StudentRepository::class)]
     class Student
     {
 
@@ -33,21 +32,15 @@ Our first comment is for the class, stating that it is an ORM entity and mapping
 We now use annotations to declare the types (and if appropriate, lengths) of each field.
 
 ```php
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $firstName;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $surname;
 ```
 
@@ -71,7 +64,7 @@ The output should be something like this (if our comments are valid):
     [ERROR] The database schema is not in sync with the current mapping file.
 ```
 
-## The StudenRepository class (`/src/Repository/StudentRepository`)
+## The StudentRepository class (`/src/Repository/StudentRepository`)
 
 We need to change our repository class to be one that works with the Doctrine ORM. Unless we are writing special purpose query methods, all we really need for an ORM repository class is to ensure is subclasses `DoctrineBundle\Repository\ServiceEntityRepository` and its constructor points it to the corresponding entity class.
 
@@ -121,10 +114,10 @@ So the full listing for `StudentRepository` is now:
 
 ## Create a migration (a migration `diff` file)
 
-We now will tell Symfony to create the a PHP class to run SQL migration commands required to change the structure of the existing database to match that of our Entity classes:
+We now will tell Symfony to create a PHP class to run SQL migration commands required to change the structure of the existing database to match that of our Entity classes. We'll use the abbreviated version of `make:migration` below: 
 
 ```bash
-    $ php bin/console make:migration
+    $ php bin/console ma:mi
 
     Success! 
     
@@ -135,7 +128,7 @@ We now will tell Symfony to create the a PHP class to run SQL migration commands
 
 NOTE: This is a shorter way of writing the old `doctrine` command: `php bin/console doctrine:migrations:diff`
 
-A migrations SQL file should have been created in `/src/Migrations/...php`:
+A migrations SQL script, similar to the following should have been created in `/Migrations/...php`:
 
 ```php
     namespace DoctrineMigrations;
@@ -148,6 +141,11 @@ A migrations SQL file should have been created in `/src/Migrations/...php`:
      */
     class Version20180213082441 extends AbstractMigration
     {
+        public function getDescription(): string
+        {
+            return '';
+        }
+        
         public function up(Schema $schema)
         {
             // this up() migration is auto-generated, please modify it to your needs
@@ -161,10 +159,10 @@ A migrations SQL file should have been created in `/src/Migrations/...php`:
 
 ## Run the migration to make the database structure match the entity class declarations
 
-Run the `migrate` command to execute the created migration class to make the database schema match the structure of your entity classes, and enter `y` when prompted - if you are happy to go ahead and change the database structure:
+Run the `migrate` command to execute the created migration class to make the database schema match the structure of your entity classes, and enter `y` when prompted - if you are happy to go ahead and change the database structure. We'll use the abbreviated version of `doctrine:mirations:migrate` below:
 
 ```bash
-    $ php bin/console doctrine:migrations:migrate
+    $ php bin/console do:mi:mi
 
         Application Migrations
 
@@ -192,7 +190,7 @@ You can see the results of creating the database schema and creating table(s) to
 
 ![Screenshot MySQL Workbench and generated schema and product table. \label{db_schema}](./03_figures/part02/1_db_schema.png)
 
-## Re-validiate our annotations
+## Re-validate our annotations
 
 We should get 2 "ok"s if we re-validate our schema now:
 
@@ -246,22 +244,7 @@ In the above `<RETURN>` was pressed to not add any fields automatically. The Mak
 
 - and a generic StudentRepository class `src/Repository/StudentRepository.php`
 
-We would then be able to manually add the `firstName` and `surname` properties (and their annotation comments) as we did earlier in the chapter:
-
-```php
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $firstName;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $surname;
-```
-
-Finally we would have had to generate getters and setters for these 2 fields, and migrate to the database.
+That's it - using the `make:entity` CLI tool saves us LOADS of work!
 
 ## Use maker to create properties, annotations and accessor methods! 
 
@@ -294,22 +277,25 @@ Then run the CLI command `make:entity Student`, and at the prompt ask it to crea
      > 
     
      Can this field be null in the database (nullable) (yes/no) [no]:
-     > surnamne
+     > 
     
      updated: src/Entity/Student.php
     
      Add another property? Enter the property name (or press <return> to stop adding fields):
-     > 
+     > surname (then keep hitting RETURN for defaults and to complete the entity ...)
                
       Success! 
     
      Next: When you're ready, create a migration with make:migration    
 ```
 
-For each property the Maker bundle wants to know 3 things:
+For each property the Maker bundle wants to know at least 3 things:
 
 - property name (e.g. `firstName` and `surname`)
 - property type (default is `string`)
+
+  - for Strings a field length will be asked for (just take the default 255 unless you need more ...)
+
 - whether `NULL` can be stored for property
 
 For `string` properties like `firstName` we just need to enter the property name and hit `<RETURN>` for the defaults (`string`, not nullable). For other types of field you can get a list of types by entering `?` at the prompt:. There are quite a few of them:
@@ -351,4 +337,28 @@ For `string` properties like `firstName` we just need to enter the property name
       * decimal
       * guid
 ```
+
+## It is BETTER to use the make tool
+
+Personally, I recommend you ALWAYS create your entities with the make CLI tool, since then you know the annotations are correct.
+
+## Final tip - always add a toString() method
+
+When listing values in a table or creating a dropdown HTML form, sometimes Symfony will need to convert an object reference to a string - that's what toString methods are for.
+
+So, rather than trying to do something and getting an error, it is a good habit to ALWAYS write a toString method once you've created an entity class
+
+e.g. add something like the following for the `Student` entity class:
+
+```php
+  public function __toString(): string 
+  {
+        returnu $this->firstname . '  ' . $this->surname;
+  }
+```
+
+### Tip - IDEs may write a function skeleton for you after you type `__toString` ...
+
+PHPStorm and other IDEs may save you typing by writing a function skeleton for you ...
+
 

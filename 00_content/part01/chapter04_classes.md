@@ -311,7 +311,7 @@ NOTE: We'll give this **show** route the internal name `student_show` - these in
 
 ```php
     #[Route('/student/{id}', name: 'student_show')]
-    public function show($id): Response
+    public function show(int $id): Response
     {
         $studentRepository = new StudentRepository();
         $student = $studentRepository->find($id);
@@ -370,7 +370,7 @@ Symfony caches (stores) routing data and also rendered pages from Twig, to speed
 Let's add the find-one-by-id method to class `StudentRepository`:
 
 ```php
-    public function find($id)
+    public function find(int $id)
     {
         if(array_key_exists($id, $this->students)){
             return $this->students[$id];
@@ -463,7 +463,7 @@ If we attempted to retrieve a record, but got back `null`, we might cope with it
 Or we could simply create an error Twig page, and display that to the user, e.g.:
 
 ```php
-    public function show($id): Response
+    public function show(int $id): Response
     {
         $studentRepository = new StudentRepository();
         $student = $studentRepository->find($id);

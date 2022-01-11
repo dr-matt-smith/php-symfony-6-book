@@ -17,16 +17,33 @@ Learn more about Symfony fixtures at:
 
 - [Symfony website fixtures page](https://symfony.com/doc/master/bundles/DoctrineFixturesBundle/index.html)
 
+## Fixtures SAVE YOU TIME!
+
+I cannot stress how **useful** fixtures are when making many changes to a DB structure - as you'll be likely be doing when first developing Symfony projects.
+
+It should be this easy to resolve mismatches between your code and your database schema:
+
+1. delete the DB (or choose a new DB name in your `.env` file - I just add 1 to the DB number - evote01, evote02 etc.)
+2. create the DB: `do:da:cr`
+3. delete the **contents** of your `migrations` folder (but not the folder itself)
+4. Make a new migration: `ma:mi`
+5. run your migration: `do:mi:mi`
+6. Load your fixtures: `do:fi:lo`
+
+DONE - your DB is now fully in-synch with your entity classes.
+
+If you do NOT have fixtures,  you'll now waste time entering lots of test data by hand - every time you have to delete and re-create your DB ....
+
 ## Installing and registering the fixtures bundle
 
 ### Install the bundle
-Use Composer to install the bunder in the the `/vendor` directory:
+Use Composer to install the bundle in the the `/vendor` directory:
 
 ```bash
     composer req orm-fixtures
 ```
 
-You should now see a new directory created `/src/DataFixtures`. Also there is a sample fixtures class provided `AppFixtures`:
+You should now see a new directory created `/src/DataFixtures`. Also, there is a sample fixtures class provided `AppFixtures.php`:
 
 ```php
     <?php
@@ -34,11 +51,11 @@ You should now see a new directory created `/src/DataFixtures`. Also there is a 
     namespace App\DataFixtures;
     
     use Doctrine\Bundle\FixturesBundle\Fixture;
-    use Doctrine\Common\Persistence\ObjectManager;
+    use Doctrine\Persistence\ObjectManager;
     
     class AppFixtures extends Fixture
     {
-        public function load(ObjectManager $manager)
+        public function load(ObjectManager $manager): void
         {
             // $product = new Product();
             // $manager->persist($product);
@@ -46,19 +63,17 @@ You should now see a new directory created `/src/DataFixtures`. Also there is a 
             $manager->flush();
         }
     }
-
 ```
 
-## Writing the fixture classes
+Since you'll generally be creating a range of fixture files, named for their content it's a good idea just to delete this file: `/src/DataFixtures/AppFixtures.php`.
 
-We need to locate our fixtures in our `/src` directory, inside a `/DataFixtures` directory. The path for our data fixtures classes should be `/src/DataFixtures/`.
+## Writing the fixture classes
 
 Fixture classes need to implement the interfaces, `Fixture`.
 
 NOTE: Some fixtures will also require your class to include the  `ContainerAwareInterface`, for when our code also needs to access the container,by implementing the `ContainerAwareInterface`.
 
-Let's write a class to create 3 objects for entity `App\Entity\Student. The class will be declared in file `/src/DataFixtures/StudentFixtures.php`. Make a copy of the provided `AppFixtures` class naming the copy `StudentFixtures`, and change the class name inside the code.
-
+Let's create a class to create 3 objects for entity `App\Entity\Student`. The class will be declared in file `/src/DataFixtures/StudentFixtures.php`. However, we can generate the skelton for each fixture class using the CLI `make` tool.
 We also need to add a `use` statement so that our class can make use of the `Entity\Student` class.
 
 The **make** feature will create a skeleton fixture class for us. So let's make class `StudentFixtures`:
@@ -86,12 +101,13 @@ Since we are going to be creating instance-objects of class `Student` we need to
     {
 ```
 
+When we use the CLI command `doctrine:fixtures:load` the `load(...)` method of each fixture object is invoked. So now we need to implement the details of our `load(...)` method for our new class `StudentFixtures`.
 
-Now we need to implement the details of our `load(...)` method, that gets invoked when we are loading fixtures from the CLI. This method creates objects for the entities we want in our database, and the saves (persists) them to the database. Finally the `flush()` method is invoked, forcing the database to be updated with all queued new/changed/deleted objects:
+This method creates objects for the entities we want in our database, and the saves (persists) them to the database. Finally, the `flush()` method is invoked, forcing the database to be updated with all queued new/changed/deleted objects:
 
 In the code below, we create 3 `Student` objects and have them persisted to the database.
 ```php
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $s1 = new Student();
         $s1->setFirstName('matt');
@@ -121,15 +137,17 @@ Loading fixtures involves deleting all existing database contents and then creat
     php bin/console doctrine:fixtures:load
 ```
 
+or the shorter version: `php bin/console do:fi:lo`
+
 You should then be asked to enter `y` (for YES) if you want to continue:
 
 ```bash
     $ php bin/console doctrine:fixtures:load
 
-    Careful, database will be purged. Do you want to continue y/N ?y
+    Careful, database "web3" will be purged. Do you want to continue? (yes/no) [no]:
+    
       > purging database
-      > loading App\DataFixtures\LoadStudents
-
+      > loading App\DataFixtures\StudentFixtures
 ```
 
 
@@ -162,58 +180,74 @@ Alternatively, you could execute an SQL query from the CLI using the `doctrine:q
           'surname' => string 'murph' (length=5)
 ```
 
+NOTE:
+
+If you have loaded fixtures several times, or created other records, then the index of the records may NOT begin at 1.
+
+If you need the id's to start at 1, you can delete DB / delete migrations / create DB / create migration / run migration / load fixtures - for a completely fresh dataabase.
+
 ## User Faker to generate plausible test data (project `db06`)
 
 For testing purposes the `Faker` library is fantastic for generating plausible, random data.
+
+NOTE: The original PHP Faker was from `fzaninotto/faker`. But this was a muilti-lingual project, being over 3Mb download. So I've created an English-only fork of that project for student use (< 200k). You can read more in the README on Github.
 
 Let's install it and generate some random students in our Fixtures class:
 
 1. use Composer to add the Faker package to our `/vendor/` directory:
 
     ```bash
-        $ composer req fzaninotto/faker
+        $ composer require mattsmithdev/faker-small-english
    
-        Using version ^1.7 for fzaninotto/faker
+        Using version ^0.1.0 for mattsmithdev/faker-small-english
         ./composer.json has been updated
         Loading composer repositories with package information
         ...
         Executing script assets:install --symlink --relative public [OK]
     ```
 
-1. Add a `uses` statement in our `/src/DataFixtures/LoadStudents.php` class, so that we can make use of the `Faker` class:
-
-```php
-    use Faker\Factory;
-
-```
-2. refactor our  `load()` method in `/src/DataFixtures/LoadStudents.php` to create a Faker 'factory', and loop to generate names for 10 male students, and insert them into the database:
+2. Add a `uses` statement in our `/src/DataFixtures/LoadStudents.php` class, so that we can make use of the `Faker` class:
 
     ```php
-        public function load(ObjectManager $manager) {
-            $faker = Factory::create();
-
-            $numStudents = 10;
-            for ($i=0; $i < $numStudents; $i++) {
-                $firstName = $faker->firstNameMale;
-                $surname = $faker->lastName;
-
-                $student = new Student();
-                $student->setFirstName($firstName);
-                $student->setSurname($surname);
-
-                $manager->persist($student);
-            }
-
-            $manager->flush();
-        }
+        use Mattsmithdev\FakerSmallEnglish\Factory;
     ```
-3. use the CLI Doctrine command to run the fixtures creation method:
+
+3. refactor our  `load()` method in `/src/DataFixtures/LoadStudents.php` to create a Faker 'factory', and loop to generate names for 10 male students, and insert them into the database:
+
+    ```php
+        use Mattsmithdev\FakerSmallEnglish\Factory;
+
+        ...
+
+		public function load(ObjectManager $manager): void
+		{
+			$faker = Factory::create();
+
+			$numStudents = 10;
+			for ($i=0; $i < $numStudents; $i++) {
+				$firstName = $faker->firstNameMale;
+				$surname = $faker->lastName;
+
+				$student = new Student();
+				$student->setFirstName($firstName);
+				$student->setSurname($surname);
+
+				$manager->persist($student);
+			}
+
+			$manager->flush();
+		}   
+    ```
+
+
+
+4. use the CLI Doctrine command to run the fixtures creation method:
 
     ```bash
-        $ php bin/console doctrine:fixtures:load
+        $ php bin/console do:fi:lo
         Careful, database will be purged. Do you want to continue y/N ?y
           > purging database
-          > loading App\DataFixtures\LoadStudents
+          > loading App\DataFixtures\StudentFixtures
     ```
 
 That's it - you should now have 10 'fake' students in your database.
@@ -222,9 +256,23 @@ Figure \ref{fake_students} shows a screenshot of the DB client showing the 10 cr
 
 ![Ten fake students inserted into DB. \label{fake_students}](./03_figures/part02/6_fake_students.png)
 
-Learn more about the `Faker` class at its Github project page:
 
-- [https://github.com/fzaninotto/Faker](https://github.com/fzaninotto/Faker)
+        
+### The Faker projects
+
+Learn more about the `Faker` projects:
+
+- Matt's small version of the library (Github)
+
+  - [https://github.com/dr-matt-smith/faker-small-english](https://github.com/dr-matt-smith/faker-small-english)
+
+- Matt's small version of the library (Packgist)
+
+  - [https://packagist.org/packages/mattsmithdev/faker-small-english](https://packagist.org/packages/mattsmithdev/faker-small-english)
+
+- the FZaninotto library Matt's projet is based on
+   
+  - [https://github.com/fzaninotto/Faker](https://github.com/fzaninotto/Faker)
 
 
 ## Foundry and FakerPHP
