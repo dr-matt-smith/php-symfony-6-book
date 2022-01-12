@@ -206,6 +206,8 @@ Let's install it and generate some random students in our Fixtures class:
         Executing script assets:install --symlink --relative public [OK]
     ```
 
+    - you'll now see a `mattsmithdev` folder in `/vendor` containing the Faker classes
+
 2. Add a `uses` statement in our `/src/DataFixtures/LoadStudents.php` class, so that we can make use of the `Faker` class:
 
     ```php
@@ -266,7 +268,7 @@ Learn more about the `Faker` projects:
 
   - [https://github.com/dr-matt-smith/faker-small-english](https://github.com/dr-matt-smith/faker-small-english)
 
-- Matt's small version of the library (Packgist)
+- Matt's small version of the library (Packagist)
 
   - [https://packagist.org/packages/mattsmithdev/faker-small-english](https://packagist.org/packages/mattsmithdev/faker-small-english)
 

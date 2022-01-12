@@ -325,10 +325,3 @@ See Figure \ref{related_fixtures} to see the `Product` objects listed from the d
 Learn more about Symfony fixtures on the Symfony website:
 
 - [https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html#loading-the-fixture-files-in-order](https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html#loading-the-fixture-files-in-order)
-
-# Alternative approach using the  DependentFixturesInterface
-
-learn more at:
-
-- https://latteandcode.medium.com/symfony-improving-your-tests-with-doctrinefixturesbundle-1a37b704ac05
-
