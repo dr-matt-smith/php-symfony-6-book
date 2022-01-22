@@ -272,21 +272,11 @@ Learn more about the `Faker` projects:
 
   - [https://packagist.org/packages/mattsmithdev/faker-small-english](https://packagist.org/packages/mattsmithdev/faker-small-english)
 
-- the FZaninotto library Matt's projet is based on
+- the FZaninotto library Matt's project is based on
    
   - [https://github.com/fzaninotto/Faker](https://github.com/fzaninotto/Faker)
 
-
-## Foundry and FakerPHP
-
-Learn more about fixtures packages at Symfonycasts:
-
-- Foundry
-
-  - [https://symfonycasts.com/screencast/symfony-doctrine/foundry](https://symfonycasts.com/screencast/symfony-doctrine/foundry)
-
-- FakerPHP
-
-   - [https://symfonycasts.com/screencast/symfony-doctrine/foundry-tricks#play](https://symfonycasts.com/screencast/symfony-doctrine/foundry-tricks#play)
-
+- FakerPHP - which has replaced FZaninotto Faker library 
+  - [https://fakerphp.github.io/](https://fakerphp.github.io/)
+  - although it is > 3Mb so still an issue (I'll create a fork using my small Faker library when I have a chance ....)
 
