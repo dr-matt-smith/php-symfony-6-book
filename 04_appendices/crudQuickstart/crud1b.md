@@ -41,10 +41,10 @@ NOTE:
 
 this should solve the problem (althogh it may have been fixed in a more recent version of MySQL/PHP ...)
 
-## Pre- ensure the `/migrations` folder is empty
+## Ensure the `/migrations` folder is empty
 If there is a folder `/migrations` DELETE its contents (since we have a new database, we don't want any old migrations to mess it up)
 
-- but do not delete the directory itself, otherwise it will through an error when trying to setup the datatabase
+- but do not delete the directory itself, otherwise it will through an error when trying to setup the database
 
 ## Migrating code Entities to DB tables
 
@@ -104,7 +104,7 @@ The quickest and easiest way to get past this problem is to start again with a B
 
     - personally I just add 1 to the number of this database, e.g. change `crud01` to `crud02` and so on
 
-2. Delete all historic migrations, just delete ALL files inside folder  `/Migrations`
+2. Delete all historic migrations, just delete ALL files inside folder  `/migrations`
 
    - NOTE: Do **not** delete the folder itself, otherwise you'll get errors when you try to create new migrations ...
 
@@ -134,3 +134,11 @@ The quickest and easiest way to get past this problem is to start again with a B
         symfony console doctrine:fixtures:load
         ```
 
+Or using the 2-letter abbreviated steps:
+
+```bash
+symfony console do:da:cr
+symfony console ma:mi
+symfony console do:mi:mi
+symfony console do:fi:lo
+```

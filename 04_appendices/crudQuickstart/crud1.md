@@ -154,7 +154,33 @@ Note, you might get some warnings/info messages about version of PHP etc. - just
 
 Open a web browser and visit our website home page at `http://localhost:8000`.
 
-Since we didn't create a home page, we'll see a default Symfony home page. See Figure \ref{homepage} shows a screenshot of PHPStorm and our new class PHP code.
+If things are working as expected you should see a default Symfony home page. See Figure \ref{homepage}.
 
 ![Default Symfony home page. \label{homepage}](./03_figures/appendices/crud04_homepage.png){ width=75% }
+
+## Test system Symfony requirements
+
+As long as the `symfony` command-line tool has been installed, and we have navigated in the command-line to a Symfony project folder, then we can test the system to see if it has the right version of PHP etc. by running the following command `symfony check:requirements`:
+
+```bash
+   $ symfony check:requirements
+   
+   Symfony Requirements Checker
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   
+   > PHP is using the following php.ini file:
+   /usr/local/etc/php/8.1/php.ini
+   
+   > Checking Symfony requirements:
+   ...................................
+    [OK]                                         
+    Your system is ready to run Symfony projects 
+   
+   Note  The command console can use a different php.ini file
+   ~~~~  than the one used by your web server.
+         Please check that both the console and the web server
+         are using the same PHP version and configuration.
+```
+
+If you have any errors identified at this stage, fix them before moving on ...
 
