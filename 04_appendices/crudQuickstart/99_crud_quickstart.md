@@ -42,7 +42,7 @@ Do the following to get to the `Desktop` folder at the command line in Windows:
         C:> cd \Users\B11223344\Desktop
     ```
     
-    - of course, you need to replay `B11223344` with your own student number
+    - of course, you need to replace `B11223344` with your own student number
     
 1. you should now be at your user's `Desktop` in the command line - so when you create a project folder you should see it on your desktop
 

@@ -2,22 +2,27 @@
 
 ## Create Student class
 
-Let's create a Student class and generate automatic CRUD web pages. 
+Let's create a Student class and generate automatic CRUD web pages.
 
-![Class diagram for Student entity.](./03_figures/app_crud/student_ClassDiagram1.png){ width=75% }
+![Class diagram for Student entity.\label{student_class_diagram}](./03_figures/app_crud/student_ClassDiagram1.png){ width=75% }
+
+
+NOTE:
+
+- we do **NOT** need to manually add the `id` property - part of the Syfony-Doctrine ORM setup is that **every** entity will have a single, integer, auto-increment primary-key property named `id`. This is **automatically** added to each new entity created using the `console make:` CLI tool.
 
 Do the following:
 
 1. At the command line type:
 
     ```bash
-        php bin/console make:entity Student
+        symfony console make:entity Student
     ```
    
    You should see the following:
    
    ```bash
-     > php bin/console make:entity Student
+     > symfony console make:entity Student
     
      created: src/Entity/Student.php
      created: src/Repository/StudentRepository.php
@@ -36,7 +41,9 @@ Do the following:
     
     - we need to specify its data type `integer`
     
-    - (to keep things simple) we don't mind if our properies start as null (just press `<RETURN>` for this question)
+    - (to keep things simple) we don't mind if our properties start as null
+   
+      - just press `<RETURN>` for this question - this accepts the offered default in these interactive CLI scripts ...
     
     - you should see the following when answering these questions at the `make` command tool prompt:
 
@@ -105,15 +112,17 @@ See Figure \ref{student} shows a screenshot of PHPStorm and our new class PHP co
 
 We can also use the 'make' command line tool to look at our classes and create the SQL commands we need to update our database create/update tables for storing the object data in tables and rows.
 
-Enter the following at the command line `php bin/console make:migration`:
+Enter the following at the command line `symfony console make:migration`
+
+- or the abbreviated version: `symfony console ma:mi`
 
 ```bash
-    > php bin/console make:migration
+    > symfony console make:migration
                
       Success! 
     
      Next: Review the new migration "src/Migrations/Version20190927055812.php"
-     Then: Run the migration with php bin/console doctrine:migrations:migrate
+     Then: Run the migration with symfony console doctrine:migrations:migrate
      See https://symfony.com/doc/current/bundles/DoctrineMigrationsBundle/index.html
 ```
 
@@ -125,6 +134,7 @@ If you look inside the newly created file you'll see a line like this showing th
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
             age INTEGER NOT NULL, 
             name VARCHAR(255) NOT NULL
+            ... and some DB character set stuff ...
         )'
     );
 ```
@@ -133,10 +143,10 @@ If you look inside the newly created file you'll see a line like this showing th
 
 Now let's tell Symfony to connect to the database and execute the migration SQL - to actually **create** the new `Student` table in the database.
 
-We need to enter the terminal command `php bin/console doctrine:migrations:migrate`:
+We need to enter the terminal command `symfony console doctrine:migrations:migrate`:
 
 ```bash
-    > php bin/console doctrine:migrations:migrate
+    > symfony console doctrine:migrations:migrate
                                                                   
         Application Migrations                    
                                                                   
@@ -170,11 +180,16 @@ That's it - we have now created a table in out database to match our PHP entity 
 
 Let's generate some HTML and PHP code for a web form to list and create-read-update-delete data from our database.
 
-We need to execute this command to create that code `php bin/console make:crud Student`:
+We need to execute this command to create that code `symfony console make:crud Student`:
+
+- press `<RETURN>` to accept the default controller class name of `StudentController`:
 
 ```bash
-    > php bin/console make:crud Student
+    > symfony console make:crud Student
     
+      Choose a name for your controller class (e.g. StudentController) [StudentController]:
+       >               (press <RETURN> here to accept default offered)
+
      created: src/Controller/StudentController.php
      created: src/Form/StudentType.php
      created: templates/student/_delete_form.html.twig
@@ -192,7 +207,9 @@ We need to execute this command to create that code `php bin/console make:crud S
 
 ## Visit our generated `Student` crud pages at `/student`
 
-Let's visit our generated CRUD pages, these can be found by adding `/student` at the end of the URL. 
+Let's visit our generated CRUD pages, these can be found by adding `/student` at the end of the URL.
+
+If you stopped the server previously, run the web server again with: `symfony serve`.
 
 Click `Create new` and add a student. Then try clicking edit, and change some values or delete it and create it again.
 

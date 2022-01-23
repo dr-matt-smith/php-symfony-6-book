@@ -14,21 +14,23 @@ This lab sheet ensures:
 
 ## Ensure PHP is installed on your computer
 
-You need PHP version 7.2.5 or later. **NOTE: At the time of writing, there is an issue with PHP 7.4, so if installing PHP, installed the latest 7.3 version but avoid 7.3 for now ...***
+You need PHP version 8.1.1 or later.
 
 Open a command line terminal (e.g. the `cmd` application in Windows) and check your PHP version at the command line with:
 
 ```bash
     $ php -v
-    PHP 7.3.1 (cli) (built: May  9 2018 19:49:10)
+    PHP 8.1.1 (cli) (built: Dec 15 2021 09:54:28) (NTS)
     Copyright (c) 1997-2017 The PHP Group
     Zend Engine v3.1.0, Copyright (c) 1998-2017 Zend Technologies
 ```
 
-If your version is older than 7.2.5, or you get an error about command not understood, then complete the steps in Appendix \ref{appendix_php}.
+If your version is older than 8.1.1, or you get an error about command not understood, then complete the steps in Appendix \ref{appendix_php}.
 
 
 ## Ensure the `Composer` PHP command line tool is installed on your computer
+
+You need version **2.x** of the Composer command line tool.
 
 Type `composer` in a command line terminal. You should seem something like this:
  
@@ -40,7 +42,8 @@ Type `composer` in a command line terminal. You should seem something like this:
     / /___/ /_/ / / / / / / /_/ / /_/ (__  )  __/ /
     \____/\____/_/ /_/ /_/ .___/\____/____/\___/_/
                         /_/
-    Composer version 1.7.2 2018-08-16 16:57:12
+    Composer version 2.1.14 2021-11-30 10:51:43
+
     // more command summary lines here ....
 ```
 
@@ -52,7 +55,7 @@ See Appendix \ref{cli_tools}.
 
 ## Ensure the Git version control utilities are installed
 
-(Git is required for the Symfony command line tool) Run `$ git` at the command line. You should see somegthing like this:
+(Git is required for the Symfony command line tool) Run `$ git` at the command line. You should see something like this:
 
 ```bash
     $ git
@@ -75,7 +78,8 @@ Having the Symfony command line tool will make things easier (less typing!). Che
 
 ```bash
     $ symfony
-    Symfony CLI version v4.12.4 (c) 2017-2020 Symfony SAS
+    Symfony CLI version 5.2.1 (c) 2017-2022 Symfony SAS (2022-01-22T17:14:23Z - stable)
+
     Symfony CLI helps developers manage projects, from local code to remote infrastructure
     
     These are common commands .... // more lines here 
@@ -135,12 +139,15 @@ Note, you might get some warnings/info messages about version of PHP etc. - just
 
 ```bash
     $ symfony serve
-    Sep 27 07:22:19 |DEBUG| PHP    Using PHP version 7.3.8 (from default version in $PATH) 
-    Sep 27 07:22:19 |INFO | PHP    listening path="/usr/local/php5-7.3.8-20190811-205217/sbin/php-fpm" php="7.3.8" port=52271
-    Sep 27 07:22:19 |DEBUG| PHP    started 
-    Sep 27 07:22:19 |INFO | PHP    ready to handle connections 
-                                                                                                                            
-     [OK] Web server listening on http://127.0.0.1:8000 (PHP FPM 7.3.8)                                                     
+      Tailing Web Server log file (/Users/matt/.symfony5/log/nnnnnn.log)
+      Tailing PHP-FPM log file (/Users/matt/.symfony5/log/nnnnnnn.log)
+       [OK] Web server listening                                                                                              
+            The Web server is using PHP FPM 8.1.1                                                                             
+            https://127.0.0.1:8000                                                                                            
+      [Web Server ] Jan 23 13:22:00 |DEBUG  | PHP    Reloading PHP versions 
+      [Web Server ] Jan 23 13:22:00 |DEBUG  | PHP    Using PHP version 8.1.1 (from default version in $PATH) 
+      ... lots more status messages ...
+      [PHP-FPM    ] Jan 23 13:22:01 |NOTICE | FPM    ready to handle connections 
 ```
 
 ## Visit the home page `localhost:8000`

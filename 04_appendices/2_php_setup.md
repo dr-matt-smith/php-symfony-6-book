@@ -4,24 +4,24 @@
 
 ## Check if you have PHP installed and working
 
-You need PHP version 7.2.5 or later.
+You need PHP version 8.1.1 or later.
 
 Check your PHP version at the command line with:
 
 ```bash
-    > php -v
-    PHP 7.3.1 (cli) (built: May  9 2018 19:49:10)
-    Copyright (c) 1997-2017 The PHP Group
-    Zend Engine v3.1.0, Copyright (c) 1998-2017 Zend Technologies
-
+   > php -v
+   PHP 8.1.1 (cli) (built: Dec 15 2021 09:54:28) (NTS)
+   Copyright (c) The PHP Group
+   Zend Engine v4.1.1, Copyright (c) Zend Technologies
+       with Zend OPcache v8.1.1, Copyright (c), by Zend Technologies
 ```
 
-If your version is older than 7.2.5, or you get an error about command not understood, then complete the steps below.
+If your version is older than 8.1.1, or you get an error about command not understood, then complete the steps below.
 
 
 ### Download the latest version of PHP
 
-Get the latest (7.4 at the time of writing) PHP Windows ZIP from:
+Get the latest (8.1.1    at the time of writing) PHP Windows ZIP from:
 
 - [php.net](http://php.net/downloads.php) click the **Windows Downloads** link
 
@@ -43,7 +43,7 @@ Do the following:
 
 Whenever you type a command at the CLI (Command Line Interface) Windows searches through all the directories in its `path` environment variable. In order to use PHP at the CLI we need to add `c:\php` to the `path` environment variable so the  `php.exe` executable can be found.
 
-Via the System Properties editor, open your Windows Evironment Variables editor. The **system** environment variablesa re in the lower half of the Environment Variables editor. If there is already a system variable named `Path`, then select it and click the **Edit** button. If none exists, then click the **New** button, naming the new variable **path**. Add a new value to the **path** variable with the value `c:\php`. Then click all the **Okay** buttons needed to close all these windows.
+Via the System Properties editor, open your Windows Environment Variables editor. The **system** environment variables are in the lower half of the Environment Variables editor. If there is already a system variable named `Path`, then select it and click the **Edit** button. If none exists, then click the **New** button, naming the new variable **path**. Add a new value to the **path** variable with the value `c:\php`. Then click all the **Okay** buttons needed to close all these windows.
 
 Now open a windows **Cmd** window and try the `php -v` - hopefully you'll see confirmation that your system now has PHP installed and in the **path** for CLI commands.
 

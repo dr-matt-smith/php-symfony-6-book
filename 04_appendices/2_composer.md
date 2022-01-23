@@ -1,5 +1,5 @@
 
-# The Composer andd Symfonhy command line tools\label{cli_tools}
+# The Composer andd Symfony command line tools\label{cli_tools}
 
 ## Composer
 Composer is a **fantastic** PHP tool for managing project dependencies (the libraries and class packages used by OO PHP projects).
@@ -53,3 +53,14 @@ Get the latest version of Composer from
     -- [https://getcomposer.org/doc/00-intro.md#installation-windows](https://getcomposer.org/doc/00-intro.md#installation-windows)
 
 ## Symfony command line tool
+
+Install this from:
+
+- [https://symfony.com/download](https://symfony.com/download)
+
+at the time of writing the version of this CLI was:
+
+```bash
+  $ symfony
+  Symfony CLI version 5.2.1 (c) 2017-2022 Symfony SAS (2022-01-22T17:14:23Z - stable)
+```
