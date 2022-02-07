@@ -1,4 +1,12 @@
 
+<!--
+
+Symfonhy forms with enums
+https://symfony.com/blog/new-in-symfony-5-4-php-enumerations-support
+
+-->
+
+
 # Automatic forms generated from Entities
 
 ## Using the Symfony form generator (project `form04`)

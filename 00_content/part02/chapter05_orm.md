@@ -21,7 +21,7 @@ In a nutshell projects using an ORM mean we write code relating to collections o
 - Abstraction
 - Layer
 
-With ORMs we can interactive (CRUD^[CRUD = Create-Read-Update-Delete])
+With ORMs we can interactively (CRUD^[CRUD = Create-Read-Update-Delete])
 with persistent object collections either using methods of the object repositories (e.g. `findAll()`, `findOneById()`, `delete()` etc.), or using SQL-lite languages. For example Symfony uses the `Doctrine` ORM system, and that offers `DQL`, the Doctrine Query Language.
 
 You can read more about ORMs and Symfony at:
@@ -104,7 +104,7 @@ Once you've learnt how to work with Entity classes and Doctrine, these are the 4
 
   `doctrine:fixtures;load` (`do:fi:lo`)
 
-## Other useful commands
+## Other useful commands - SQL queries from command line
 
 Validate the DB schema against the entity classes in `/src`
 

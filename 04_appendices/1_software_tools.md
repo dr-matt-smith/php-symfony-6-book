@@ -31,8 +31,9 @@ Ensure you have the following setup for developing Symfony software on your loca
 
 - PHP 8.1.1 or later (free, open source)
 - Composer 2 (up-to-date with `composer self-update`)(free, open source - a PHP program!)
+- the Symfony command line tool
 - PHPStorm (with educational free account if you're a student!) - or some other editor of your choice
-- MySQL Workbench (Community Edition free)
+- MySQL Server and a MySQL Client (e.g. Community Edition / Workbench)
 - Git (free, open source)
 
 

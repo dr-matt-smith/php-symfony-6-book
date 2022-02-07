@@ -63,6 +63,26 @@ Open a new terminal CLI window (so new settings are loaded) and run `php --ini` 
     Additional .ini files parsed:      (none)
 ```
 
+## Make sure you HAVE a `php.ini` file
+If you don't have a file `php.ini` in the folder where you have PHP installed, then you may need to create one.
+
+The Windows ZIP often provides 2 template files:
+
+- `php-development.ini`
+- `php-production.ini`
+
+Or possibly:
+
+- `php-ini.development`
+- `php-ini.production`
+
+
+Make a **copy** of `php...development...` file, naming the copy `php.ini`. Voilá! you now have a `php.ini` file!
+
+- NOTE: We use the **development** template, since we are DEVELOPING the site on our own computer, not publishing a live e-commerce website for PRODUCTION
+
+   - it just means more visible errors and warnings etc.
+
 
 ## PHP Info & SQL driver test
 
@@ -70,7 +90,7 @@ For database work we need to enable the PDO^[PDO = PHP Database Objects, the mod
 
 Although PHP may have been installed, and its SQL drivers too, they may have not been enabled. For this module we’ll be using the SQLite and MySQL drivers for PHP – to talk to databases. The function `phpinfo()` is very useful since it displays many of the settings of the PHP installation on your computer / website.
 
-1. In the current (or a temporary) direcotry, create file `info.php` containing just the following 2 lines of code:
+1. In the current (or a temporary) directory, create file `info.php` containing just the following 2 lines of code:
 
     ```php
         <?php

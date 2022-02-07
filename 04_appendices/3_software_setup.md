@@ -20,9 +20,22 @@ To save lots of typing, try to install the following useful PHPStorm plugins:
 - Symfony
 - Annotations
 
+## MySQL Server
+
+You will need a MySQL-compatible database **server**. Simplest is the free MySQL Community Server, but others like MariaDB should be fine
+(although you may need to add a fix for things like JSON strings, relating to security roles in Symfony ... fiddly but easy - ask Matt if you are meet any JSON string DB errors ...)
+
+While you can work with SQLite and other database management systems, many ITB modules use MySQL Server for database work, and it's fine, so that's what we'll use (and, of course, it is already installed on the ITB windows computers ...)
+
+Download and install MySQL Community Server from:
+
+- [https://dev.mysql.com/downloads/mysql/](https://dev.mysql.com/downloads/mysql/)
+
 ## MySQL Workbench
 
-While you can work with SQLite and other database management systems, many ITB modules use MySQLWorkbench for database work, and it's fine, so that's what we'll use (and, of course, it is already installed on the ITB windows computers ...)
+Workbench is a MySQL database **client** - you will also need a MySQL **server** for the client to connect to (see above).
+
+Many ITB modules use MySQLWorkbench as the client for database work, and it's fine, so that's what we'll use (and, of course, it is already installed on the ITB windows computers ...)
 
 Download and install MySQL Workbench from:
 

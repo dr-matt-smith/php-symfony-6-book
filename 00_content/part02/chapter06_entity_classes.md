@@ -44,7 +44,7 @@ We now use annotations to declare the types (and if appropriate, lengths) of eac
     private $surname;
 ```
 
-## Validate our annotations
+## Validate our ORM attributes
 
 We can now validate these values. This command performs 2 actions, it checks our annotation comments, it also checks whether these match with the structure of the table the database system. Of course, since we haven't yet told Doctrine to create the actual database schema and tables, this second check will fail at this point in time.
 

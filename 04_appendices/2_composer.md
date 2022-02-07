@@ -1,10 +1,17 @@
 
-# The Composer andd Symfony command line tools\label{cli_tools}
+# The Composer command line tool\label{cli_tools}
+
+## Preparation
+
+ensure you have PHP working correctly before attempting to install the Composer CLI application.
+
 
 ## Composer
 Composer is a **fantastic** PHP tool for managing project dependencies (the libraries and class packages used by OO PHP projects).
 
-1. ensure that Composer is up to date by running:
+The Composer tool is actually a **PHAR** (PHP Archive) - i.e. a PHP application packaged into a single file. So ensure you have PHP installed and in your environment **path** before attempting to install or use Composer.
+
+1. after installation ensure that Composer is always up-to-date by running:
 
     ```bash
         composer self-update
@@ -15,32 +22,6 @@ Composer is a **fantastic** PHP tool for managing project dependencies (the libr
 
 
 
-The Composer tool is actually a **PHAR** (PHP Archive) - i.e. a PHP application packaged into a single file. So ensure you have PHP installed and in your environment **path** before attempting to install or use Composer.
-
-Ensure you have (or install) an up-to-date version of the Composer PHP package manager.
-
-```bash
-    composer self-update
-```
-
-### Windows Composer install
-
-Get the latest version of Composer from
-
-- [getcomposer.org](https://getcomposer.org/)
-
-- run the provided **Composer-Setup.exe** installer (just accept all the default options - do NOT tick the developer mode)
-
-    -- [https://getcomposer.org/doc/00-intro.md#installation-windows](https://getcomposer.org/doc/00-intro.md#installation-windows)
-## The Composer PHP library tool 
-
-The Composer tool is actually a **PHAR** (PHP Archive) - i.e. a PHP application packaged into a single file. So ensure you have PHP installed and in your environment **path** before attempting to install or use Composer.
-
-Ensure you have (or install) an up-to-date version of the Composer PHP package manager.
-
-```bash
-    composer self-update
-```
 
 ### Windows Composer install
 
@@ -52,15 +33,7 @@ Get the latest version of Composer from
 
     -- [https://getcomposer.org/doc/00-intro.md#installation-windows](https://getcomposer.org/doc/00-intro.md#installation-windows)
 
-## Symfony command line tool
 
-Install this from:
+### Linux / MacOS Composer install
 
-- [https://symfony.com/download](https://symfony.com/download)
-
-at the time of writing the version of this CLI was:
-
-```bash
-  $ symfony
-  Symfony CLI version 5.2.1 (c) 2017-2022 Symfony SAS (2022-01-22T17:14:23Z - stable)
-```
+Follow the instructions to download Composer, and also to install it **globally** - so it will work wherever you have `cd`d to.
