@@ -31,6 +31,33 @@ Download and install MySQL Community Server from:
 
 - [https://dev.mysql.com/downloads/mysql/](https://dev.mysql.com/downloads/mysql/)
 
+##  Temporary swap to use SQLite
+
+While you should get MySQL working on your system, to get started quickly with Symfony when you have MySL issues you can add a line to the end of your `.env` configuration file to temporarily use an SQLite database file in the `/var` directory.
+
+To do this, add this extra line to the end of  your `.env` configuration file:
+
+```
+    DB_USER=root
+    DB_PASSWORD=passpass
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_NAME=db01
+    DATABASE_URL=mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+     
+    DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db
+```
+
+Since the `sqqlite` URL value comes AFTER the `mysql` value, it will replace the MySQL URL value with this SQLIte one for now ....
+
+To completely reset an SQLite database you can:
+
+1. Delete the entire `/var` folder
+
+2. Delete the **contents** of the `/migrations` folder (but not the folder itself)
+
+
+
 ## MySQL Workbench
 
 Workbench is a MySQL database **client** - you will also need a MySQL **server** for the client to connect to (see above).
