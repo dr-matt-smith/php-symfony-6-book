@@ -145,7 +145,7 @@ We can see these records in our database. Figure \ref{students_table} shows our 
 The `doctrine:query:sql` CLI command allows us to run SQL queries to our database directly from the CLI. Let's request all `Product` rows from table `product`:
 
 ```bash
-    $ php bin/console doctrine:query:sql "select * from student"
+    $ symfony console doctrine:query:sql "select * from student"
 
    .../vendor/doctrine/common/lib/Doctrine/Common/Util/Debug.php:71:
     array (size=1)
@@ -161,7 +161,7 @@ As usual, we can use the 2-letter shortcut to make writing this SQL query comman
 
 
 ```bash
-    $ php bin/console do:qu:sql "select * from student"
+    $ symfony console do:qu:sql "select * from student"
 ```
 
 ## Updating the `list()` method to use Doctrine
@@ -250,7 +250,8 @@ We can do something similar to update. In this case we need 3 parameters: the id
 
 ```php
     #[Route('/student/update/{id}/{newFirstName}/{newSurname}', name: 'student_update')]
-    public function update(int $id, string $newFirstName, string $newSurname, ManagerRegistry $doctrine)
+    public function update(int $id, string $newFirstName, 
+        string $newSurname, ManagerRegistry $doctrine)
     {
         $studentRepository = $doctrine->getRepository(Student::class);
         $student = $studentRepository->find($id);
@@ -344,9 +345,7 @@ Let's go back to the list page after a create or update action. Tell Symfony to 
 e.g. add an `update(...)` method to be as follows:
 
 ```php
-    /**
-     * @Route("/student/update/{id}/{newFirstName}/{newSurname}")
-     */
+    #[Route('/student/update/{id}/{newFirstName}/{newSurname}', name: 'student_update')]
     public function update($id, $newFirstName, $newSurname)
     {
         $em = $this->getDoctrine()->getManager();
@@ -483,13 +482,13 @@ To try this out do the following:
 4. Then use the make crud command:
     
     ```bash
-        $ php bin/console make:crud Student
+        $ symfony console make:crud Student
     ```
     
 You should see the following output in the CLI:
 
 ```bash
-    $ php bin/console make:crud Student
+    $ symfony console make:crud Student
     
      created: src/Controller/StudentController.php
      created: src/Form/Student1Type.php

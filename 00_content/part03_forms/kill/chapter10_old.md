@@ -8,9 +8,9 @@ Given an object of an Entity class, Symfony can analyse its property names and t
 However, first, let's simplify something for later, we'll make our `createAction()` expect to be given a reference to a `Student` object (rather than expect 2 string parameters `firstName` and `surname`):
 
 ```php
-    public function createAction($student)
+    public function createAction(Student $student)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $em->persist($student);
         $em->flush();
 
@@ -44,9 +44,9 @@ The 'magic' happens in the controller method...
 
 
 
-## Updating `StudentController->newFormAction()`
+## Updating `StudentController->new()`
 
-First, our controller method will need to pass a Twig variable `form` to the `render()` method. This will be created for us by the `createView()` method of a Symfony form object. So `newAction()` will end as follows:
+First, our controller method will need to pass a Twig variable `form` to the `render()` method. This will be created for us by the `createView()` method of a Symfony form object. So `new()` will end as follows:
 
 ```php
     $argsArray = [
@@ -61,7 +61,7 @@ Our method will use Symfony's FormBuilder to create the form for us, based on an
 
 
 ```php
-    public function newFormAction(Request $request)
+    public function new(Request $request)
     {
         // create a new Student object
         $student = new Student();
@@ -99,9 +99,7 @@ Forms have basic validation. The default for text entity properties is `NOT NULL
 If not submitted (or not valid), then the logic falls through to displaying the form via Twig. The full listing for our improved `newAction()` method is as follows:
 
 ```php
-    /**
-     * @Route("/student/new", name="student_new",  methods={"POST", "GET"})
-     */
+    #[Route('/student/new', name: 'student_new_form', methods: ["POST", "GET"])]
     public function newAction(Request $request)
     {
         // create a task and give it some dummy data for this example
@@ -118,7 +116,7 @@ If not submitted (or not valid), then the logic falls through to displaying the 
 
         // if SUBMITTED & VALID - go ahead and create new object
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->createAction($student);
+            return $this->create($student);
         }
 
         // render the form for the user
@@ -168,7 +166,7 @@ We can see **why** the form submits to the same request URL as was used to displ
         </form>
 ```
 
-Becase there is no `action` attribute in the `<form>` tag, then browsers automatically submit back to the same URL. This is known in web development as a **postback** and is very common^[read more at the [Wikipedia postback page](https://en.wikipedia.org/wiki/Postback)].
+Because there is no `action` attribute in the `<form>` tag, then browsers automatically submit back to the same URL. This is known in web development as a **postback** and is very common^[read more at the [Wikipedia postback page](https://en.wikipedia.org/wiki/Postback)].
 
 
 
@@ -253,7 +251,7 @@ The output we get, when submitting the name `joe-smith` with the above is shown 
 
 ![Confirmation of postback received name`joe-smith`. \label{form_post_confirmation}](./03_figures/forms/6_postback_confirmatio_sm.png)
 
-## Invoking the `createAction(...)` method when valid form data submitted
+## Invoking the `create(...)` method when valid form data submitted
 
 Let's write code to submit the extracted name property of the `Student` object in the form, to our existing `createAction(...)` method. So our conditional block, for the condition that if the form has been subnmitted **and** its data is valid will be:
 

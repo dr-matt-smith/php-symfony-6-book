@@ -42,7 +42,7 @@ Let's change the URL path to the website root (`/`) and name the route `homepage
         public function index(): Response
 ```
 
-Now the route is as follows (from typing `php bin/console de:ro`):
+Now the route is as follows (from typing `symfony console de:ro`):
 ```bash
   Name                       Method   Scheme   Host   Path
  -------------------------- -------- -------- ------ -----------------------------------
@@ -94,7 +94,7 @@ You can clear the cache in 2 ways:
 1. Use the CLI command to clear the cache:
 
     ```bash
-        $ php bin/console cache:clear
+        $ symfony console cache:clear
         
         // Clearing the cache for the dev environment with debug true                                                          
         [OK] Cache for the "dev" environment (debug=true) was successfully cleared.   
@@ -112,9 +112,7 @@ In a nutshell, to output an HTTP response generated from Twig, we just have to s
 So we can simply write the following to ask Symfony to generate an HTTP response from Twig's text output from rendering the template that can (will soon!) be found in `/tempaltes/default/homepage.html.twig`:
 
 ```php
-        /**
-         * @Route("/", name="homepage")
-         */
+        #[Route('/', name: 'homepage')]
         public function indexAction()
         {
             $template = 'default/index.html.twig';

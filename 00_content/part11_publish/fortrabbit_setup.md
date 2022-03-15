@@ -28,9 +28,9 @@ Since both locally, and remotely we'll have a new DB, do the following to keep t
 
 1. Delete the `/src/Migrations` folder
 
-1. Create the new local database schema with `php bin/console doctrine:database:create`
+1. Create the new local database schema with `symfony console doctrine:database:create`
 
-1. Create a migration for this new database with `php bin/console make:migration`
+1. Create a migration for this new database with `symfony console make:migration`
 
 We now have a new clean migration ready to use with our remote database.
 

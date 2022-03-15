@@ -9,18 +9,7 @@ The Symfony security docs tell us how to get are reference to the currently logg
     $user = $this->getUser();
 ```
 
-or using the hinting and the param-converter:
 
-```php
-    use Symfony\Component\Security\Core\Security;
-    
-    ...
-    
-    public function someMethod(Security $security) 
-    {
-        $user = $security->getUser(); 
-    }
-```
 
 Any non-trivial project involving databases involves one-to-many and many-to-many relationships. the Doctrine ORM system makes it very easy to declare, and manipulate datasets with foreign-key relationships.
 
@@ -48,7 +37,7 @@ Next, create a `NewsItem` entity, with fields:
 Use the `make` interactive CLI tool for this. Create the Entity with text `title` and `content` properties as usual:
 
 ```bash 
-    $ php bin/console make:entity NewsItem
+    $ symfony console make:entity NewsItem
     
      created: src/Entity/NewsItem.php
      created: src/Repository/NewsItemRepository.php

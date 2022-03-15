@@ -1,7 +1,7 @@
 
 # Introduction
 
-## What is Symfony 5?
+## What is Symfony?
 
 It's a PHP 'framework' that does loads for you, if you're writing a secure, database-drive web application.
 
@@ -11,7 +11,7 @@ I recommend you install the following:
 
 - PHP 8.1 (download/install from [php.net](https://php.net/))
 
-   - (it will work with 8.0, but 8.1 allows enumerations which is handy ...)
+   - (it will work with 8.0.2+, but 8.1 allows enumerations which is handy ...)
 
 - a good text editor (I like [PHPStorm](https://www.jetbrains.com/phpstorm/specials/phpstorm/phpstorm.html?&gclid=CJTK_8SDrtICFWq-7Qodh98NpQ&gclsrc=aw.ds.ds&dclid=CNPY28WDrtICFQGn7QodqekBWg), but then it's free for educational users...)
 
@@ -22,7 +22,9 @@ I recommend you install the following:
     - [https://symfony.com/download](https://symfony.com/download)
 
 The following are also a good idea:
+
 - a MySQL database server - e.g. MySQLWorkbench Community is free and cross-platform
+
 - Git - see [GitforWindows](https://git-scm.com/download/win)
 
 or ... you could use something like [Cloud9](https://c9.io/dr_matt_smith), web-based IDE. You can get started on the free version and work from there ...
@@ -62,7 +64,7 @@ In a CLI (Command Line Interface) terminal window, `cd` into the directory where
 
 
 ```bash
-    $ symfony new --full project01
+    $ symfony new --webapp project01
 ```
 
 NOTE: If for some reason you don't have the Symfony command line tool installed, you can also create a project using Composer:
@@ -75,7 +77,7 @@ You should see the following, if all is going well:
 
 
 ```bash
-$ symfony new --full project01
+$ symfony new --webapp project01
 * Creating a new Symfony project with Composer
   (running /usr/local/bin/composer create-project symfony/website-skeleton /Users/matt/project01)
 

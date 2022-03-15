@@ -25,7 +25,7 @@ Each User lives in a county (e.g. Matt Smith lives in County Kildare (in Ireland
 First let's generate a simple `County` Entity - it will have an automatically assigned integer `id`, and a text `name` property:
 
 ```bash
-    php bin/console generate:doctrine:entity --no-interaction
+    symfony console generate:doctrine:entity --no-interaction
     --entity=AppBundle:County --fields="name:string(255)"
 ```
 
@@ -36,7 +36,7 @@ You should now have a basic `County` Entity class in `/src/AppBundle/Entity/`.
 Now let's create a `User` entity, with `username`, `password` and a `county`. Since we are using an ORM we can specify that the `county` property of each user should be a reference to an object instance of class `AppBundle\Entity\County`:
 
 ```bash
-    php bin/console generate:doctrine:entity --no-interaction
+    symfony console generate:doctrine:entity --no-interaction
     --entity=AppBundle:User --fields="username:string(255) password:string(255) county:AppBundle\Entity\County"
 ```
 
@@ -69,7 +69,7 @@ Change this entry for the `county` field in Entity `User` **from** this:
 We can now make Symfony generate getters and setters and complete the entity creation:
 
 ```bash
-    php bin/console doctrine:generate:entities AppBundle
+    symfony console doctrine:generate:entities AppBundle
 ```
 
 ## Update the database schema
@@ -77,7 +77,7 @@ We can now make Symfony generate getters and setters and complete the entity cre
 We now tell Symfony/Doctrine to update the database scheme to match our Entities:
 
 ```bash
-     php bin/console doctrine:schema:update --force
+     symfony console doctrine:schema:update --force
 ```
 
 ## CRUD and views generation
@@ -86,10 +86,10 @@ We can now generate the CRUD controllers, `Type` form classes, and Twig views fo
 
 ```bash
 
-    php bin/console generate:doctrine:crud --entity=AppBundle:User --format=annotation
+    symfony console generate:doctrine:crud --entity=AppBundle:User --format=annotation
     --with-write --no-interaction
 
-    php bin/console generate:doctrine:crud --entity=AppBundle:County --format=annotation
+    symfony console generate:doctrine:crud --entity=AppBundle:County --format=annotation
     --with-write --no-interaction
 ```
 

@@ -13,25 +13,19 @@ We will have an `basket` item in the session, containing an array of `Product` o
 Let's start with a brand new project to work with for shopping baskets in sessions:
 
 ```bash
-    $ composer create-project symfony/skeleton session05
+    $ symfony new --webapp session01
 ```
 
-Let's add to our project the Twig and annotations packages:
+Now let's add the packages for working with databases:
 
 ```bash
-    $ composer req twig annotations
+    $ composer req orm-fixtures
 ```
 
-Let's add to our project the server, make and debug developer packages:
+We may also need add the following:
 
 ```bash
-    $ composer req --dev server debug
-```
-
-Now let's add the packages for working with databases and CRUD generation:
-
-```bash
-    $ composer req doctrine security-csrf validator form
+    $ composer req security-csrf
 ```
 
 ## Create a Product entity & generate its CRUD
@@ -39,7 +33,7 @@ Now let's add the packages for working with databases and CRUD generation:
 Make a new `Product` entity:
 
 ```bash
-    $ php bin/console make:entity Product
+    $ symfony console make:entity Product
 ```
 
 In in the interactive mode add the following properties:
@@ -64,15 +58,15 @@ Configure your `.env` database settings, e.g. to setup for MySQL database `sessi
 Generate the database, and migrations and migrate:
 
 ```
-    $ php bin/console doctrine:database:create
-    $ php bin/console doctrine:migrations:diff
-    $ php bin/console doctrine:migrations:migrate
+    $ symfony console doctrine:database:create
+    $ symfony console doctrine:migrations:diff
+    $ symfony console doctrine:migrations:migrate
 ```
 
 Then generate CRUD for this entity (i.e. a ProductController, templates in `/templates/product/`, and a form class `src/Form/ProductType.php`):
 
 ```bash
-    $ php bin/console make:crud Product
+    $ symfony console make:crud Product
 ```
 
 ## Homepage - link to products home
@@ -80,7 +74,7 @@ Then generate CRUD for this entity (i.e. a ProductController, templates in `/tem
 Create a default controller:
 
 ```bash
-    $ php bin/console make:controller Default
+    $ symfony console make:controller Default
 ```
 
 Set this controller's route to the website root `/` (rather than `/default`), and make the Twig template for the default homepage be a link to generated route `product_index`:
@@ -109,7 +103,7 @@ We'll write our code in a new controller class `BasketController.php` in directo
 Generate our new controller:
 
 ```bash
-    $ php bin/console make:controller Basket
+    $ symfony console make:controller Basket
 ```
 
 Here is our class (with a couple of changes to routes, and a `use` statement for `Session` class we need to use in a minute):
@@ -175,7 +169,7 @@ Plus, as usualy, we must add a `use` statement to declare the namespace in which
 Let's see how each route is prefixed with `/basket` and each route name is prefixed with `basket_` by listing routes at the CLI:
 
 ```bash
-    $ php bin/console debug:router
+    $ symfony console debug:router
 
      -------------------------- ---------- -------- ------ -----------------------------------
       Name                       Method     Scheme   Host   Path

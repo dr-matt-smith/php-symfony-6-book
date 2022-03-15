@@ -29,7 +29,7 @@ Since `Campus` comes alphabetically before `Student`, then let's create our 2 `C
 
 Create a class `Campus`  with a single `name` String property.
 
-Use the CLI make tool: `php bin/console ma:en Campus`
+Use the CLI make tool: `symfony console ma:en Campus`
 
 
 
@@ -37,7 +37,7 @@ Use the CLI make tool: `php bin/console ma:en Campus`
 
 Create a class `CampusFixtures` class and create 3 `Campus` objects for "Blanchardstown", "Tallaght" and "City" the usual way.
 
-Use the CLI tools to create your fixtures class: `php bin/console ma:fi CampusFixtures`
+Use the CLI tools to create your fixtures class: `symfony console ma:fi CampusFixtures`
 
 ```php
 <?php
@@ -112,7 +112,7 @@ We only have to answer a few questions:
 Here is a full summary of the CLI interaction to add this property: 
 
 ```bash
- php bin/console ma:en Student
+ symfony console ma:en Student
 
  Your entity already exists! So let's add some new fields!
 
@@ -166,11 +166,11 @@ NOTE: If you look at the `Campus` entity, you'll see that from one of the defaul
 Since we changed our entity clases, we need to create and run a new migration, to sychronise the DB scheme to match these entity classes:
 
 ```bash
-    $ php bin/console make:mi
+    $ symfony console make:mi
                
       Success! 
 
-    $ php bin/console do:mi:mi
+    $ symfony console do:mi:mi
         
          WARNING! You are about to execute a migration in database "web4" that could result in schema changes and data loss. Are you sure you wish to continue? (yes/no) [yes]:
          > y

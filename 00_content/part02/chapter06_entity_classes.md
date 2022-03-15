@@ -49,7 +49,7 @@ We now use annotations to declare the types (and if appropriate, lengths) of eac
 We can now validate these values. This command performs 2 actions, it checks our annotation comments, it also checks whether these match with the structure of the table the database system. Of course, since we haven't yet told Doctrine to create the actual database schema and tables, this second check will fail at this point in time.
 
 ```
-    $ php bin/console doctrine:schema:validate
+    $ symfony console doctrine:schema:validate
 ```
 
 The output should be something like this (if our comments are valid):
@@ -117,16 +117,16 @@ So the full listing for `StudentRepository` is now:
 We now will tell Symfony to create a PHP class to run SQL migration commands required to change the structure of the existing database to match that of our Entity classes. We'll use the abbreviated version of `make:migration` below: 
 
 ```bash
-    $ php bin/console ma:mi
+    $ symfony console ma:mi
 
     Success! 
     
     Next: Review the new migration "src/Migrations/Version20180213082441.php"
-    Then: Run the migration with php bin/console doctrine:migrations:migrate
+    Then: Run the migration with symfony console doctrine:migrations:migrate
     See https://symfony.com/doc/current/bundles/DoctrineMigrationsBundle/index.html
 ```
 
-NOTE: This is a shorter way of writing the old `doctrine` command: `php bin/console doctrine:migrations:diff`
+NOTE: This is a shorter way of writing the old `doctrine` command: `symfony console doctrine:migrations:diff`
 
 A migrations SQL script, similar to the following should have been created in `/Migrations/...php`:
 
@@ -162,7 +162,7 @@ A migrations SQL script, similar to the following should have been created in `/
 Run the `migrate` command to execute the created migration class to make the database schema match the structure of your entity classes, and enter `y` when prompted - if you are happy to go ahead and change the database structure. We'll use the abbreviated version of `doctrine:mirations:migrate` below:
 
 ```bash
-    $ php bin/console do:mi:mi
+    $ symfony console do:mi:mi
 
         Application Migrations
 
@@ -195,7 +195,7 @@ You can see the results of creating the database schema and creating table(s) to
 We should get 2 "ok"s if we re-validate our schema now:
 
 ```
-    $ php bin/console doctrine:schema:validate
+    $ symfony console doctrine:schema:validate
 ```
 
 The output should be something like this (if our comments are valid):
@@ -221,7 +221,7 @@ Doctrine allows you to generated entities matching tables in an existing databas
 We could have automatically created our Student entity and StudentRepository classes from scratch, using the `make` package:
 
 ```bash
-    $ php bin/console make:entity Student
+    $ symfony console make:entity Student
       
        created: src/Entity/Student.php
        created: src/Repository/StudentRepository.php
@@ -259,7 +259,7 @@ If you want to try this, first:
 Then run the CLI command `make:entity Student`, and at the prompt ask it to create our `firstName` and `surname` text properties (all entities get an auto-incremented `Id` field with us having to ask):
 
 ```bash
-    $ php bin/console make:entity Student
+    $ symfony console make:entity Student
     
      created: src/Entity/Student.php
      created: src/Repository/StudentRepository.php

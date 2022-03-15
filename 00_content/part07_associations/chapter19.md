@@ -37,7 +37,7 @@ So we need to generate a Entity `Category` , with a `name` property:
 
 
 ```bash
-     $ php bin/console make:entity Category
+     $ symfony console make:entity Category
      
       created: src/Entity/Category.php
       created: src/Repository/CategoryRepository.php
@@ -54,7 +54,7 @@ So we need to generate a Entity `Category` , with a `name` property:
 Now generate a Product Entity, with properties for `description` (text), `image` (text) and `price` (float):
 
 ```bash
-    $ php bin/console make:entity Product
+    $ symfony console make:entity Product
 
      created: src/Entity/Product.php
      created: src/Repository/ProductRepository.php
@@ -169,9 +169,9 @@ Configure your `.env` database settings:
 Generate the database, and migrations and migrate:
 
 ```
-    $ php bin/console doctrine:database:create
-    $ php bin/console doctrine:migrations:diff
-    $ php bin/console doctrine:migrations:migrate
+    $ symfony console doctrine:database:create
+    $ symfony console doctrine:migrations:diff
+    $ symfony console doctrine:migrations:migrate
 ```
 
 ## Generate CRUD for Product and Category
@@ -179,8 +179,8 @@ Generate the database, and migrations and migrate:
 Then generate CRUD for this entity (i.e. a ProductController and some templates in `/templates/product/`):
 
 ```bash
-    $ php bin/console make:crud Product
-    $ php bin/console make:crud Category
+    $ symfony console make:crud Product
+    $ symfony console make:crud Category
 ```
 
 ## Add Category selection in Product form
@@ -396,7 +396,7 @@ Now change the `/templates/product/show.html.twig` template to just output `prod
 First, let's get rid of any existing `Product` records in the database:
 
 ```bash
-    $ php bin/console doctrine:query:sql 'delete from product where true'
+    $ symfony console doctrine:query:sql 'delete from product where true'
 ```
 
 Now we'll modify our create product controller method, to (for now) always create a new `Category` with name `default`, and link new `Product` record to that category.

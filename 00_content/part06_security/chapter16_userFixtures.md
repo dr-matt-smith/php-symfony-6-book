@@ -51,7 +51,7 @@ NOTE: The default role is `ROLE_USER` if none is provided.
 Loading fixtures involves deleting all existing database contents and then creating the data from the fixture classes - so you'll get a warning when loading fixtures. At the CLI type:
 
 ```bash
-    php bin/console doctrine:fixtures:load
+    symfony console doctrine:fixtures:load
 ```
 
 That's it!
@@ -69,7 +69,7 @@ The next chapter will show you how to deal with (and log) access denied exceptio
 To double check your fixtures have been created correctly in the database, you could run an SQL query from the CLI:
 
 ```bash
-    $ php bin/console doctrine:query:sql "SELECT * FROM user"
+    $ symfony console doctrine:query:sql "SELECT * FROM user"
     Cannot load Xdebug - it was already loaded
     
     /php-symfony-5-book-codes-security-03-create-user/vendor/doctrine/dbal/lib/Doctrine/DBAL/Tools/Dumper.php:71:

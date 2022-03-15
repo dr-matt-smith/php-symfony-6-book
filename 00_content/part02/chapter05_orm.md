@@ -90,7 +90,7 @@ This will work with SQLite database file `data.db` in directory `/var`.
   `doctrine:database:create' (`do:da:cr`)
 
 ## 3 main commands for working with databases
-Once you've learnt how to work with Entity classes and Doctrine, these are the 4 commands you need to know (executed from the CLI console `php bin/console ...`):
+Once you've learnt how to work with Entity classes and Doctrine, these are the 4 commands you need to know (executed from the CLI console `symfony console ...`):
 
 - create a migration PHP class, containing the SQL to updatee the DB scema to match the entity classes in `/src`
 
@@ -102,7 +102,7 @@ Once you've learnt how to work with Entity classes and Doctrine, these are the 4
 
 - load all initial DB data declared in fixture classes
 
-  `doctrine:fixtures;load` (`do:fi:lo`)
+  `doctrine:fixtures:load` (`do:fi:lo`)
 
 ## Other useful commands - SQL queries from command line
 
@@ -112,7 +112,7 @@ Validate the DB schema against the entity classes in `/src`
 
 Run a simple SQL query, to check data in the DB tables:
 
-    `doctrine:query:sql "select * from modules"`
+`doctrine:query:sql "select * from modules"`
 
 All the above should make sense by the time you've reached the end of this database introduction.
 
@@ -121,10 +121,10 @@ All the above should make sense by the time you've reached the end of this datab
 We can now use the settings in the `.env` file to connect to the MySQL server and create our database schema:
 
 ```bash
-    $ php bin/console doctrine:database:create
+    $ symfony console doctrine:database:create
 ```
 
 Or the abbreviated version:
 ```bash
-    $ php bin/console do:da:cr
+    $ symfony console do:da:cr
 ```

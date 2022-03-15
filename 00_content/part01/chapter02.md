@@ -52,7 +52,7 @@ For example the code below defines:
 1. Create new Symfony project (and then `cd` into it):
 
     ```bash
-		$ symfony new --full project01
+		$ symfony new --webapp project01
 
 		* Creating a new Symfony project with Composer
         ... etc. ...
@@ -88,10 +88,10 @@ Figure \ref{default_page} shows a screenshot of the default page for the web roo
 
 There should not be any (non-debug) routes yet. All routes starting with an underscore `_` symbol are debugging routes used by the verye useful Symfony profiler - this creates the information footer at the bottom of our pages when we are developing Symfony applications.
 
- but let's check at the console by typing `php bin/console debug:router`:
+ but let's check at the console by typing `symfony console debug:router`:
 
 ```
-    $ php bin/console debug:router
+    $ symfony console debug:router
          -------------------------- -------- -------- ------ ----------------------------------- 
           Name                       Method   Scheme   Host   Path                               
          -------------------------- -------- -------- ------ ----------------------------------- 
@@ -125,7 +125,7 @@ We could write a new class for our homepage controller, but ... let's ask Symfon
 1. Tell Symfony to create a new homepage (default) controller. A since a class will be created starting with the controller name, ensure your controlle rname starts with a CAPITAL letter, e.g. `Default` not `default`:
 
 ```bash
-    $ php bin/console make:controller Default
+    $ symfony console make:controller Default
 
          created: src/Controller/DefaultController.php
          created: templates/default/index.html.twig

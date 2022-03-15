@@ -31,7 +31,7 @@ Although since we're not adding anything between these 3 Twig functions' output,
 
 ## Using a Twig form-theme template
 
-Symfony provides several useful Twig templates for common form layouts.
+In addition to the Bootstrap layouts, Symfony provides several other useful Twig templates for common form layouts.
 
 These include:
 
@@ -41,19 +41,13 @@ These include:
 - put form inside a table, and each field inside a table row `<tr>` element
     - form_table_layout.html.twig
 
-- Boostrap CSS framework div's and CSS classes
-    - bootstrap_4_layout.html.twig
-
 
 
 For example, to use the `div` layout we can declare this template be used for all forms in the `/config/packages/twig.yml` file as follows:
 
 ```yaml
     twig:
-        paths: ['%kernel.project_dir%/templates']
-        debug: '%kernel.debug%'
-        strict_variables: '%kernel.debug%'
-        form_themes: ['bootstrap_4_layout.html.twig']
+        form_themes: ['form_div_layout.html.twig']
 ```
 
 
@@ -98,23 +92,6 @@ Alternatively, each form field can have its 3 constituent parts rendered separat
 For example:
 
 ```
-    <div>
-        {{ form_label(form.firstName) }}
-
-        <div class="errors">
-        {{ form_errors(form.firstName) }}
-        </div>
-
-        {{ form_widget(form.firstName) }}
-    </div>
-```
-So we could display our new student form this way:
-
-```
-    {% block body %}
-        <h1>Create new student</h1>
-        {{ form_start(form) }}
-
    <div class="form-group">
         <div class="errors">
         {{ form_errors(form.firstName) }}
@@ -124,24 +101,8 @@ So we could display our new student form this way:
 
         {{ form_widget(form.firstName) }}
     </div>
-
-   <div class="form-group">
-        <div class="errors">
-        {{ form_errors(form.surname) }}
-        </div>
-
-        {{ form_label(form.surname) }}
-
-        {{ form_widget(form.surname) }}
-    </div>
-
-   <div class="form-group">
-        {{ form_row(form.save) }}
-    </div>
-
-        {{ form_end(form) }}
-    {% endblock %}
 ```
+
 
 The above would output the following HTML for the `firstName` property (if the errors list was empty):
 
@@ -157,6 +118,71 @@ The above would output the following HTML for the `firstName` property (if the e
     <input type="text" id="student_firstName" name="student[firstName]" required="required" class="form-control" />
     </div>
 ```
+
+### Making custom form div displays explicitly with colour and borders
+
+Let's show how we are controlling each part of the form layout by making each `div` spaced from each other, with a thin border.
+
+We can do this by declaring a `stylesheets` block for this page's CSS, and adding class `border1` to each div.
+
+Here is the CSS Twig block:
+
+```twig
+    {% block stylesheets %}
+        <style>
+        .border1 {
+            border: black solid 1px;
+            padding: 5px;
+            margin: 10px;
+            background-color: lightblue;
+        }
+        </style>
+    {% endblock %}
+```
+
+Here is the HTML body block with CSS class `border1` to each div.
+
+```twig
+    {% block body %}
+        <h1>Create new student</h1>
+        {{ form_start(form) }}
+
+        <div class="form-group border1">
+            <div class="errors">
+                {{ form_errors(form.firstName) }}
+            </div>
+
+            {{ form_label(form.firstName) }}
+
+            {{ form_widget(form.firstName) }}
+        </div>
+
+        <div class="form-group border1">
+            <div class="errors">
+                {{ form_errors(form.surname) }}
+            </div>
+
+            {{ form_label(form.surname) }}
+
+            {{ form_widget(form.surname) }}
+        </div>
+
+        <div class="form-group border1">
+            {{ form_row(form.save) }}
+        </div>
+
+        {{ form_end(form) }}
+    {% endblock %}
+```
+
+
+
+Figure \ref{blue_borders} shows how we have been able to separate out each part of the form in out Twig template.
+
+![Screenshot showing styled HTML divs for each part of the form. \label{blue_borders}](./03_figures/part03/31_custom_form_display.png)
+
+
+
 
 Learn more at:
 

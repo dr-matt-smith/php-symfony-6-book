@@ -57,7 +57,7 @@ So you should end up with accessor method for each propety such as:
 Generate a StudentController class:
 
 ```bash
-    $ php bin/console make:controller Student
+    $ symfony console make:controller Student
 ```
 
 It should look something like this (`/src/Controller/StudentController.php`):
@@ -88,7 +88,7 @@ NOTE:
 NOTE!!!!: When adding new routes, it's a good idea to **CLEAR THE CACHE**, otherwise Symfony may not recognised the new or changed routes ... Either manually delete the `/var/cache` directory, or run the `cache:clear` console command (you can shorten to `ca:cl`)
 
 ```bash
-    $ php bin/console cache:clear
+    $ symfony console cache:clear
 
     // Clearing the cache for the dev environment with debug true
     [OK] Cache for the "dev" environment (debug=true) was successfully cleared.
@@ -262,7 +262,7 @@ Replace the existing method `index()` of controller class `StudentController` wi
 So our routes remain the same, with the URL pattern `/student` being routed to our `StudentController->index()` method:
 
 ```bash
-    $ php bin/console debug:router
+    $ symfony console debug:router
 
      -------------------------- -------- -------- ------ -----------------------------------
       Name                       Method   Scheme   Host   Path
@@ -356,7 +356,7 @@ If you have issues of Symfony not finding a new route you've added via a control
 It's a good idea to **CLEAR THE CACHE** when adding/changing routes, otherwise Symfony may not recognised the new or changed routes ... Either manually delete the `/var/cache` directory, or run the `cache:clear` console command:
 
 ```bash
-    $ php bin/console cache:clear
+    $ symfony console cache:clear
 
     // Clearing the cache for the dev environment with debug true
     [OK] Cache for the "dev" environment (debug=true) was successfully cleared.

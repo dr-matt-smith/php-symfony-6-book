@@ -13,12 +13,12 @@ https://symfony.com/blog/new-in-symfony-5-4-php-enumerations-support
 
 Given an object of an Entity class, Symfony can analyse its property names and types, and generate a form (with a little help). That's what we'll do in this chapter.
 
-However, first, let's simplify something for later, we'll make our `createAction()` expect to be given a reference to a `Student` object (rather than expect 2 string parameters `firstName` and `surname`):
+However, first, let's simplify something for later, we'll make our `create()` expect to be given a reference to a `Student` object (rather than expect 2 string parameters `firstName` and `surname`):
 
 ```php
-    public function createAction(Student $student)
+    public function create(Student $student)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $em->persist($student);
         $em->flush();
 
@@ -162,7 +162,7 @@ create a separate from 'type' class to create each form.
 Rather than write one from scratch, some of the work can be done for us using the **maker** bundle. To create class `/src/Form/StudentType.php` we first enter CLI command:
 
 ```bash
-    $ php bin/console make:form
+    $ symfony console make:form
 ```
 
 You'll then be asked the form class name - by Symmfony convention we just add `Type` to the Entity class name:    
@@ -297,6 +297,4 @@ Figure \ref{html_validation} shows a screenshot of the HTML validation from the 
 Here are some resources on this topic:
 
 - [Example of a numeric 'greater than' constraint in Entity class](https://symfony.com/doc/current/reference/constraints/GreaterThan.html)
-
-- [Video: Code Review form validation with `@Assert`](https://codereviewvideos.com/course/beginner-s-guide-to-symfony-3-forms/video/validating-form-data-with-symfony-3)
 

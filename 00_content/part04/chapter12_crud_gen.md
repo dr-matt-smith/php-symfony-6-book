@@ -65,7 +65,7 @@ Let's create a new Entity class
 You can now create Symfony CRUD for a given entity as follows (in this example the `Category` entity is used):
 
 ```bash
-    $ php bin/console make:crud Category
+    $ symfony console make:crud Category
     
     created: src/Controller/CategoryController.php
     created: src/Form/CategoryType.php

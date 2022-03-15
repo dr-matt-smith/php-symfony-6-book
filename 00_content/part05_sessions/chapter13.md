@@ -3,24 +3,12 @@
 
 ## Create a new project from scratch (project `sessions01`)
 
-Let's start with a brand new project to learn about Symfony sessions:
+Let's start with a brand new web app project to learn about Symfony sessions:
 
 ```bash
-    $ composer create-project symfony/skeleton session01
+    $ symfony new --webapp session01
 ```
 
-Let's add to our project the Twig and annotations packages^[And add the server package to `--dev` if that's how you are testing locally.]:
-
-```bash
-    $ composer req --dev server make
-    $ composer req twig annotations
-```
-
-It's also a good idea to also include the **Debug** pacakge:
-
-```bash
-    $ composer req --dev debug
-```
 
 ## Default controller - hello world
 

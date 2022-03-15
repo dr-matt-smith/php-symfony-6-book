@@ -6,7 +6,7 @@
 When we created the Authenticator it created a login form Twig template for us:
 
 ```bash
-    $ php bin/console make:auth
+    $ symfony console make:auth
 
     ... 
 

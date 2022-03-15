@@ -7,7 +7,7 @@
 This project assumes you are working with a copy of project `db03` - i.e. with a D.I.Y. controller and templates.
 
 You can start with a copy from the book Github repositories if you wish:
-- [https://github.com/dr-matt-smith/php-symfony-5-book-codes-databases-03-param-converter](https://github.com/dr-matt-smith/php-symfony-5-book-codes-databases-03-param-converter)
+- [https://github.com/dr-matt-smith/php-symfony-6-book-codes/tree/main/part02-db/db03_fullCRUD](https://github.com/dr-matt-smith/php-symfony-6-book-codes/tree/main/part02-db/db03_fullCRUD)
 
 ## Adding a form for new Student creation (project `form01`)
 
@@ -27,24 +27,34 @@ Let's create a DIY (Do-It-Yourself) HTML form to create a new student. We'll nee
 
 The form will look as show in Figure \ref{new_student_form}.
 
-![Form for a new student \label{new_student_form}](./03_figures/part03/1_new_student_form.png)
+![Form for a new student \label{new_student_form}](./03_figures/part03/1_new_student_form.png){width=50%}
 
-## Refacfor our `create(...)` method
+## Refactor our `create(...)` method
 
-Since we will now be creating new Students using a form, rather than passing the properties directly as `GET` partameters in thge URL, let's refactor our `create(...)` in class `StudentController` to be a private method (no route annotatiohn comment), that accepts 2 parameters and uses them to create a new Student obnject and store it in the database, then redirect to the list of students page:
+Since we will now be creating new Students using a form, rather than passing the properties directly as `GET` parameters in the URL, let's refactor our `create(...)` in class `StudentController` to be a private method (no route attribute), that accepts 2 parameters and uses them to create a new Student object and store it in the database, then redirect to the list of students page:
 
 ```php
-    private function create($firstName, $surname)
+    public function create(string $firstName, string $surname): Response
     {
         $student = new Student();
         $student->setFirstName($firstName);
         $student->setSurname($surname);
-    
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $em->persist($student);
         $em->flush();
-    
+     
         return $this->redirectToRoute('student_list');
+    }
+```
+
+You'll note the use of a property `$this->doctrine` above. This is something we'll have to intialise in a constructor, since we'll be invoking this method directly later, so we can't rely on the Symfony param-converter to populate a method argument for us. But this is easy to do, we just need a private property, then a constructor method (that can use the param-converter to create an object for us), and the constructor then caches that object for use in the `create(...)` method above:
+
+```php
+    private ManagerRegistry $doctrine;
+
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->doctrine = $doctrine;
     }
 ```
 
@@ -72,26 +82,26 @@ Here is our new student form `/templates/student/new.html.twig':
     {% endblock %}
 ```
 
-## Controller method (and annotation) to display new student form
+## Controller method (and attribute) to display new student form
 
 Let's add a **new** action to `StudentController`.
 
-NOTE: This should be **the FIRST** method in this class -  Since we don't want `/student/new` being treated as `/student/{id = 'new'}`, so our new form action method should be placed before our show action.  `<<<<<<<<`
+NOTE: 
+
+- **VERY IMPORTANT**- sequence of controller methods in controller class **
+
+- This should be **the FIRST** method in this class -  Since we don't want `/student/new` being treated as `/student/{id = 'new'}`, so our new form action method should be placed before our show action. 
 
 Here is our `StudentController` method `newForm()` to display our Twig form:
 
 ```php
-    /**
-     * @Route("/student/new", name="student_new")
-     */
+    #[Route('/student/new', name: 'student_new_form')]
     public function newForm()
     {
         $template = 'student/new.html.twig';
-        $args = [
-        ];
+        $args = [];
         return $this->render($template, $args);
     }
-
 ```
 
 
@@ -167,7 +177,7 @@ Symfony offers a very useful feature called the 'flash bag'. Flash data exists f
 
 ## Three kinds of flash message: notice, warning and error
 
-Typically we create 3 different kinds of flash notice:
+typically we create 3 different kinds of flash notice:
 
 - notice
 - warning
@@ -281,6 +291,12 @@ Finally, we need to add code in our new student form Twig template to display an
         (... show HTML form as before ...)
 ```
 
+The form will look as show in Figure \ref{new_student_form_flash}.
+
+![Flash message after empty field validation. \label{new_student_form_flash}](./03_figures/part03/30_flash_message.png)
+
+
+
 ## Postback logic (project `form03`)
 
 A common approach (and used in CRUD auto-generated code) is to combine the logic for displaying a form, and processing its submission, in a single method. The logic for this is that if any of the submitted data was invalid (or missing), then the default form processing can go back to re-displaying the form (with an appropriate 'flash' error message) to the user.
@@ -306,14 +322,11 @@ The logic usually goes something like this:
     - passing values, if we want a 'sticky' form remembering partly valid form values
 
 
-Let's name our combined show form & process form controller method `newAction(...)`, name its internal route as `student_new`, and declare that only `POST` and `GET` HTTP requests are to be routed to this method^[By default a controller method that does not declare any specific HTTP methods will be used for **any** HTTP method matching the route pattern. So it is good practice to start limiting our controller methods to only those HTTP methods that are valid for how we wish our web application to behave...]:
+Let's name our combined show form & process form controller method `new(...)`, name its internal route as `student_new`, and declare that only `POST` and `GET` HTTP requests are to be routed to this method^[By default a controller method that does not declare any specific HTTP methods will be used for **any** HTTP method matching the route pattern. So it is good practice to start limiting our controller methods to only those HTTP methods that are valid for how we wish our web application to behave...]:
 
 ```php
-
-    /**
-     * @Route("/student/new", name="student_new",  methods={"POST", "GET"})
-     */
-    public function newAction(Request $request)
+    #[Route('/student/new', name: 'student_new_form', methods: ["POST", "GET"])]
+    public function new(Request $request)
     {
 ```
 
@@ -379,9 +392,7 @@ If it was a `POST` submitted form but the data was **not** valid, then we should
 We can now simply replace the previous 2 methods `processNewFormAction()` and `newFormAction()` with our new single postback method `new(...)` as follows:
 
 ```php
-    /**
-     * @Route("/student/new", name="student_new_form", methods={"POST", "GET"})
-     */
+    #[Route('/student/new', name: 'student_new_form', methods: ["POST", "GET"])]
     public function new(Request $request) {
         // attempt to find values in POST variables
         $firstName = $request->request->get('firstName');
@@ -414,7 +425,7 @@ We can now simply replace the previous 2 methods `processNewFormAction()` and `n
 ```
 
 
-Finally (!) we can achieve a 'sticky' form by passing any value in `$firstName` and `$surname` to our Twig template in its argument array:
+Finally, (!) we can achieve a 'sticky' form by passing any value in `$firstName` and `$surname` to our Twig template in its argument array:
 
 ```php
     $argsArray = [
@@ -423,7 +434,9 @@ Finally (!) we can achieve a 'sticky' form by passing any value in `$firstName` 
     ];
 ```
 
-These will either be null, or have the string values from the POST submitted form attempt. We re-display these values (if no null) by adding `value=""` attributed in our Twig form template `/templates/student/new.html.twig` as follows:
+These will either be null, or have the string values from the POST submitted form attempt. 
+
+We re-display these values (if no null) by adding `value=""` attributed in our Twig form template `/templates/student/new.html.twig` as follows:
 
 ```twig
     <form action="/student/new" method="POST">
@@ -440,9 +453,3 @@ These will either be null, or have the string values from the POST submitted for
 
 NOTE: We have **changed** the form action to `"/student/new"`, so that the form POST submission will be routed to the same method (`new()`) as the one to display the form.
 
-
-## Extra notes
-
-Here is how to work with Enum style drop-down combo-boxes:
-
-- [Articled on Symfony Enums in forms frmo Maxence POUTORD](http://www.maxpou.fr/dealing-with-enum-symfony-doctrine/)

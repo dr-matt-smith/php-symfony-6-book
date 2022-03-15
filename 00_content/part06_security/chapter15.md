@@ -40,19 +40,13 @@ We are going to quickly create a 2-page website, with an open home page (url `/`
 Create a new project:
 
 ```bash
-    symfony new --full security01
-```
-
-Add the security bundle:
-
-```bash
-    composer req symfony/security-bundle
+  symfony new --webapp security01
 ```
 
 Add the fixtures bundle (we'll need this later):
 
 ```bash
-    composer require orm-fixtures --dev 
+    composer require orm-fixtures
 ```
 
 ## Make a Default controller
@@ -60,7 +54,7 @@ Add the fixtures bundle (we'll need this later):
 Let's make a Default controller `/src/Controller/DefaultController.php`:
 
 ```bash
-    php bin/console make:controller Default
+    symfony console make:controller Default
 ```
 
 Edit the route to be `/` and the internal name to be `homepage`:
@@ -94,7 +88,7 @@ This will be accessible to everyone.
 Let's make a Admin controller:
 
 ```bash
-    $ php bin/console make:controller Admin
+    $ symfony console make:controller Admin
 ```
 
 This will be accessible to only to users logged in with `ROLE_ADMIN` security.
@@ -199,7 +193,7 @@ Let's use the special `make:user` console command to create a `User` entity clas
 Enter the following at the command line, then just keep pressing `<RETURN>` to accept all the defaults:
 
 ```bash
-    $ php bin/console make:user
+    $ symfony console make:user
 
      The name of the security user class (e.g. User) [User]:
      >          // press <RETURN> to accept default
@@ -247,8 +241,8 @@ If we look at `security.yml` it now begins as follows, taking into account our n
 Since we've changed our Entity classes, we should migrate these changes to the database (and, of course, first create your database if you havce not already done so):
 
 ```bash
-    php bin/console make:migration
-    php bin/console doctrine:migrations:migrate
+    symfony console make:migration
+    symfony console doctrine:migrations:migrate
 ```
 
 ## Make some `User` fixtures
@@ -256,7 +250,7 @@ Since we've changed our Entity classes, we should migrate these changes to the d
 Let's make some users with the `make:fixture` command:
 
 ```bash
-    php bin/console make:fixture UserFixtures
+    symfony console make:fixture UserFixtures
 ```
 
 We'll use the Symfony sample code so that the plain-text passwords can be encoded (hashed) when stored in the database, see:
@@ -357,7 +351,7 @@ NOTE: The `roles` property expects to be given an array of String roles, in the 
 Load the fixtures into the database (with `doctrine:fixtures:load`), and check them with a simple SQL query `select * from user`:
 
 ```bash
-    php bin/console doctrine:query:sql "select * from user"
+    symfony console doctrine:query:sql "select * from user"
     Cannot load Xdebug - it was already loaded
     
     /php-symfony-5-book-codes-security-02-user/vendor/doctrine/dbal/lib/Doctrine/DBAL/Tools/Dumper.php:71:
@@ -377,7 +371,7 @@ We can see the encoded password and roles `ROLE_USER` and `ROLE_ADMIN`
 One new additional to the maker tool in Symfony 5 is automatic generation of a login form. Enter the following at the commadn line:
 
 ```bash
-    php bin/console make:auth
+    symfony console make:auth
 ```
 
 When prompted choose option `1`, a Login Form Authenticator:
@@ -425,7 +419,7 @@ You should now have a new controller `SecurityController`, a login form `templat
 We can check we have new login/logout routes from with the `debug:router` command:
 
 ```bash
-     php bin/console debug:router
+     symfony console debug:router
     Cannot load Xdebug - it was already loaded
      -------------------------- -------- -------- ------ ----------------------------------- 
       Name                       Method   Scheme   Host   Path                               

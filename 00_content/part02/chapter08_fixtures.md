@@ -79,14 +79,14 @@ We also need to add a `use` statement so that our class can make use of the `Ent
 The **make** feature will create a skeleton fixture class for us. So let's make class `StudentFixtures`:
 
 ```bash
-    $ php bin/console make:fixtures StudentFixtures
+    $ symfony console make:fixtures StudentFixtures
     
      created: src/DataFixtures/StudentFixtures.php
     
       Success! 
                
      Next: Open your new fixtures class and start customizing it.
-     Load your fixtures by running: php bin/console doctrine:fixtures:load
+     Load your fixtures by running: symfony console doctrine:fixtures:load
      Docs: https://symfony.com/doc/master/bundles/DoctrineFixturesBundle/index.html
 ```
 
@@ -134,15 +134,15 @@ In the code below, we create 3 `Student` objects and have them persisted to the 
 Loading fixtures involves deleting all existing database contents and then creating the data from the fixture classes - so you'll get a warning when loading fixtures. At the CLI type:
 
 ```bash
-    php bin/console doctrine:fixtures:load
+    symfony console doctrine:fixtures:load
 ```
 
-or the shorter version: `php bin/console do:fi:lo`
+or the shorter version: `symfony console do:fi:lo`
 
 You should then be asked to enter `y` (for YES) if you want to continue:
 
 ```bash
-    $ php bin/console doctrine:fixtures:load
+    $ symfony console doctrine:fixtures:load
 
     Careful, database "web3" will be purged. Do you want to continue? (yes/no) [no]:
     
@@ -159,7 +159,7 @@ Figure \ref{load_fixtures} shows an example of the CLI output when you load fixt
 Alternatively, you could execute an SQL query from the CLI using the `doctrine:query:sql` command:
 
 ```bash
-    $ php bin/console doctrine:query:sql "select * from student"
+    $ symfony console doctrine:query:sql "select * from student"
 
     /.../db06_fixtures/vendor/doctrine/common/lib/Doctrine/Common/Util/Debug.php:71:
     array (size=3)
@@ -246,7 +246,7 @@ Let's install it and generate some random students in our Fixtures class:
 4. use the CLI Doctrine command to run the fixtures creation method:
 
     ```bash
-        $ php bin/console do:fi:lo
+        $ symfony console do:fi:lo
         Careful, database will be purged. Do you want to continue y/N ?y
           > purging database
           > loading App\DataFixtures\StudentFixtures

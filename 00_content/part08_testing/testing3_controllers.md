@@ -20,7 +20,7 @@ Note - these next steps assume your project has Twig, annotations and the Symfon
 Let's make a new `DefaultController` class:
 
 ```bash
-    php bin/console make:controller Default
+    symfony console make:controller Default
 ```
 
 Let's edit the generated template to include the message `Hello World`. Edit `/templates/default/index.html.twig`:
@@ -377,7 +377,7 @@ Often we write (or generate) a controller that adds URL and route name **prefixe
 However, a consequence of this is that often the index route for this controller will be defined as having a trailing forward slash `/`. For example look at this route list:
 
 ```
-    $ php bin/console debug:router
+    $ symfony console debug:router
      ------------------ -------- -------- ------ --------------------------
       Name               Method   Scheme   Host   Path
      ------------------ -------- -------- ------ --------------------------
