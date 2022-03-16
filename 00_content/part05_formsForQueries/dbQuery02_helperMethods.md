@@ -131,7 +131,11 @@ See Figure \ref{query2} shows the `ExampleRepository` output you should visiting
 
     - and we could add logic to check that this is a property of the Entity class and build an appropriate query from the arguments
     
-- a call to `badMethodName(...)` is caught by `__call(...)`, but fails our test for starting with `findBy`, and so we can ignore it 
+- a call to `findByProperty99(...)` would work fine, since we can use `__call(...)` to identify that this was a call to a helper `findBy<property>(...)` method
+
+    - and we could add logic to check that this is a property of the Entity class and build an appropriate query from the arguments
+
+- a call to `badMethodName(...)` is caught by `__call(...)`, but fails our test for starting with `findBy`, and so we can ignore it
 
     - or log error or throw Exception or whatever our program spec says to do in these cases...
 

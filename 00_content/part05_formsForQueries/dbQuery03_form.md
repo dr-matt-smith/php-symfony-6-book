@@ -81,27 +81,21 @@ The row has empty cells, except for the 4th cell (the Category column), where we
 Here is the new method in `ProductController` to process submission of this form - implementing the route `search_category`:
 
 ```php
-    /**
-     * @Route("/searchCategory", name="search_category", methods={"POST"})
-     */
+    #[Route('/searchCategory', name: 'search_category', methods: ['POST'])]
     public function searchCategory(Request $request): Response
     {
         $category = $request->request->get('category');
-
         if(empty($category)){
-            return $this->redirectToRoute('product_index');
+            return $this->redirectToRoute('app_product_index');
         }
-
-        return $this->redirectToRoute('product_search', ['category' => $category]);
+        return $this->redirectToRoute('app_product_search', ['category' => $category]);
     }
 ```
 
 The annotation comments specify the URL route `/searchCategory`, the internal route name `search_category`, and that we expect the request to be submitted using the `POST` method:
 
 ```php
-    /**
-     * @Route("/searchCategory", name="search_category", methods={"POST"})
-     */
+    #[Route('/searchCategory', name: 'search_category', methods: ['POST'])]
 ```
 
 We need to extract the `category` variable submitted in the HTTP Request, so we need access to the Symfony `Request` object. The simnplest way to get a reference to this object is via the Symfony **param converter**, by adding `(Request $request)` as a method parameter. This means we now have Request object variable `$request` available to use in our method:
@@ -117,53 +111,47 @@ We can retrieve a value from the submitted `POST` variables int the request usin
 ```
 
 
-Finally, we can do some logic based on the value of form submitted variable `$category`. If this variable is an emptuy string, let's just redirect Symfonhy to run the method to list all products, route `product_index`:
+Finally, we can do some logic based on the value of form submitted variable `$category`. If this variable is an empty string, let's just redirect Symfony to run the method to list all products, route `product_index`:
 
 ```php
     if(empty($category)){
-        return $this->redirectToRoute('product_index');
+        return $this->redirectToRoute('app_product_index');
     }
 ```
 
 If `$category` was **not** empty then we can redirect to our category search route, passing the value to this route:
 
 ```php
-    return $this->redirectToRoute('product_search', ['category' => $category]);
+    return $this->redirectToRoute('app_product_search', ['category' => $category]);
 ```
 
-## Getting rid of the URL search route
+## Getting rid of the URL search route (project `query03`)
 
 If we no longer wanted the URL search route, we could replace the final statement in our `searchCategory(...)` method to the following (and remove method `search(...)` altogether):
 
 ```php
-    /**
-     * @Route("/searchCategory", name="search_category", methods={"POST"})
-     */
-    public function searchCategory(Request $request): Response
+    #[Route('/searchCategory', name: 'search_category', methods: ['POST'])]
+    public function searchCategory(ProductRepository $productRepository, Request $request): Response
     {
         $category = $request->request->get('category');
-
         if(empty($category)){
-            return $this->redirectToRoute('product_index');
+            return $this->redirectToRoute('app_product_index');
         }
-    
-        // if get here, not empty - so use value to search...
-        $productRepository = $this->getDoctrine()->getRepository('App:Product');
-        $products =  $productRepository->findByCategory($category);
+
+        $products = $productRepository->findByCategory($category);
 
         $template = 'product/index.html.twig';
         $args = [
             'products' => $products,
             'category' => $category
         ];
-
         return $this->render($template, $args);
     }
 ```
 
 # Wildcard vs. exact match queries
 
-## Search Form for partial description match (project `query03`)
+## Search Form for partial description match (project `query04`)
 
 Let's add a query form in the **description** column, so we need to edit Twig template  `/templates/product/index.html.twig`.
 
@@ -250,10 +238,19 @@ The solution is to write a custom query method `findByLikeDescription($keyword)`
 We can now use this method in our `ProductController` controller method `searchDescription(..)`:
 
 ```php
-    // if get here, not empty - so use value to search...
-    $productRepository = $this->getDoctrine()->getRepository('App:Product');
+    class ProductController extends AbstractController
+    {
+        #[Route('/searchDescription', name: 'search_description', methods: ['POST'])]
+        public function searchDescription(ProductRepository $productRepository, Request $request): Response
+        {
+            $keyword = $request->request->get('keyword');
+            if(empty($keyword)){
+                return $this->redirectToRoute('app_product_index');
+            }
 
-    $products =  $productRepository->findByLikeDescription($keyword);
+            // if get here, not empty - so use value to search...
+            $products = $productRepository->findByLikeDescription($keyword);
+            ...
 ```
 
 See Figure \ref{query7} illustrates a wildcard search for any `Product` with description containing texgt `bag`.
