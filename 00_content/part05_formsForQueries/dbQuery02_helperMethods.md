@@ -1,6 +1,6 @@
 # How to the free 'helper' Doctrine methods work?
 
-## Custom database queries
+## Custom database queries (project `findby01`)
 PHP offers a runtime code reflection (or interpreter pre-processing if you prefer), that can intercept calls to non-existent methods of a class. We use the special **magic** PHP method `__call(...)` which expects 2 parameters, one for the non-existent method name, and one as an array of argument values passed to the non-existent method:
 
 ```php
@@ -10,7 +10,34 @@ PHP offers a runtime code reflection (or interpreter pre-processing if you prefe
     }
 ```
 
-Here is a simple class (put it in `/src/Util/ExampleRepository.php` in you want to try this) that demonsrtates how Doctrine uses `__call' to identify which Entity property we are trying to query by:
+## Preparation - new project with fixtures package
+
+Create a new project:
+
+```bash
+     symfony new --webapp findby01
+```
+
+Now `cd` into the project in a terminal, and use `make:controller` to create a new controller class `DefaultController`:
+
+```bash
+     symfony console make:controller Default
+```
+
+## Remove encore entry points in base Twig template
+
+If you are not using WebPack encore, remove the `encore_entry_` lines inside the `stylesheets` and `javascripts` blocks in the base template (`/templates/base.html.twig`). So these blocks will be empty in this parent template file:
+
+```twig
+    {% block stylesheets %}
+    {% endblock %}
+
+    {% block javascripts %}
+    {% endblock %}
+```
+
+## Our example repository
+Here is a simple class (`/src/Util/ExampleRepository.php`) that demonstrates how Doctrine uses `__call' to identify which Entity property we are trying to query by:
 
 ```php
     <?php
@@ -57,30 +84,42 @@ Here is a simple class (put it in `/src/Util/ExampleRepository.php` in you want 
         }
     }
 ```
+## Testing repopsitory from a controller
 
-You could add a new method to the `DefaultController` class to see this in action as follows:
+Add a new method `call()` to the `DefaultController` class to see this in action as follows:
 
 ```php
-    /**
-     * @Route("/call", name="call")
-     */
-    public function call()
+    namespace App\Controller;
+
+    use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+    use Symfony\Component\HttpFoundation\Response;
+    use Symfony\Component\Routing\Annotation\Route;
+
+    Use App\Util\ExampleRepository;
+
+    class DefaultController extends AbstractController
     {
-        // illustrate how __call workds
-        $exampleRepository = new ExampleRepository();
+        #[Route('/call', name: 'findByTest')]
+        {
+            // illustrate how __call works
+            $exampleRepository = new ExampleRepository();
 
-        $html = "<pre>";
-        $html .=  "----- calling findAll() -----\n";
-        $html .= $exampleRepository->findAll();
+            $html = "<pre>";
+            $html .=  "----- calling findAll() -----\n";
+            $html .= $exampleRepository->findAll();
 
-        $html .=  "\n\n----- calling findAllByProperty() -----\n";
-        $html .= $exampleRepository->findByName('matt', 'smith');
+            $html .=  "\n\n----- calling findAllByProperty() -----\n";
+            $html .= $exampleRepository->findByName('matt', 'smith');
 
-        $html .=  "\n----- calling badMethodName() -----\n";
-        $html .= $exampleRepository->badMethodName('matt', 'smith');
+            $html .=  "\n----- calling findAllByProperty() -----\n";
+            $html .= $exampleRepository->findByProperty99('needle in haystack');
 
-        return new Response($html);
-    }
+            $html .=  "\n----- calling badMethodName() -----\n";
+            $html .= $exampleRepository->badMethodName('matt', 'smith');
+
+            return new Response($html);
+        }
+        ...
 ```
 
 
