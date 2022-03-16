@@ -1,0 +1,448 @@
+\contentsline {chapter}{Acknowledgements}{i}{chapter*.1}
+\contentsline {part}{I\hspace {1em}Introduction to Symfony}{1}{part.1}
+\contentsline {chapter}{\numberline {1}Introduction}{3}{chapter.1}
+\contentsline {section}{\numberline {1.1}What is Symfony?}{3}{section.1.1}
+\contentsline {section}{\numberline {1.2}What to I need on my computer to get started?}{3}{section.1.2}
+\contentsline {section}{\numberline {1.3}Check sysstem requiremnets}{4}{section.1.3}
+\contentsline {section}{\numberline {1.4}How to I get started with a new Symfony project}{4}{section.1.4}
+\contentsline {section}{\numberline {1.5}Where are the projects accompanying this book?}{5}{section.1.5}
+\contentsline {section}{\numberline {1.6}How to I run a Symfony webapp?}{5}{section.1.6}
+\contentsline {subsection}{\numberline {1.6.1}From the CLI}{5}{subsection.1.6.1}
+\contentsline {subsection}{\numberline {1.6.2}From a Webserver application (like Apache or XAMPP)}{7}{subsection.1.6.2}
+\contentsline {section}{\numberline {1.7}It isn't working! (Problem Solving)}{7}{section.1.7}
+\contentsline {section}{\numberline {1.8}Can I see a demo project with lots of Symfony features?}{7}{section.1.8}
+\contentsline {section}{\numberline {1.9}Any free videos about SF to get me going?}{7}{section.1.9}
+\contentsline {chapter}{\numberline {2}First steps}{9}{chapter.2}
+\contentsline {section}{\numberline {2.1}What we'll make (\texttt {basic01})}{9}{section.2.1}
+\contentsline {section}{\numberline {2.2}Create a new Symfony project}{10}{section.2.2}
+\contentsline {section}{\numberline {2.3}List the routes}{13}{section.2.3}
+\contentsline {section}{\numberline {2.4}Create a controller}{13}{section.2.4}
+\contentsline {section}{\numberline {2.5}Run web server to visit new default route}{16}{section.2.5}
+\contentsline {section}{\numberline {2.6}Other types of Response content}{17}{section.2.6}
+\contentsline {section}{\numberline {2.7}The default Twig page}{17}{section.2.7}
+\contentsline {chapter}{\numberline {3}Twig templating}{19}{chapter.3}
+\contentsline {section}{\numberline {3.1}Customizing the Twig output (\texttt {basic02})}{19}{section.3.1}
+\contentsline {section}{\numberline {3.2}Specific URL path and internal name for our default route method}{20}{section.3.2}
+\contentsline {section}{\numberline {3.3}Clearing the cache}{22}{section.3.3}
+\contentsline {section}{\numberline {3.4}Let's create a nice Twig home page}{22}{section.3.4}
+\contentsline {chapter}{\numberline {4}Creating our own classes}{25}{chapter.4}
+\contentsline {section}{\numberline {4.1}Goals}{25}{section.4.1}
+\contentsline {section}{\numberline {4.2}Let's create an Entity \texttt {Student} (\texttt {basic03})}{25}{section.4.2}
+\contentsline {section}{\numberline {4.3}Create a StudentController class}{26}{section.4.3}
+\contentsline {section}{\numberline {4.4}The show student template \texttt {/templates/student/show.html.twig}}{28}{section.4.4}
+\contentsline {section}{\numberline {4.5}Twig debug \texttt {dump(...)} function}{29}{section.4.5}
+\contentsline {section}{\numberline {4.6}Creating an Entity Repository (\texttt {basic04})}{31}{section.4.6}
+\contentsline {section}{\numberline {4.7}The student list controller method}{32}{section.4.7}
+\contentsline {section}{\numberline {4.8}The list student template \texttt {/templates/student/list.html.twig}}{33}{section.4.8}
+\contentsline {section}{\numberline {4.9}Refactor show action to show details of one Student object (project \texttt {basic05})}{34}{section.4.9}
+\contentsline {section}{\numberline {4.10}Adding a \texttt {find(\$id)} method to the student repository}{36}{section.4.10}
+\contentsline {section}{\numberline {4.11}Make each item in list a link to show}{36}{section.4.11}
+\contentsline {section}{\numberline {4.12}Dealing with not-found issues (project \texttt {basic06})}{39}{section.4.12}
+\contentsline {part}{II\hspace {1em}Symfony and Databases}{41}{part.2}
+\contentsline {chapter}{\numberline {5}Doctrine the ORM}{43}{chapter.5}
+\contentsline {section}{\numberline {5.1}What is an ORM?}{43}{section.5.1}
+\contentsline {section}{\numberline {5.2}Setting the database connection URL for MySQL}{44}{section.5.2}
+\contentsline {section}{\numberline {5.3}Setting the database connection URL for SQLite}{44}{section.5.3}
+\contentsline {section}{\numberline {5.4}Quick start}{45}{section.5.4}
+\contentsline {section}{\numberline {5.5}Creat a database}{45}{section.5.5}
+\contentsline {section}{\numberline {5.6}3 main commands for working with databases}{45}{section.5.6}
+\contentsline {section}{\numberline {5.7}Other useful commands - SQL queries from command line}{45}{section.5.7}
+\contentsline {section}{\numberline {5.8}Make your database}{46}{section.5.8}
+\contentsline {chapter}{\numberline {6}Working with Entity classes}{47}{chapter.6}
+\contentsline {section}{\numberline {6.1}A \texttt {Student} DB-entity class (project \texttt {db01})}{47}{section.6.1}
+\contentsline {section}{\numberline {6.2}Using PHP attributes to declare DB mappings}{47}{section.6.2}
+\contentsline {section}{\numberline {6.3}Declaring types for fields}{48}{section.6.3}
+\contentsline {section}{\numberline {6.4}Validate our ORM attributes}{48}{section.6.4}
+\contentsline {section}{\numberline {6.5}The StudentRepository class (\texttt {/src/Repository/StudentRepository})}{49}{section.6.5}
+\contentsline {section}{\numberline {6.6}Create a migration (a migration \texttt {diff} file)}{50}{section.6.6}
+\contentsline {section}{\numberline {6.7}Run the migration to make the database structure match the entity class declarations}{51}{section.6.7}
+\contentsline {section}{\numberline {6.8}Re-validate our annotations}{52}{section.6.8}
+\contentsline {section}{\numberline {6.9}Generating entities from an existing database}{52}{section.6.9}
+\contentsline {section}{\numberline {6.10}Note - use maker to save time (project \texttt {db02})}{52}{section.6.10}
+\contentsline {section}{\numberline {6.11}Use maker to create properties, annotations and accessor methods!}{53}{section.6.11}
+\contentsline {section}{\numberline {6.12}It is BETTER to use the make tool}{55}{section.6.12}
+\contentsline {section}{\numberline {6.13}Final tip - always add a toString() method}{56}{section.6.13}
+\contentsline {subsection}{\numberline {6.13.1}Tip - IDEs may write a function skeleton for you after you type \texttt {\_\_toString} \ldots {}}{56}{subsection.6.13.1}
+\contentsline {chapter}{\numberline {7}Symfony way of doing database CRUD}{57}{chapter.7}
+\contentsline {section}{\numberline {7.1}Getting data into the DB}{57}{section.7.1}
+\contentsline {section}{\numberline {7.2}Creating new student records (project \texttt {db02})}{57}{section.7.2}
+\contentsline {section}{\numberline {7.3}Query database with SQL from CLI server}{61}{section.7.3}
+\contentsline {section}{\numberline {7.4}Updating the \texttt {list()} method to use Doctrine}{61}{section.7.4}
+\contentsline {section}{\numberline {7.5}Doctrine Repository ``free'' methods}{62}{section.7.5}
+\contentsline {section}{\numberline {7.6}Deleting by id}{63}{section.7.6}
+\contentsline {section}{\numberline {7.7}Updating given id and new name}{64}{section.7.7}
+\contentsline {section}{\numberline {7.8}Updating our show action}{65}{section.7.8}
+\contentsline {section}{\numberline {7.9}Redirecting to show after create/update}{66}{section.7.9}
+\contentsline {section}{\numberline {7.10}Given \texttt {id} let Doctrine find Product automatically (project \texttt {db03})}{67}{section.7.10}
+\contentsline {section}{\numberline {7.11}Creating the CRUD controller automatically from the CLI (project \texttt {db04})}{69}{section.7.11}
+\contentsline {chapter}{\numberline {8}Fixtures - setting up a database state }{71}{chapter.8}
+\contentsline {section}{\numberline {8.1}Initial values for your project database (project \texttt {db05})}{71}{section.8.1}
+\contentsline {section}{\numberline {8.2}Fixtures SAVE YOU TIME!}{71}{section.8.2}
+\contentsline {section}{\numberline {8.3}Installing and registering the fixtures bundle}{72}{section.8.3}
+\contentsline {subsection}{\numberline {8.3.1}Install the bundle}{72}{subsection.8.3.1}
+\contentsline {section}{\numberline {8.4}Writing the fixture classes}{73}{section.8.4}
+\contentsline {section}{\numberline {8.5}Loading the fixtures}{74}{section.8.5}
+\contentsline {section}{\numberline {8.6}User Faker to generate plausible test data (project \texttt {db06})}{75}{section.8.6}
+\contentsline {subsection}{\numberline {8.6.1}The Faker projects}{77}{subsection.8.6.1}
+\contentsline {chapter}{\numberline {9}Relating object in different Fixture classes}{79}{chapter.9}
+\contentsline {section}{\numberline {9.1}Remember this for later}{79}{section.9.1}
+\contentsline {section}{\numberline {9.2}Related objects - option 1 - do it all in one Fixture class}{79}{section.9.2}
+\contentsline {section}{\numberline {9.3}Related objects - option 2 - store references to fixture objects (project \texttt {db07})}{79}{section.9.3}
+\contentsline {subsection}{\numberline {9.3.1}\texttt {Category} entity class}{80}{subsection.9.3.1}
+\contentsline {subsection}{\numberline {9.3.2}\texttt {CampusFixtures} class}{80}{subsection.9.3.2}
+\contentsline {section}{\numberline {9.4}updating our \texttt {Student} entity class}{81}{section.9.4}
+\contentsline {subsection}{\numberline {9.4.1}Create and run migration}{83}{subsection.9.4.1}
+\contentsline {subsection}{\numberline {9.4.2}\texttt {StudentFixtures} class}{83}{subsection.9.4.2}
+\contentsline {section}{\numberline {9.5}Dependent Fixtures - order of loading is important!}{84}{section.9.5}
+\contentsline {chapter}{\numberline {10}Foundry Factories for powerful fixture generation}{87}{chapter.10}
+\contentsline {section}{\numberline {10.1}Foundry and FakerPHP}{87}{section.10.1}
+\contentsline {section}{\numberline {10.2}Adding Foundry to our project (project \texttt {db08})}{87}{section.10.2}
+\contentsline {section}{\numberline {10.3}Generate more students with Faker}{88}{section.10.3}
+\contentsline {section}{\numberline {10.4}View campus for students}{90}{section.10.4}
+\contentsline {section}{\numberline {10.5}Creating a Foundry Factory}{92}{section.10.5}
+\contentsline {section}{\numberline {10.6}Making Foundry choose one campus}{96}{section.10.6}
+\contentsline {section}{\numberline {10.7}Getting Foundry to choose randomly from existing Campuses}{96}{section.10.7}
+\contentsline {section}{\numberline {10.8}Relating multiple Foundry Factories}{97}{section.10.8}
+\contentsline {section}{\numberline {10.9}A single fixtures class (project \texttt {db09})}{99}{section.10.9}
+\contentsline {part}{III\hspace {1em}Forms and form processing}{101}{part.3}
+\contentsline {chapter}{\numberline {11}DIY forms}{103}{chapter.11}
+\contentsline {section}{\numberline {11.1}Preparation}{103}{section.11.1}
+\contentsline {section}{\numberline {11.2}Adding a form for new Student creation (project \texttt {form01})}{103}{section.11.2}
+\contentsline {section}{\numberline {11.3}Refactor our \texttt {create(...)} method}{104}{section.11.3}
+\contentsline {section}{\numberline {11.4}Twig new student form}{105}{section.11.4}
+\contentsline {section}{\numberline {11.5}Controller method (and attribute) to display new student form}{105}{section.11.5}
+\contentsline {section}{\numberline {11.6}Controller method to process POST form data}{106}{section.11.6}
+\contentsline {section}{\numberline {11.7}Validating form data, and displaying temporary `flash' messages in Twig}{107}{section.11.7}
+\contentsline {section}{\numberline {11.8}Three kinds of flash message: notice, warning and error}{107}{section.11.8}
+\contentsline {section}{\numberline {11.9}Adding flash display (with CSS) to our Twig template (project \texttt {form02})}{108}{section.11.9}
+\contentsline {section}{\numberline {11.10}Adding validation logic to our form processing controller method}{109}{section.11.10}
+\contentsline {section}{\numberline {11.11}Postback logic (project \texttt {form03})}{111}{section.11.11}
+\contentsline {chapter}{\numberline {12}Automatic forms generated from Entities}{115}{chapter.12}
+\contentsline {section}{\numberline {12.1}Using the Symfony form generator (project \texttt {form04})}{115}{section.12.1}
+\contentsline {section}{\numberline {12.2}The Symfony form generator via Twig}{115}{section.12.2}
+\contentsline {section}{\numberline {12.3}Updating \texttt {StudentController-\textgreater {}new()}}{116}{section.12.3}
+\contentsline {section}{\numberline {12.4}Postback - form submits to same URL}{119}{section.12.4}
+\contentsline {section}{\numberline {12.5}Using form classes (project \texttt {form05})}{120}{section.12.5}
+\contentsline {section}{\numberline {12.6}Video tutorials about Symfony forms}{123}{section.12.6}
+\contentsline {chapter}{\numberline {13}Customising the display of generated forms}{125}{chapter.13}
+\contentsline {section}{\numberline {13.1}First let's Bootstrap this project (project \texttt {form06})}{125}{section.13.1}
+\contentsline {section}{\numberline {13.2}Configure Twig to use the Bootstrap theme}{125}{section.13.2}
+\contentsline {section}{\numberline {13.3}Add the Bootstrap CSS and JS links into base Twig template}{126}{section.13.3}
+\contentsline {section}{\numberline {13.4}Run site and see some Bootstrap styling}{127}{section.13.4}
+\contentsline {section}{\numberline {13.5}Adding elements for navigation and page content}{128}{section.13.5}
+\contentsline {section}{\numberline {13.6}Add Bootstrap navigation bar}{128}{section.13.6}
+\contentsline {section}{\numberline {13.7}Styling list of links in navbar}{129}{section.13.7}
+\contentsline {section}{\numberline {13.8}Adding the hamburger-menu and collapsible links}{130}{section.13.8}
+\contentsline {chapter}{\numberline {14}Customizing display of Symfony forms}{133}{chapter.14}
+\contentsline {section}{\numberline {14.1}Understanding the 3 parts of a form (project \texttt {form07})}{133}{section.14.1}
+\contentsline {section}{\numberline {14.2}Using a Twig form-theme template}{134}{section.14.2}
+\contentsline {section}{\numberline {14.3}DIY (Do-It-Yourself) form display customisations}{134}{section.14.3}
+\contentsline {section}{\numberline {14.4}Customising display of parts of each form field}{135}{section.14.4}
+\contentsline {subsection}{\numberline {14.4.1}Making custom form div displays explicitly with colour and borders}{135}{subsection.14.4.1}
+\contentsline {section}{\numberline {14.5}Specifying a form's \textbf {method} and \textbf {action}}{137}{section.14.5}
+\contentsline {part}{IV\hspace {1em}Symfony code generation}{139}{part.4}
+\contentsline {chapter}{\numberline {15}CRUD controller and templates generation}{141}{chapter.15}
+\contentsline {section}{\numberline {15.1}Symfony's CRUD generator (project \texttt {crud01})}{141}{section.15.1}
+\contentsline {section}{\numberline {15.2}Preparation - new project with fixtures package}{141}{section.15.2}
+\contentsline {section}{\numberline {15.3}Remove encore entry points in base Twig template}{142}{section.15.3}
+\contentsline {section}{\numberline {15.4}Generating new Entity class \texttt {Category}}{142}{section.15.4}
+\contentsline {section}{\numberline {15.5}Create a new database and migration}{142}{section.15.5}
+\contentsline {section}{\numberline {15.6}Generating CRUD for a new Entity class}{143}{section.15.6}
+\contentsline {section}{\numberline {15.7}The generated routes}{144}{section.15.7}
+\contentsline {section}{\numberline {15.8}The generated CRUD controller}{145}{section.15.8}
+\contentsline {section}{\numberline {15.9}The generated index (a.k.a. list) controller method}{146}{section.15.9}
+\contentsline {section}{\numberline {15.10}Create 4 categories}{147}{section.15.10}
+\contentsline {section}{\numberline {15.11}Style the list of entities}{147}{section.15.11}
+\contentsline {section}{\numberline {15.12}The generated \texttt {new()} method}{148}{section.15.12}
+\contentsline {section}{\numberline {15.13}The generated \texttt {show()} method}{149}{section.15.13}
+\contentsline {section}{\numberline {15.14}The generated \texttt {edit()} method}{149}{section.15.14}
+\contentsline {section}{\numberline {15.15}The generated \texttt {delete()} method}{150}{section.15.15}
+\contentsline {part}{V\hspace {1em}Custom Repository Queries with forms}{153}{part.5}
+\contentsline {chapter}{\numberline {16}Custom database queries}{155}{chapter.16}
+\contentsline {section}{\numberline {16.1}Search for exact property value (project \texttt {query01})}{155}{section.16.1}
+\contentsline {section}{\numberline {16.2}Preparation - new project with fixtures package}{155}{section.16.2}
+\contentsline {section}{\numberline {16.3}Remove encore entry points in base Twig template}{156}{section.16.3}
+\contentsline {section}{\numberline {16.4}Create a new database and migration}{156}{section.16.4}
+\contentsline {section}{\numberline {16.5}Fixtures}{156}{section.16.5}
+\contentsline {section}{\numberline {16.6}Add new route and controller method for category search}{158}{section.16.6}
+\contentsline {section}{\numberline {16.7}Testing our search by category}{159}{section.16.7}
+\contentsline {chapter}{\numberline {17}How to the free `helper' Doctrine methods work?}{163}{chapter.17}
+\contentsline {section}{\numberline {17.1}Custom database queries (project \texttt {findby01})}{163}{section.17.1}
+\contentsline {section}{\numberline {17.2}Preparation - new project with fixtures package}{163}{section.17.2}
+\contentsline {section}{\numberline {17.3}Remove encore entry points in base Twig template}{164}{section.17.3}
+\contentsline {section}{\numberline {17.4}Our example repository}{164}{section.17.4}
+\contentsline {section}{\numberline {17.5}Testing repopsitory from a controller}{165}{section.17.5}
+\contentsline {chapter}{\numberline {18}Custom database queries}{169}{chapter.18}
+\contentsline {section}{\numberline {18.1}Search Form for exact property value (project \texttt {query02})}{169}{section.18.1}
+\contentsline {section}{\numberline {18.2}The form in Twig template}{171}{section.18.2}
+\contentsline {section}{\numberline {18.3}Controller method to process form submission}{172}{section.18.3}
+\contentsline {section}{\numberline {18.4}Getting rid of the URL search route (project \texttt {query03})}{173}{section.18.4}
+\contentsline {chapter}{\numberline {19}Wildcard vs.\nobreakspace {}exact match queries}{175}{chapter.19}
+\contentsline {section}{\numberline {19.1}Search Form for partial description match (project \texttt {query04})}{175}{section.19.1}
+\contentsline {section}{\numberline {19.2}Custom queries in our Repository class}{176}{section.19.2}
+\contentsline {section}{\numberline {19.3}Making wildcard a \textbf {sticky} form}{178}{section.19.3}
+\contentsline {part}{VI\hspace {1em}Sessions}{179}{part.6}
+\contentsline {chapter}{\numberline {20}Introduction to Symfony sessions}{181}{chapter.20}
+\contentsline {section}{\numberline {20.1}Create a new project from scratch (project \texttt {sessions01})}{181}{section.20.1}
+\contentsline {section}{\numberline {20.2}Remove encore entry points in base Twig template}{181}{section.20.2}
+\contentsline {section}{\numberline {20.3}Default controller - hello world}{182}{section.20.3}
+\contentsline {section}{\numberline {20.4}Twig foreground/background colours}{183}{section.20.4}
+\contentsline {chapter}{\numberline {21}Saving and loading data from sessions}{187}{chapter.21}
+\contentsline {section}{\numberline {21.1}Working with sessions in Symfony Controller methods (project \texttt {session02})}{187}{section.21.1}
+\contentsline {section}{\numberline {21.2}Symfony's session `bags'}{188}{section.21.2}
+\contentsline {section}{\numberline {21.3}Storing colors array in the session bag}{188}{section.21.3}
+\contentsline {section}{\numberline {21.4}Storing values in the session in a controller action}{189}{section.21.4}
+\contentsline {section}{\numberline {21.5}Twig function to retrieve values from session}{191}{section.21.5}
+\contentsline {section}{\numberline {21.6}Attempt to read \texttt {colors} array property from the session}{191}{section.21.6}
+\contentsline {section}{\numberline {21.7}Applying colours in HTML head \texttt {\textless {}style\textgreater {}} element (project \texttt {session03})}{193}{section.21.7}
+\contentsline {section}{\numberline {21.8}Testing whether an attribute is present in the current session}{195}{section.21.8}
+\contentsline {section}{\numberline {21.9}Removing an item from the session attribute bag}{195}{section.21.9}
+\contentsline {section}{\numberline {21.10}Clearing all items in the session attribute bag}{195}{section.21.10}
+\contentsline {chapter}{\numberline {22}Working with a session `basket' of products}{197}{chapter.22}
+\contentsline {section}{\numberline {22.1}Shopping cart of products (project \texttt {session04})}{197}{section.22.1}
+\contentsline {section}{\numberline {22.2}Create a new project with the required packages}{197}{section.22.2}
+\contentsline {section}{\numberline {22.3}Create a Product entity \& generate its CRUD}{197}{section.22.3}
+\contentsline {section}{\numberline {22.4}Homepage - link to products home}{198}{section.22.4}
+\contentsline {section}{\numberline {22.5}Basket index: list basket contents (project \texttt {sessions05})}{199}{section.22.5}
+\contentsline {section}{\numberline {22.6}Controller method - \texttt {clear()}}{200}{section.22.6}
+\contentsline {section}{\numberline {22.7}Debugging sessions in Twig}{201}{section.22.7}
+\contentsline {section}{\numberline {22.8}Adding a object to the basket}{202}{section.22.8}
+\contentsline {section}{\numberline {22.9}The delete action method}{203}{section.22.9}
+\contentsline {section}{\numberline {22.10}The Twig template for the basket index action}{204}{section.22.10}
+\contentsline {section}{\numberline {22.11}Adding useful links to our \texttt {base.html.twig} template}{207}{section.22.11}
+\contentsline {section}{\numberline {22.12}Adding the `add to basket' link in the list of products}{207}{section.22.12}
+\contentsline {part}{VII\hspace {1em}Security and Authentication}{209}{part.7}
+\contentsline {chapter}{\numberline {23}Quickstart Symfony security}{211}{chapter.23}
+\contentsline {section}{\numberline {23.1}Learn about Symfony security}{211}{section.23.1}
+\contentsline {section}{\numberline {23.2}New project with open and secured routes (project \texttt {security01})}{212}{section.23.2}
+\contentsline {section}{\numberline {23.3}Create new project and add the security bundle library}{212}{section.23.3}
+\contentsline {section}{\numberline {23.4}Make a Default controller}{212}{section.23.4}
+\contentsline {section}{\numberline {23.5}Make a secured Admin controller}{213}{section.23.5}
+\contentsline {section}{\numberline {23.6}Core features about Symfony security}{214}{section.23.6}
+\contentsline {section}{\numberline {23.7}Generating the special \texttt {User} Entity class (project \texttt {security02})}{215}{section.23.7}
+\contentsline {section}{\numberline {23.8}Review the changes to the \texttt {/config/packages/security.yml} file}{216}{section.23.8}
+\contentsline {section}{\numberline {23.9}Migrate new \texttt {User} class to your database}{217}{section.23.9}
+\contentsline {section}{\numberline {23.10}Make some \texttt {User} fixtures}{217}{section.23.10}
+\contentsline {section}{\numberline {23.11}Run and check your fixtures}{219}{section.23.11}
+\contentsline {section}{\numberline {23.12}Creating a Login form}{219}{section.23.12}
+\contentsline {section}{\numberline {23.13}Check the new routes}{220}{section.23.13}
+\contentsline {section}{\numberline {23.14}Allow \textbf {any} user to view the login form}{221}{section.23.14}
+\contentsline {section}{\numberline {23.15}Clear cache \& visit \texttt {/admin}}{222}{section.23.15}
+\contentsline {section}{\numberline {23.16}Using the \texttt {/logout} route}{223}{section.23.16}
+\contentsline {section}{\numberline {23.17}Finding and using the internal login/logout route names in \texttt {SecurityController}}{223}{section.23.17}
+\contentsline {chapter}{\numberline {24}Security users from database}{225}{chapter.24}
+\contentsline {section}{\numberline {24.1}Improving UserFixtures with a \texttt {createUser(...)} method (project \texttt {security03})}{225}{section.24.1}
+\contentsline {section}{\numberline {24.2}Loading the fixtures}{226}{section.24.2}
+\contentsline {section}{\numberline {24.3}Using SQL from CLI to see users in DB}{227}{section.24.3}
+\contentsline {chapter}{\numberline {25}Custom login page}{229}{chapter.25}
+\contentsline {section}{\numberline {25.1}A D.I.Y. (customisable) login form (project \texttt {security04})}{229}{section.25.1}
+\contentsline {section}{\numberline {25.2}Simplifying the generated login Twig template}{229}{section.25.2}
+\contentsline {section}{\numberline {25.3}CSRF (Cross Site Request Forgery) protection}{230}{section.25.3}
+\contentsline {section}{\numberline {25.4}Display any errors}{231}{section.25.4}
+\contentsline {section}{\numberline {25.5}Custom login form when attempting to access \texttt {/admin}}{232}{section.25.5}
+\contentsline {section}{\numberline {25.6}Path for successful login}{232}{section.25.6}
+\contentsline {chapter}{\numberline {26}Custom AccessDeniedException handler}{235}{chapter.26}
+\contentsline {section}{\numberline {26.1}Symfony documentation for 403 access denied exception}{235}{section.26.1}
+\contentsline {section}{\numberline {26.2}Declaring our handler (project \texttt {security05})}{235}{section.26.2}
+\contentsline {section}{\numberline {26.3}The exception handler class}{236}{section.26.3}
+\contentsline {chapter}{\numberline {27}Twig and logging}{239}{chapter.27}
+\contentsline {section}{\numberline {27.1}Getting reference to Twig and Logger objects}{239}{section.27.1}
+\contentsline {section}{\numberline {27.2}Using Twig for access denied message (project \texttt {security06})}{239}{section.27.2}
+\contentsline {section}{\numberline {27.3}The Twig page}{240}{section.27.3}
+\contentsline {section}{\numberline {27.4}Terminal log}{242}{section.27.4}
+\contentsline {section}{\numberline {27.5}Learn more about logger and exceptions}{242}{section.27.5}
+\contentsline {chapter}{\numberline {28}User roles and role hierarchies}{243}{chapter.28}
+\contentsline {section}{\numberline {28.1}Simplifying roles with a hierarchy (project \texttt {security07})}{243}{section.28.1}
+\contentsline {section}{\numberline {28.2}Modify fixtures}{244}{section.28.2}
+\contentsline {section}{\numberline {28.3}Removing default adding of \texttt {ROLE\_USER} if using a hierarchy}{244}{section.28.3}
+\contentsline {section}{\numberline {28.4}Allowing easy switching of users when debugging}{245}{section.28.4}
+\contentsline {chapter}{\numberline {29}Customising view based on logged-in user}{247}{chapter.29}
+\contentsline {section}{\numberline {29.1}Twig nav links when logged in (project \texttt {security08})}{247}{section.29.1}
+\contentsline {section}{\numberline {29.2}Getting reference to the current user in a Controller}{249}{section.29.2}
+\contentsline {chapter}{\numberline {30}Simplifying roles and adding secure User CRUD (project \texttt {security09})}{251}{chapter.30}
+\contentsline {section}{\numberline {30.1}User CRUD PROBLEM 1: an array of ROLES}{251}{section.30.1}
+\contentsline {section}{\numberline {30.2}User CRUD PROBLEM 1: a solution}{251}{section.30.2}
+\contentsline {section}{\numberline {30.3}User CRUD PROBLEM 2: plain test password stored in DB}{253}{section.30.3}
+\contentsline {section}{\numberline {30.4}User CRUD PROBLEM 2: a solution}{253}{section.30.4}
+\contentsline {section}{\numberline {30.5}Securing the \texttt {User} CRUD for \texttt {ROLE\_ADMIN} only}{255}{section.30.5}
+\contentsline {section}{\numberline {30.6}Further steps}{255}{section.30.6}
+\contentsline {part}{VIII\hspace {1em}Entity associations (one-to-many relationships etc.)}{257}{part.8}
+\contentsline {chapter}{\numberline {31}Database relationships (Doctrine associations)}{259}{chapter.31}
+\contentsline {section}{\numberline {31.1}Information about Symfony 4 and databases}{259}{section.31.1}
+\contentsline {section}{\numberline {31.2}Create a new project from scratch (project \texttt {associations01})}{259}{section.31.2}
+\contentsline {section}{\numberline {31.3}Categories for Products}{260}{section.31.3}
+\contentsline {section}{\numberline {31.4}Defining the many-to-one relationship from Product to Category}{260}{section.31.4}
+\contentsline {section}{\numberline {31.5}How to allow \texttt {null} for a Product's category}{261}{section.31.5}
+\contentsline {section}{\numberline {31.6}Adding the optional one-to-many relationship from Category to Product}{262}{section.31.6}
+\contentsline {section}{\numberline {31.7}Create and migrate DB schema}{262}{section.31.7}
+\contentsline {section}{\numberline {31.8}Generate CRUD for Product and Category}{263}{section.31.8}
+\contentsline {section}{\numberline {31.9}Add Category selection in Product form}{263}{section.31.9}
+\contentsline {section}{\numberline {31.10}Add small and large item Category}{265}{section.31.10}
+\contentsline {section}{\numberline {31.11}Drop-down menu of categories when creating/editing \texttt {Product}s}{265}{section.31.11}
+\contentsline {section}{\numberline {31.12}Adding display of Category to list and show Product}{266}{section.31.12}
+\contentsline {section}{\numberline {31.13}toString() method}{268}{section.31.13}
+\contentsline {section}{\numberline {31.14}Setup relationship via \texttt {make}}{268}{section.31.14}
+\contentsline {chapter}{\numberline {32}Many-to-one (e.g.\nobreakspace {}Products for a single Category)}{271}{chapter.32}
+\contentsline {section}{\numberline {32.1}Basic list products for current Category (project \texttt {associations02})}{271}{section.32.1}
+\contentsline {section}{\numberline {32.2}Add \texttt {getProducts()} for Entity Category}{271}{section.32.2}
+\contentsline {section}{\numberline {32.3}Add a \texttt {\_\_toString()} for Entity Products}{272}{section.32.3}
+\contentsline {section}{\numberline {32.4}Make Category form type add \texttt {products} property}{272}{section.32.4}
+\contentsline {section}{\numberline {32.5}Adding a nicer list of Products for Category show page}{273}{section.32.5}
+\contentsline {section}{\numberline {32.6}Improving the Edit form (project \texttt {associations03})}{276}{section.32.6}
+\contentsline {section}{\numberline {32.7}Creating related objects as Fixtures (project \texttt {associations04})}{279}{section.32.7}
+\contentsline {section}{\numberline {32.8}Using Joins in custom Repository classes}{280}{section.32.8}
+\contentsline {chapter}{\numberline {33}Logged-in user stored as item author}{283}{chapter.33}
+\contentsline {section}{\numberline {33.1}Getting User object for currently logged-in user}{283}{section.33.1}
+\contentsline {section}{\numberline {33.2}Simple example: Users and their county (\texttt {associations05})}{283}{section.33.2}
+\contentsline {section}{\numberline {33.3}Add toString method to \texttt {User}}{286}{section.33.3}
+\contentsline {section}{\numberline {33.4}Use currently logged-in user as author}{286}{section.33.4}
+\contentsline {section}{\numberline {33.5}Protect CRUD so must be logged in}{287}{section.33.5}
+\contentsline {part}{IX\hspace {1em}Symfony Testing}{289}{part.9}
+\contentsline {chapter}{\numberline {34}Unit testing in Symfony}{291}{chapter.34}
+\contentsline {section}{\numberline {34.1}Testing in Symfony}{291}{section.34.1}
+\contentsline {section}{\numberline {34.2}Installing Simple-PHPUnit (project \texttt {test01})}{291}{section.34.2}
+\contentsline {section}{\numberline {34.3}Completing the installation}{292}{section.34.3}
+\contentsline {section}{\numberline {34.4}Running Simple-PHPUnit}{293}{section.34.4}
+\contentsline {section}{\numberline {34.5}Testing other classes (project \texttt {test02})}{294}{section.34.5}
+\contentsline {section}{\numberline {34.6}The class to test our calculator}{294}{section.34.6}
+\contentsline {section}{\numberline {34.7}Using a data provider to test with multiple datasets (project \texttt {test03})}{296}{section.34.7}
+\contentsline {section}{\numberline {34.8}Configuring testing reports (project \texttt {test04})}{297}{section.34.8}
+\contentsline {section}{\numberline {34.9}Testing for exceptions (project \texttt {test07})}{299}{section.34.9}
+\contentsline {section}{\numberline {34.10}PHPUnit \texttt {expectException(...)}}{301}{section.34.10}
+\contentsline {section}{\numberline {34.11}PHPUnit annotation comment \texttt {@expectedException}}{302}{section.34.11}
+\contentsline {section}{\numberline {34.12}Testing for custom Exception classes}{302}{section.34.12}
+\contentsline {section}{\numberline {34.13}Checking Types with assertions}{304}{section.34.13}
+\contentsline {section}{\numberline {34.14}Same vs.\nobreakspace {}Equals}{304}{section.34.14}
+\contentsline {chapter}{\numberline {35}Code coverage and xDebug}{307}{chapter.35}
+\contentsline {section}{\numberline {35.1}Code Coverage}{307}{section.35.1}
+\contentsline {section}{\numberline {35.2}Generating Code Coverage HTML report}{308}{section.35.2}
+\contentsline {section}{\numberline {35.3}Tailoring the `whitelist'}{310}{section.35.3}
+\contentsline {chapter}{\numberline {36}Web testing}{311}{chapter.36}
+\contentsline {section}{\numberline {36.1}Testing controllers with \texttt {WebTestCase} (project \texttt {test05})}{311}{section.36.1}
+\contentsline {section}{\numberline {36.2}Automating a test for the home page contents}{312}{section.36.2}
+\contentsline {section}{\numberline {36.3}Normalise content to lowercase (project \texttt {test06})}{314}{section.36.3}
+\contentsline {section}{\numberline {36.4}Test multiple pages with a data provider}{315}{section.36.4}
+\contentsline {section}{\numberline {36.5}Testing links (project \texttt {test08})}{316}{section.36.5}
+\contentsline {section}{\numberline {36.6}Issue with routes that end with a forward slash \texttt {/}}{319}{section.36.6}
+\contentsline {subsection}{\numberline {36.6.1}Solution 1: Ensure url pattern in test method exactly matches router url pattern}{320}{subsection.36.6.1}
+\contentsline {subsection}{\numberline {36.6.2}Solution 2: Instruct client to `follow redirects'}{320}{subsection.36.6.2}
+\contentsline {chapter}{\numberline {37}Testing web forms}{323}{chapter.37}
+\contentsline {section}{\numberline {37.1}Testing forms (project \texttt {test09})}{323}{section.37.1}
+\contentsline {section}{\numberline {37.2}Test we can get a reference to the form}{327}{section.37.2}
+\contentsline {section}{\numberline {37.3}Submitting the form}{328}{section.37.3}
+\contentsline {section}{\numberline {37.4}Entering form values then submitting}{328}{section.37.4}
+\contentsline {section}{\numberline {37.5}Testing we get the correct result via form submission}{330}{section.37.5}
+\contentsline {section}{\numberline {37.6}Selecting form, entering values and submitting in one step}{331}{section.37.6}
+\contentsline {part}{X\hspace {1em}Appendices}{333}{part.10}
+\contentsline {chapter}{\numberline {A}Software required for Symfony development}{335}{appendix.A}
+\contentsline {section}{\numberline {A.1}Don't confuse different software tools}{335}{section.A.1}
+\contentsline {section}{\numberline {A.2}Software tools}{336}{section.A.2}
+\contentsline {section}{\numberline {A.3}Test software by creating a new Symfony project}{336}{section.A.3}
+\contentsline {chapter}{\numberline {B}PHP Windows setup}{337}{appendix.B}
+\contentsline {section}{\numberline {B.1}Check if you have PHP installed and working}{337}{section.B.1}
+\contentsline {subsection}{\numberline {B.1.1}Download the latest version of PHP}{337}{subsection.B.1.1}
+\contentsline {section}{\numberline {B.2}Add the \textbf {path} to \texttt {php.exe} to your System environment variables}{340}{section.B.2}
+\contentsline {section}{\numberline {B.3}Check your \texttt {php.ini} file}{342}{section.B.3}
+\contentsline {section}{\numberline {B.4}Make sure you HAVE a \texttt {php.ini} file}{342}{section.B.4}
+\contentsline {section}{\numberline {B.5}PHP Info \& SQL driver test}{342}{section.B.5}
+\contentsline {chapter}{\numberline {C}The Composer command line tool}{345}{appendix.C}
+\contentsline {section}{\numberline {C.1}Preparation}{345}{section.C.1}
+\contentsline {section}{\numberline {C.2}Composer}{345}{section.C.2}
+\contentsline {subsection}{\numberline {C.2.1}Windows Composer install}{345}{subsection.C.2.1}
+\contentsline {subsection}{\numberline {C.2.2}Linux / MacOS Composer install}{346}{subsection.C.2.2}
+\contentsline {chapter}{\numberline {D}The Symfony command line tool}{347}{appendix.D}
+\contentsline {section}{\numberline {D.1}Preparation}{347}{section.D.1}
+\contentsline {section}{\numberline {D.2}Symfony command line tool}{347}{section.D.2}
+\contentsline {subsection}{\numberline {D.2.1}Windows - Scoop install - the preferred method}{347}{subsection.D.2.1}
+\contentsline {subsection}{\numberline {D.2.2}Windows installation of Symfony \texttt {exe}}{348}{subsection.D.2.2}
+\contentsline {subsection}{\numberline {D.2.3}Checking everything ready for running Symfony web applications}{349}{subsection.D.2.3}
+\contentsline {chapter}{\numberline {E}Software tools}{351}{appendix.E}
+\contentsline {section}{\numberline {E.1}PHPStorm editor}{351}{section.E.1}
+\contentsline {section}{\numberline {E.2}MySQL Server}{351}{section.E.2}
+\contentsline {section}{\numberline {E.3}Temporary swap to use SQLite}{352}{section.E.3}
+\contentsline {section}{\numberline {E.4}MySQL Workbench}{352}{section.E.4}
+\contentsline {section}{\numberline {E.5}Git}{353}{section.E.5}
+\contentsline {section}{\numberline {E.6}Git Windows installation}{353}{section.E.6}
+\contentsline {chapter}{\numberline {F}The fully-featured Symfony 4 demo}{355}{appendix.F}
+\contentsline {section}{\numberline {F.1}Visit Github repo for full Symfony demo}{355}{section.F.1}
+\contentsline {section}{\numberline {F.2}Git steps for download (clone)}{355}{section.F.2}
+\contentsline {section}{\numberline {F.3}Non-git download}{356}{section.F.3}
+\contentsline {section}{\numberline {F.4}Install dependencies}{356}{section.F.4}
+\contentsline {section}{\numberline {F.5}Run the demo}{356}{section.F.5}
+\contentsline {section}{\numberline {F.6}View demo in browser}{357}{section.F.6}
+\contentsline {section}{\numberline {F.7}Explore the code in PHPStorm}{357}{section.F.7}
+\contentsline {section}{\numberline {F.8}Switch demo from SQLite to MySQL}{357}{section.F.8}
+\contentsline {section}{\numberline {F.9}Running the tests in the SF4 demo}{359}{section.F.9}
+\contentsline {section}{\numberline {F.10}Run the tests}{359}{section.F.10}
+\contentsline {section}{\numberline {F.11}Explore directory \texttt {/tests}}{360}{section.F.11}
+\contentsline {section}{\numberline {F.12}Learn more}{361}{section.F.12}
+\contentsline {chapter}{\numberline {G}Solving problems with Symfony }{363}{appendix.G}
+\contentsline {section}{\numberline {G.1}No home page loading}{363}{section.G.1}
+\contentsline {section}{\numberline {G.2}``Route not Found'' error after adding new controller method}{364}{section.G.2}
+\contentsline {section}{\numberline {G.3}Issues with timezone}{364}{section.G.3}
+\contentsline {section}{\numberline {G.4}Issues with Symfony 3 and PHPUnit.phar}{364}{section.G.4}
+\contentsline {section}{\numberline {G.5}PHPUnit installed via Composer}{365}{section.G.5}
+\contentsline {chapter}{\numberline {H}Publish via Fortrabbit (PHP as a service)}{367}{appendix.H}
+\contentsline {section}{\numberline {H.1}SSH key}{367}{section.H.1}
+\contentsline {subsection}{\numberline {H.1.1}Windows SSH key setup}{367}{subsection.H.1.1}
+\contentsline {subsection}{\numberline {H.1.2}Mac SSH key setup}{367}{subsection.H.1.2}
+\contentsline {subsection}{\numberline {H.1.3}Linux SSH key setup}{367}{subsection.H.1.3}
+\contentsline {subsection}{\numberline {H.1.4}Fortrabbit}{368}{subsection.H.1.4}
+\contentsline {section}{\numberline {H.2}Creating a new web App}{370}{section.H.2}
+\contentsline {section}{\numberline {H.3}Cloning and populating your Git repo}{372}{section.H.3}
+\contentsline {section}{\numberline {H.4}Fixing the Fixtures issue}{374}{section.H.4}
+\contentsline {section}{\numberline {H.5}Fixing the Apache \texttt {.htaccess} issue}{375}{section.H.5}
+\contentsline {section}{\numberline {H.6}Adding, committing and pushing the project files to the repo}{375}{section.H.6}
+\contentsline {section}{\numberline {H.7}SHH CLI Termial to migrate and install DB fixtures}{378}{section.H.7}
+\contentsline {section}{\numberline {H.8}Symfony project should now by fully deployed}{381}{section.H.8}
+\contentsline {chapter}{\numberline {I}Quick setup for new `blog' project }{383}{appendix.I}
+\contentsline {section}{\numberline {I.1}Create a new project, e.g.\nobreakspace {}`blog'}{383}{section.I.1}
+\contentsline {section}{\numberline {I.2}Set up your localhost browser shortcut to for \texttt {app\_dev.php}}{383}{section.I.2}
+\contentsline {section}{\numberline {I.3}Add \texttt {run} shortcut to your Composer.json scripts}{383}{section.I.3}
+\contentsline {section}{\numberline {I.4}Change directories and run the app}{384}{section.I.4}
+\contentsline {section}{\numberline {I.5}Remove default content}{384}{section.I.5}
+\contentsline {chapter}{\numberline {J}Steps to download code and get website up and running}{385}{appendix.J}
+\contentsline {section}{\numberline {J.1}First get the source code}{385}{section.J.1}
+\contentsline {subsection}{\numberline {J.1.1}Getting code from a zip archive}{385}{subsection.J.1.1}
+\contentsline {subsection}{\numberline {J.1.2}Getting code from a Git respository}{385}{subsection.J.1.2}
+\contentsline {section}{\numberline {J.2}Once you have the source code (with vendor) do the following}{386}{section.J.2}
+\contentsline {section}{\numberline {J.3}Run the webserver}{386}{section.J.3}
+\contentsline {chapter}{\numberline {K}About \texttt {parameters.yml} and \texttt {config.yml} }{387}{appendix.K}
+\contentsline {section}{\numberline {K.1}Project (and deployment) specific settings in (\texttt {/app/config/parameters.yml})}{387}{section.K.1}
+\contentsline {section}{\numberline {K.2}More general project configuration (\texttt {/app/config/config.yml})}{388}{section.K.2}
+\contentsline {chapter}{\numberline {L}Setting up for MySQL Database }{389}{appendix.L}
+\contentsline {section}{\numberline {L.1}Declaring the parameters for the database (\texttt {parameters.yml})}{389}{section.L.1}
+\contentsline {chapter}{\numberline {M}Setting up for SQLIte Database }{391}{appendix.M}
+\contentsline {section}{\numberline {M.1}NOTE regarding FIXTURES}{391}{section.M.1}
+\contentsline {section}{\numberline {M.2}SQLite suitable for most small-medium websites}{391}{section.M.2}
+\contentsline {section}{\numberline {M.3}Create directory where SQLite database will be stored}{392}{section.M.3}
+\contentsline {section}{\numberline {M.4}Declaring the parameters for the database (\texttt {parameters.yml})}{392}{section.M.4}
+\contentsline {section}{\numberline {M.5}Setting project configuraetion to work with the SQLite database driver and path (\texttt {/app/config/config.yml})}{392}{section.M.5}
+\contentsline {chapter}{\numberline {N}Setting up Adminer for DB GUI interaction }{395}{appendix.N}
+\contentsline {section}{\numberline {N.1}Adminer - small and simple DB GUI}{395}{section.N.1}
+\contentsline {section}{\numberline {N.2}Getting Adminer}{396}{section.N.2}
+\contentsline {section}{\numberline {N.3}Setting up}{396}{section.N.3}
+\contentsline {section}{\numberline {N.4}Running Adminer}{396}{section.N.4}
+\contentsline {chapter}{\numberline {O}Avoiding issues of SQL reserved words in entity and property names}{399}{appendix.O}
+\contentsline {chapter}{\numberline {P}Transcript of interactive entity generation }{401}{appendix.P}
+\contentsline {chapter}{\numberline {Q}Killing `php' processes in OS X}{403}{appendix.Q}
+\contentsline {chapter}{\numberline {R}Docker and Symfony projects}{405}{appendix.R}
+\contentsline {section}{\numberline {R.1}Setup}{405}{section.R.1}
+\contentsline {section}{\numberline {R.2}Dockerfile}{405}{section.R.2}
+\contentsline {section}{\numberline {R.3}Build your Docker image}{406}{section.R.3}
+\contentsline {section}{\numberline {R.4}Run a Container process based on your image (exposing HTTP port 80)}{406}{section.R.4}
+\contentsline {section}{\numberline {R.5}Alternative \texttt {Dockerfile} for a basic PHP application, using Apache}{406}{section.R.5}
+\contentsline {section}{\numberline {R.6}Create config file for Apache}{407}{section.R.6}
+\contentsline {section}{\numberline {R.7}Other Docker reference stuff}{407}{section.R.7}
+\contentsline {subsection}{\numberline {R.7.1}Docker Images}{407}{subsection.R.7.1}
+\contentsline {subsection}{\numberline {R.7.2}Containers}{408}{subsection.R.7.2}
+\contentsline {subsection}{\numberline {R.7.3}New Image from current (changed) state of a running Container}{408}{subsection.R.7.3}
+\contentsline {subsection}{\numberline {R.7.4}Exposing HTTP ports for Containers running web application servers}{409}{subsection.R.7.4}
+\contentsline {section}{\numberline {R.8}Useful reference sites}{409}{section.R.8}
+\contentsline {chapter}{\numberline {S}xDebug for Windows }{411}{appendix.S}
+\contentsline {section}{\numberline {S.1}Steps for Windows}{411}{section.S.1}
+\contentsline {section}{\numberline {S.2}Steps for Linux/Mac}{411}{section.S.2}
+\contentsline {section}{\numberline {S.3}Use the xDebug wizard!}{412}{section.S.3}
+\contentsline {section}{\numberline {S.4}PHP Function \texttt {phpinfo()}}{413}{section.S.4}
+\contentsline {section}{\numberline {S.5}More information}{414}{section.S.5}
+\contentsline {chapter}{List of References}{415}{appendix*.110}
