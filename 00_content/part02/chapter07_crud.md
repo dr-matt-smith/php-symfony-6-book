@@ -467,9 +467,9 @@ NOTE - we will now get ParamConverter errors/exceptions rather than 404 errors i
 
 ## Creating the CRUD controller automatically from the CLI (project `db04`)
 
-Here is something you might want to look into - automatic generation of controllers and Twig templates (we'll look at this in more detail in a later chapter).
+Here is something you might want to look into - automatic generation of controllers and Twig templates (we'll look at this in more detail in a later chapter - see Chapter \ref{crud_gen_chapter}).
 
-NOTE: If trying out thew CRUD generation below, then make a copy of your current project, and try this out on the copy. Then discard the copy, so you can carry on working on your student project in the next chapter.
+NOTE: If trying out the CRUD generation below, then make a copy of your current project, and try this out on the copy. Then discard the copy, so you can carry on working on your student project in the next chapter.
 
 To try this out do the following:
 

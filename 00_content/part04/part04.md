@@ -1,1 +1,0 @@
-\part{Symfony code generation}
