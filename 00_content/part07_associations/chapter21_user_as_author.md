@@ -10,17 +10,7 @@ The Symfony security docs tell us how to get are reference to the currently logg
 ```
 
 
-
-Any non-trivial project involving databases involves one-to-many and many-to-many relationships. the Doctrine ORM system makes it very easy to declare, and manipulate datasets with foreign-key relationships.
-
-Some useful information sources on this topic include:
-
-- [How to Work with Doctrine Relations](http://symfony.com/doc/current/doctrine/associations.html)
-
-- [Forms EntityType Field](http://symfony.com/doc/current/reference/forms/types/entity.html)
-
-
-## Simple example: Users and their county (`associations05`)
+## Simple example: Users and their county (`associations03`)
 
 First, create, or duplicate a basic user-authenticated secure Symfony website, e.g. project 9 with Twig:
 
@@ -139,7 +129,7 @@ Let's automatically use the currently logged-in user as the author for a `NewsIt
     $user = $this->getUser();
 ```
 
-So we need to edit the CRUD code for the `new()` method in  `src/Controller/NewsItemConbtroller.php` to set the author to the currently logged-in user:
+So we need to edit the CRUD code for the `new()` method in  `src/Controller/NewsItemController.php` to set the author to the currently logged-in user:
 
 ```php
     public function new(Request $request): Response

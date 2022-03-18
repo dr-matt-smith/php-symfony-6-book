@@ -31,21 +31,11 @@ Use `make:crud` to generate the CRUD pages for Product entities:
      symfony console make:crud Product
 ```
 
-## Remove encore entry points in base Twig template
-
-If you are not using WebPack encore, remove the `encore_entry_` lines inside the `stylesheets` and `javascripts` blocks in the base template (`/templates/base.html.twig`). So these blocks will be empty in this parent template file:
-
-```twig
-    {% block stylesheets %}
-    {% endblock %}
-
-    {% block javascripts %}
-    {% endblock %}
-```
+Test the server, and if necessary, remove the `encore_entry_` lines inside the `stylesheets` and `javascripts` blocks in the base template (`/templates/base.html.twig`).
 
 ## Create a new database and migration
 
-Edit your `.env` for a new MySQL database, and make a migration, and run the migration to create your DB schema for this entity.Category
+Edit your `.env` for a new MySQL database, and make a migration, and run the migration to create your DB schema for this entity.
 
 E.g.
 ```bash

@@ -7,36 +7,43 @@
 First we'll do the minimum to add a list of all the Projects associated with a single Category, then later we'll do it in a nicer way ...
 
 
-## Add `getProducts()` for Entity Category
-
-We need to add a getter for products in `/src/Entity/Category.php` that returns a Doctrine `Collection` of objects:
-
-```php
-    public function getProducts():Collection
-    {
-        return $this->products;
-    }
-```
-We need to add an appropite `use` statement for 
-
-```php
-    use Doctrine\Common\Collections\Collection;
-```
-
 ## Add a `__toString()` for Entity Products
 
 We need to add a 'magic method' `__toString()` to Entity Product, since our form builder will need a string for each Product in its list to display:
 
-Add  `__toString()`to `/src/Entity/Product.php`. We'll just list `id` and `description`:
+Add  `__toString()` to `/src/Entity/Product.php`. We'll just list `id` and `description`:
 
+```php
     public function __toString()
     {
         return $this->id . ': ' . $this->getDescription();
     }
+```
 
 ## Make Category form type add `products` property
 
-Earlier we added the special `products` property to entity Category, which is the 'many' link to all the Products for the current Category object. We will now add this property to our Category form class `CategoryType`, so that the form created will display all Products found by automatically following that relationship^[I.e. Doctrine will magically run something like 'SELECT * FROM product WHERE product.category = category.id' for the current Category object.].
+Earlier we accepted the option when creating the relation to add the special `products` property to entity Category.Category
+
+We can see this `products` array property in the list properties in the `/src/Entity/Category.php` class:
+
+```php
+    class Category
+    {
+        #[ORM\Id]
+        #[ORM\GeneratedValue]
+        #[ORM\Column(type: 'integer')]
+        private $id;
+
+        #[ORM\Column(type: 'string', length: 255)]
+        private $name;
+
+        #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class)]
+        private $products;
+```
+
+Property `products` is the 'many' link to all the `Products` for the current `Category` object.
+
+We will now add this property to our `Category` form class `/src/Form/CategoryType`, so that the form created for CRUD `Categorty` pages will display all `Products` found by automatically following that relationship^[I.e. Doctrine will magically run something like 'SELECT * FROM product WHERE product.category = category.id' for the current Category object.].
 
 In `/src/Form/CategoryType.php` add `add('products')` to our `buildForm(```)` method:
 
@@ -117,19 +124,19 @@ That multi-selection form element was not very nice for our Edit/New forms.
 
 Let's refactor template `/templates/category/_form.html.twig` to display the list of products for a Category in a nicer way. This Twig 'partial' is use both for the **new** Category form and for the **edit** category form.
 
-Our Twig form did contain:
+Our Twig form `/templates/category/_form.html.twig` was generated to contain this:
 
 ```twig
     {{ form_start(form) }}
         {{ form_widget(form) }}
-
-        <button>{{ button_label|default('Save') }}</button>
+        <button class="btn">{{ button_label|default('Save') }}</button>
     {{ form_end(form) }}
+
 ```
 
 Since we want to customise how form elements are displayed, we need to replace `{{ form_widget(form) }}` with our own form elements and HTML.
 
-As explained in an earlier chapter on customising Symfony generated forms, there are 3 parts to a Symfomny form output by `{{ form_widget(form) }}`:
+As explained in an earlier chapter on customising Symfony generated forms, there are 3 parts to a Symfony form output by `{{ form_widget(form) }}`:
 
 ```twig
     {{ form_start(form) }}
@@ -161,7 +168,7 @@ Now we have to decide how to render the `products` array. Let's do something ver
         <ul>
             {% for product in form.vars.value.products %}
                 <li>
-                    <a href="{{ url('product_show', {'id':product.id}) }}">
+                    <a href="{{ url('app_product_show', {'id':product.id}) }}">
                         {{ product.id }} :: {{ product.description }}
                     </a>
                 </li>
@@ -204,7 +211,7 @@ We end with `{{ form_end(form) }}`, so the full listing for our new/edit form te
         <ul>
             {% for product in form.vars.value.products %}
                 <li>
-                    <a href="{{ url('product_show', {'id':product.id}) }}">
+                    <a href="{{ url('app_product_show', {'id':product.id}) }}">
                         {{ product.id }} :: {{ product.description }}
                     </a>
                 </li>
@@ -230,48 +237,6 @@ Figure \ref{category_edit_customised} shows a screenshot of our customised Edit 
 
 ![Screenshot of customised edit form. \label{category_edit_customised}](./03_figures/part07_associations/5_edit_form_customised.png)
 
-## Creating related objects as Fixtures (project `associations04`)
-
-A good way to get a feel for how the Doctrine ORM relates objects, **not** object IDs, is through fixtures. So we can create a `Category` object, and also create a `Product` object, whose `category` property is a reference to the `Category` object. E.g. here are 3 categories and one obnject (hammer) linked to the small items category:
-
-```php
-    namespace App\DataFixtures;
-    
-    use Doctrine\Bundle\FixturesBundle\Fixture;
-    use Doctrine\Common\Persistence\ObjectManager;
-    use App\Entity\Category;
-    use App\Entity\Product;
-    
-    class CategoryFixtures extends Fixture
-    {
-        public function load(ObjectManager $manager)
-        {
-            // ------ categories ------
-            $catDefault = new Category();
-            $catDefault->setName('(default)');
-    
-            $catSmall = new Category();
-            $catSmall->setName('small items');
-    
-            $catLarge = new Category();
-            $catLarge->setName('large items');
-    
-            $manager->persist($catDefault);
-            $manager->persist($catSmall);
-            $manager->persist($catLarge);
-            
-            // ------- product ----------
-            $p1 = new Product();
-            $p1->setDescription('hammer');
-            $p1->setPrice(9.99);
-            $p1->setImage('hammer.png');
-            $p1->setCategory($catSmall);
-    
-            $manager->persist($p1);
-    
-            $manager->flush();
-        }
-```
 
 
 ## Using Joins in custom Repository classes
@@ -325,5 +290,16 @@ By putting complex queries into custom methods in the Repository class, the code
     }
 ```
 
-Once again, we see the power of the Symfony paramconvertor, in that to get a reference to a HouseRepository object, we just add a method parameter `HouseRepository $houseRepository`, and as if by magic, we can just start using the repository object!
+Once again, we see the power of the Symfony param-convertor, in that to get a reference to a HouseRepository object, we just add a method parameter `HouseRepository $houseRepository`, and as if by magic, we can just start using the repository object!
+
+
+## Further reading
+
+Any non-trivial project involving databases involves one-to-many and many-to-many relationships. the Doctrine ORM system makes it very easy to declare, and manipulate datasets with foreign-key relationships.
+
+Some useful information sources on this topic include:
+
+- [https://symfony.com/doc/current/doctrine/associations.html](https://symfony.com/doc/current/doctrine/associations.html)
+
+- [https://symfony.com/doc/current/reference/forms/types/entity.html](https://symfony.com/doc/current/reference/forms/types/entity.html)
 

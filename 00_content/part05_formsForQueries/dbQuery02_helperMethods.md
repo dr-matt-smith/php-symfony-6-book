@@ -24,17 +24,8 @@ Now `cd` into the project in a terminal, and use `make:controller` to create a n
      symfony console make:controller Default
 ```
 
-## Remove encore entry points in base Twig template
+Test the server, and if necessary, remove the `encore_entry_` lines inside the `stylesheets` and `javascripts` blocks in the base template (`/templates/base.html.twig`).
 
-If you are not using WebPack encore, remove the `encore_entry_` lines inside the `stylesheets` and `javascripts` blocks in the base template (`/templates/base.html.twig`). So these blocks will be empty in this parent template file:
-
-```twig
-    {% block stylesheets %}
-    {% endblock %}
-
-    {% block javascripts %}
-    {% endblock %}
-```
 
 ## Our example repository
 Here is a simple class (`/src/Util/ExampleRepository.php`) that demonstrates how Doctrine uses `__call' to identify which Entity property we are trying to query by:

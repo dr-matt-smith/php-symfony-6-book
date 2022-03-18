@@ -9,23 +9,14 @@ Let's start with a brand new web app project to learn about Symfony sessions:
     $ symfony new --webapp session01
 ```
 
-## Remove encore entry points in base Twig template
+Test the server, and if necessary, remove the `encore_entry_` lines inside the `stylesheets` and `javascripts` blocks in the base template (`/templates/base.html.twig`).
 
-If you are not using WebPack encore, remove the `encore_entry_` lines inside the `stylesheets` and `javascripts` blocks in the base template (`/templates/base.html.twig`). So these blocks will be empty in this parent template file:
-
-```twig
-    {% block stylesheets %}
-    {% endblock %}
-
-    {% block javascripts %}
-    {% endblock %}
-```
 
 ## Default controller - hello world
 
 Create a new  controller `DefaultController` that renders a Twig template to say `Hello World` to us.
 
-So the controller should look as this (you can speed things up using `make` and then editing the created file). If editing a generated controlle, don't forget to change the route pattern from `/default` to the website root of `\` in the annotation comment
+So the controller should look as this (you can speed things up using `make` and then editing the created file). If editing a generated controller, don't forget to change the route pattern from `/default` to the website root of `\` in the annotation comment
 :
 ```php
     namespace App\Controller;

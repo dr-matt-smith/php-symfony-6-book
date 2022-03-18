@@ -26,17 +26,8 @@ Now `cd` into the project in a terminal, and add the fixtures package:
      composer req orm-fixtures
 ```
 
-## Remove encore entry points in base Twig template
+Test the server, and if necessary, remove the `encore_entry_` lines inside the `stylesheets` and `javascripts` blocks in the base template (`/templates/base.html.twig`).
 
-If you are not using WebPack encore, remove the `encore_entry_` lines inside the `stylesheets` and `javascripts` blocks in the base template (`/templates/base.html.twig`). So these blocks will be empty in this parent template file:
-
-```twig
-    {% block stylesheets %}
-    {% endblock %}
-
-    {% block javascripts %}
-    {% endblock %}
-```
 
 ## Generating new Entity class `Category`
 
