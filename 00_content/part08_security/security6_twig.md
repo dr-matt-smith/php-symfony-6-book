@@ -2,7 +2,7 @@
 # Customising view based on logged-in user
 
 
-## Twig nav links when logged in  (project `security08`)
+## Twig nav links when logged in  (project `security06`)
 
 The [Symfony security docs](https://symfony.com/doc/current/security.html#fetch-the-user-in-a-template) give us the Twig code for a conditional statement for when the current user has logged in:
 
@@ -14,7 +14,7 @@ The [Symfony security docs](https://symfony.com/doc/current/security.html#fetch-
 
 We can also test for which **role** a user may have granted when logged-in, e.g.:
 
-```html
+```ht
     {% if is_granted('ROLE_ADMIN') %}
           Welcome to the Admin home page ...
     {% endif %}
@@ -26,6 +26,8 @@ We can use such conditionals in 2 useful and common ways:
 
 1. Have navbar links revealed only for logged-in users (of particular roles)
 
+## Updating our base Twig template
+
 So let's add such code to our `base.html.twig` master template (in `/templates`).
 
 
@@ -34,8 +36,8 @@ First, let's add a `<header>` element to either show the username and a logout l
 ```twig
     <header>
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            Username:
-            <strong>{{ app.user.username }}</strong>
+            Username:er
+            <strong>{{ app.user.email }}</strong>
             <br>
             <a href="{{ url('app_logout') }}">logout</a>
         {% else %}
@@ -62,6 +64,46 @@ We can right align it and have a black bottom border with a little style in the 
             </style>
 ```
 
+So your `/templates/base.html.twig` should look something like this now:
+
+```twig
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>{% block title %}Welcome!{% endblock %}</title>
+            <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+            {% block stylesheets %}
+            {% endblock %}
+            <style>
+                header {
+                    text-align: right;
+                    border-bottom: 0.5rem solid black; padding: 1rem;
+                }
+            </style>
+
+            {% block javascripts %}
+            {% endblock %}
+        </head>
+        <body>
+            <header>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                Username:
+                <strong>{{ app.user.email }}</strong>
+                <br>
+                <a href="{{ url('app_logout') }}">logout</a>
+            {% else %}
+                <a href="{{ url('app_login') }}">login</a>
+            {% endif %}
+            </header>
+
+            {% block body %}{% endblock %}
+        </body>
+    </html>
+```
+
+## Customising navigation links based on logged-in user ROLE
+
 Next, let's define a `<nav>` element, so that **all** users see a link to the homepage on every page on the website (at least those that extend `base.html.twig`). We will also add a conditional navigation link - to that users logged-in with `ROLE_ADMIN` can also see a link to the admin home page:
 
 ```twig
@@ -73,7 +115,7 @@ Next, let's define a `<nav>` element, so that **all** users see a link to the ho
 
             {% if is_granted('ROLE_ADMIN') %}
                 <li>
-                    <a href="{{ url('admin') }}">admin home</a>
+                    <a href="{{ url('app_admin') }}">admin home</a>
                 </li>
             {% endif %}
         </ul>

@@ -14,7 +14,7 @@ Learn more in the Symfony documentation:
 - [https://symfony.com/doc/current/components/dependency_injection.html](https://symfony.com/doc/current/components/dependency_injection.html)
 
 
-## Using Twig for access denied message (project `security06`)
+## Using Twig for access denied message (project `security05`)
 
 Let's improved our Access Denied exception handler in 2 ways:
 
@@ -33,31 +33,34 @@ Now we will refactor class `AccessDeniedHandler` to
 ```php
     namespace App\Security;
 
-    use Psr\Log\LoggerInterface;
-    use Symfony\Component\DependencyInjection\ContainerInterface;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\Security\Core\Exception\AccessDeniedException;
     use Symfony\Component\Security\Http\Authorization\AccessDeniedHandlerInterface;
 
+    use Psr\Log\LoggerInterface;
+    use Twig\Environment;
+
     class AccessDeniedHandler implements AccessDeniedHandlerInterface
     {
-        private $twig;
-        private $logger;
+        private Environment $twig;
+        private LoggerInterface $logger;
 
-        public function __construct(ContainerInterface $container, LoggerInterface $logger)
+        public function __construct(Environment $twig, LoggerInterface $logger)
         {
-            $this->twig = $container->get('twig');
+            $this->twig = $twig;
             $this->logger = $logger;
         }
-
-    }
+        ...
 ```
 
 Now we can re-write method `handle(...)` to log an error message, and
 
 ```php
-    public function handle(Request $request, AccessDeniedException $accessDeniedException)
+    ...
+    public function handle(
+        Request $request,
+        AccessDeniedException $accessDeniedException): ?Response
     {
         $this->logger->error('access denied exception');
 

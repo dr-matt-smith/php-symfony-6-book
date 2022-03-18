@@ -2,6 +2,12 @@
 
 # Custom AccessDeniedException handler
 
+## Login successful, but user not authorised for page being visited
+
+Apart from the cases of failed login, and successful login by a user with authorisation, there is a 3rd case where a user logs-in successfully, but that user does NOT have authorisation for the page they are trying to vist.
+
+This will lead to an HTTP 304 error, and a Symfony "access denied exception".
+
 ## Symfony documentation for 403 access denied exception
 
 For details about this topic visit the Symfony documentation:
@@ -9,7 +15,7 @@ For details about this topic visit the Symfony documentation:
 - [https://symfony.com/doc/current/security/access_denied_handler.html](https://symfony.com/doc/current/security/access_denied_handler.html)
 
 
-## Declaring our handler  (project `security05`)
+## Declaring our handler  (project `security04`)
 
 In `/config/packages/security.yml` we need to declare that the class we'll write below will handle access denied exceptions.
 
@@ -56,6 +62,8 @@ Now we needs to write our exception handler class in `/src/Security`.
 Create new class `AccessDeniedHandler` in file `/src/Security/AccessDeniedHandler.php`:
 
 ```php
+    <?php
+
     namespace App\Security;
 
     use Symfony\Component\HttpFoundation\Request;
@@ -65,7 +73,7 @@ Create new class `AccessDeniedHandler` in file `/src/Security/AccessDeniedHandle
 
     class AccessDeniedHandler implements AccessDeniedHandlerInterface
     {
-        public function handle(Request $request, AccessDeniedException $accessDeniedException)
+        public function handle(Request $request, AccessDeniedException $accessDeniedException): ?Response
         {
             return new Response('sorry - you have been denied access', 403);
         }

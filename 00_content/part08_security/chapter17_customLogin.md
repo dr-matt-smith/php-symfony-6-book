@@ -1,7 +1,7 @@
 
 # Custom login page
 
-## A D.I.Y. (customisable) login form  (project `security04`)
+## A D.I.Y. (customisable) login form  (project `security03`)
 
 When we created the Authenticator it created a login form Twig template for us:
 
@@ -33,8 +33,8 @@ Start by replacing it with this simple, standard HTML login form:
         Password:
         <input type="password" name="password" id="inputPassword">
 
+        <p>
         <input type="submit" value="Login">
-
     </form>
 ```
 
@@ -97,6 +97,7 @@ We are only missing one more important set of data from Symfony - any errors to 
         Password:
         <input type="password" name="password" id="inputPassword">
 
+        <p>
         <input type="submit" value="Login">
     </form>
 ```
@@ -104,22 +105,22 @@ We are only missing one more important set of data from Symfony - any errors to 
 
 Above we can see the following in our Login Twig template:
     
-    - the HTML `<form>` open tag, which we see submits via HTTP `POST` method
-    
-        - no action is given, so the form will submit to the same URL as displayed the form (`/login`), but with a `POST` method
-    
-    - add the security CSRF token as a hidden form variable    
-    
-    
-    - display of any Twig `error` variable received
-    
-    - the `username` label and text input field
-    
-        - with 'sticky' form last username value (`last_username`) if any found in the Twig variables
-    
-    - the `password` label and password input field
-    
-    - the submit button named `Login`
+- the HTML `<form>` open tag, which we see submits via HTTP `POST` method
+
+    - no action is given, so the form will submit to the same URL as displayed the form (`/login`), but with a `POST` method
+
+- add the security CSRF token as a hidden form variable
+
+
+- display of any Twig `error` variable received
+
+- the `username` label and text input field
+
+    - with 'sticky' form last username value (`last_username`) if any found in the Twig variables
+
+- the `password` label and password input field
+
+- the submit button named `Login`
 
 ## Custom login form when attempting to access `/admin`
 
@@ -130,38 +131,52 @@ See Figure \ref{custom_login_form} to see our custom login form in action.
 
 ## Path for successful login
 
-If the user visits the path `/login` directly in the browser, Symfony needs to know where to direct the user if login is successful. This is defined in method `onAuthenticationSuccess` in class `Security/LoginFormAuthenticator`. If no redirect is defined, then the `TODO` Exception will be thrown:
+If the user visits the path `/login` directly in the browser, Symfony needs to know where to direct the user if login is successful. This is defined in method `onAuthenticationSuccess` in class `Security/LoginFormAuthenticator`.
+
+If there is targetPath stored in the session (i.e. they were trying to go somewhere, and had to go via login page), then the user will be re-directed to the store target path.
+
+However, if after a successful login no stored redirect path is defined, then the `TODO` Exception will be thrown:
 
 ```php
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
 ```
 
-Since we have a secure **admin** page, then let's redirect to route `admin`:
+Since we have a home page suitable for all users, then let's redirect to route `homepage`:
 
 ```php
-    public function onAuthenticationSuccess(Request $reques§t, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('admin'));
+        return new RedirectResponse($this->urlGenerator->generate('homepage'));
     }
 ```
 
 If you want to redirect to different pages, depending on the **role** of the newly logged-in user, then do the following:
 
-- get the array of string roles from `$token` with `$token->getRoles()`
+- get the array of string roles from `$token`, since `$user = $token->getUser();` gives us the logged in `User` object, so we can then get their roles with `user->getRoles()`
 
 - add `IF`-statement(s) returning a different named route depending on their role, e.g. something like:
 
     ```php
-        if(in_array('ROLE_ADMIN', $roles){        
-            return new RedirectResponse($this->urlGenerator->generate('index_admin'));
-        }        
-        
-        // else direct to basic staff homne page - or whatever ...
-        return new RedirectResponse($this->urlGenerator->generate('index_staff'));
+        public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+        {
+            if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
+                return new RedirectResponse($targetPath);
+            }
+
+            // IF user has ROLE_ADMIN send them to admin page
+            $user = $token->getUser();
+            $roles = $user->getRoles();
+            if(in_array('ROLE_ADMIN', $roles)){
+                return new RedirectResponse($this->urlGenerator->generate('app_admin'));
+            }
+
+            // else direct to basic staff home page - or whatever ...
+            return new RedirectResponse($this->urlGenerator->generate('homepage'));
+        }
     ```
 
 

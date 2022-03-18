@@ -1,49 +1,103 @@
 
 
-# Security users from database
+# Better fixtures with `UserFactory`
 
-## Improving UserFixtures with a `createUser(...)` method (project `security03`)
+## Improving UserFixtures with a Foundry `UserFactory` (project `security02`)
 
-Since making users in our `UserFixtures` class is very important, let's add a **helper** method to make it very clear what the properties of each new `User` object will be. See how clear the following is, if we have an exrta method `createUser(...)`:
+As usual, Foundry will make creating and working with fixtures easier and more flexible.
 
 
-We need a `load(...)` method, that gets invoked when we are loading fixtures from the CLI. This method creates objects for the entities we want in our database, and the saves (persists) them to the database:
+Use the Symfony maker feature to make a `UserFactory`:
+
+```bash
+    $ symfony console make:factory
+
+     Entity class to create a factory for:
+      [0] App\Entity\User
+
+     > 0
+```
+
+## Refactor `UserFactory` to hash passwords
+
+As we did with simple fixtures last chapter, we need to add a property and constructor action to provide us with a password hasher object.
+
+From the template class generated for us, the first thing we need to do is add a `use` statement, to allow us to make use of the `UserPasswordEncoderInterface` class.
+
+Add the following to `/src/Factory/UserFactory.php`:
+
 ```php
-    public function load(ObjectManager $manager)
+    use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+```
+
+Next, to make it easy to encode passwords we'll add a new private instance variable `$passwordHasher`, and a constructor method to initialise this object:
+
+```php
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
-        // create objects
-        $userUser = $this->createUser('user@user.com', 'user');
-        $userAdmin = $this->createUser('admin@admin.com', 'admin', ['ROLE_ADMIN']);
-        $userMatt = $this->createUser('matt.smith@smith.com', 'smith', ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN']);
-
-        // add to DB queue
-        $manager->persist($userUser);
-        $manager->persist($userAdmin);
-        $manager->persist($userMatt);
-
-        // send query to DB
-        $manager->flush();
+        $this->passwordHasher = $passwordHasher;
     }
 ```
 
-Rather than put all the work in the `load(...)` method, we can create a helper method to create each new object. Method `createUser(...)` creates and returns a reference to a new `User` object given some parameters:
+We can now add post-initialisation logic in the `initialize()` method, to hash the password of the `User` object before it is persisted in the database:
 
 ```php
-    private function createUser($username, $plainPassword, $roles = ['ROLE_USER']):User
+    protected function initialize(): self
     {
-        $user = new User();
-        $user->setUsername($username);
-        $user->setRoles($roles);
-
-        // password - and encoding
-        $encodedPassword = $this->passwordEncoder->encodePassword($user, $plainPassword);
-        $user->setPassword($encodedPassword);
-
-        return $user;
+        return $this
+            ->afterInstantiate(function(User $user) {
+                $plainPassword = $user->getPassword();
+                $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
+                $user->setPassword($hashedPassword);
+            });
     }
 ```
 
-NOTE: The default role is `ROLE_USER` if none is provided.
+While we are at it, we can add better defaults for random users being created with this factor, in the `getDefaults()` method:
+
+```php
+    protected function getDefaults(): array
+    {
+        return [
+            'email' => self::faker()->unique()->safeEmail(),
+            'roles' => [],
+            'password' => 'password'
+        ];
+    }
+```
+
+## Refactor `AppFixtures.php` to use the factory
+
+We can update our `/src/DataFixtures/AppFixtures.php` class to create several users with the factory:
+
+```php
+    public function load(ObjectManager $manager): void
+    {
+        UserFactory::createOne([
+            'email' => 'matt.smith@smith.com',
+            'password' => 'smith',
+            'roles' => [
+                'ROLE_ADMIN',
+                'ROLE_TEACHER'
+                ]
+        ]);
+
+        UserFactory::createOne([
+            'email' => 'user@user.com',
+            'password' => 'user',
+            'roles' => ['ROLE_USER']
+        ]);
+
+        UserFactory::createOne([
+            'email' => 'admin@admin.com',
+            'password' => 'admin',
+            'roles' => ['ROLE_ADMIN']
+        ]);
+    }
+```
+
 
 
 ## Loading the fixtures
@@ -56,6 +110,7 @@ Loading fixtures involves deleting all existing database contents and then creat
 
 That's it!
 
+
 You should now be able to access `/admin` with either the `matt.smith@smith.com/smith` or `admin@admin.com/admin` users. You will get an Access Denied exception if you login with `user@user.com/user`, since that only has `ROLE_USER` privileges, and `ROLE_ADMIN` is required to visit `/admin`.
 
 See Figure \ref{denied_exception} to see the default Symfony (dev mode) Access Denied exception page.
@@ -66,30 +121,17 @@ The next chapter will show you how to deal with (and log) access denied exceptio
 
 ## Using SQL from CLI to see users in DB
 
-To double check your fixtures have been created correctly in the database, you could run an SQL query from the CLI:
+
+We can now run an SQL query from the Symfony console to confirm our 3 user fixtures have been created and persisted to the database.
 
 ```bash
-    $ symfony console doctrine:query:sql "SELECT * FROM user"
-    Cannot load Xdebug - it was already loaded
-    
-    /php-symfony-5-book-codes-security-03-create-user/vendor/doctrine/dbal/lib/Doctrine/DBAL/Tools/Dumper.php:71:
-    array (size=3)
-      0 => 
-        array (size=4)
-          'id' => string '2' (length=1)
-          'email' => string 'user@user.com' (length=13)
-          'roles' => string '["ROLE_USER"]' (length=13)
-          'password' => string '$2y$13$yfMogZlZfDQ3cJeib6Q2kOqXemYBs.4/AnyK/RbAFp69.360N60ai' (length=60)
-      1 => 
-        array (size=4)
-          'id' => string '3' (length=1)
-          'email' => string 'admin@admin.com' (length=15)
-          'roles' => string '["ROLE_ADMIN"]' (length=14)
-          'password' => string '$2y$13$9UyVwrOluOkxLaH57IJM7uPF/NN7iKdBby.z9im2vx4531elfT80a' (length=60)
-      2 => 
-        array (size=4)
-          'id' => string '4' (length=1)
-          'email' => string 'matt.smith@smith.com' (length=14)
-          'roles' => string '["ROLE_ADMIN", "ROLE_SUPER_ADMIN"]' (length=34)
-          'password' => string '$2y$13$4/yo6pKgUgECygZHbawemOSeANK78Cu6bGtKKbSgByFLFxASSlC3u' (length=60)
+    symfony console doctrine:query:sql "select * from user"
+
+ ---- ---------------------- -------------------------------- --------------------------------------------------------------
+  id   email                  roles                            password
+ ---- ---------------------- -------------------------------- --------------------------------------------------------------
+  4    matt.smith@smith.com   ["ROLE_ADMIN", "ROLE_TEACHER"]   $2y$13$5mUbdUYvuqTeObrUDLOueeehJcBiuvK8VuvjNtLQyze0/I2lqisxu
+  5    user@user.com          ["ROLE_USER"]                    $2y$13$fHDtd2iETUhzauOP5D5T3uJaU0x82qu8RWUu1oM.GXwFV1NqpOrOa
+  6    admin@admin.com        ["ROLE_ADMIN"]                   $2y$13$ryXek36va8XOZ5UiqV3tSOuqwQJcJ3t0B2nfBtw8K4kjUh0RSQdpu
+ ---- ---------------------- -------------------------------- --------------------------------------------------------------
 ```

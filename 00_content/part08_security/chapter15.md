@@ -29,11 +29,13 @@ Create a new project:
   symfony new --webapp security01
 ```
 
-Add the fixtures bundle (we'll need this later):
+Add the fixtures ande Foundry pacakges (we'll need these later):
 
 ```bash
     composer require orm-fixtures
+    composer require zenstruck/foundry
 ```
+
 
 ## Make a Default controller
 
@@ -250,7 +252,7 @@ Since we've changed our Entity classes, we should migrate these changes to the d
 
 ```bash
     symfony console make:migration
-    symfony console doctrine:migrations:migrate // and say "yes" when asked about updating database changes ...
+    symfony console doctrine:migrations:migrate
 ```
 
 ## Make some `User` fixtures
@@ -356,11 +358,11 @@ Load the fixtures into the database (with `doctrine:fixtures:load`), and check t
 ```bash
     symfony console doctrine:query:sql "select * from user"
 
-     ---- ---------------------- -------------------------------- --------------------------------------------------------------
-      id   email                  roles                            password
-     ---- ---------------------- -------------------------------- --------------------------------------------------------------
-      1    matt.smith@smith.com   ["ROLE_ADMIN", "ROLE_TEACHER"]   $2y$13$VUT7QvjVGP8xblXvc2mMnOdT0/JkOvpb5TrCiziHTms6jLsPoAt0e
-     ---- ---------------------- -------------------------------- --------------------------------------------------------------
+ ---- ---------------------- -------------------------------- --------------------------------------------------------------
+  id   email                  roles                            password
+ ---- ---------------------- -------------------------------- --------------------------------------------------------------
+  1    matt.smith@smith.com   ["ROLE_ADMIN", "ROLE_TEACHER"]   $2y$13$VUT7QvjVGP8xblXvc2mMnOdT0/JkOvpb5TrCiziHTms6jLsPoAt0e
+ ---- ---------------------- -------------------------------- --------------------------------------------------------------
 ```
 
 We can see the hashed password and roles `ROLE_ADMIN` and `ROLE_ADMIN`
