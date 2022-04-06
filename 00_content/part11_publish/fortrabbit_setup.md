@@ -26,7 +26,7 @@ See Figure \ref{mysqlvariables} to see these Fortrabbit MySQL variables for Symf
 
 Since both locally, and remotely we'll have a new DB, do the following to keep things in step:
 
-1. Delete the `/src/Migrations` folder
+1. Delete any contents in folder  `/migrations` folder (but not the folder itself)
 
 1. Create the new local database schema with `symfony console doctrine:database:create`
 
@@ -86,7 +86,7 @@ Say "y" here!
 
 You should then see a new file `.htaccess` in the `/public` folder. See Figure \ref{htaccess}.
 
-![Screenshot of recipe-creatred `/public/.htaccess` file.\label{htaccess}](./03_figures/part11/11_htaccess.png)
+![Screenshot of recipe-created `/public/.htaccess` file.\label{htaccess}](./03_figures/part11/11_htaccess.png)
 
 
 That's it - we've now prepared our local Symfony project for publishing at Fortrabbit!

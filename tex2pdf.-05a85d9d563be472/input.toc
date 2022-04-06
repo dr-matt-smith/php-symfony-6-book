@@ -1,0 +1,66 @@
+\contentsline {chapter}{Acknowledgements}{i}{chapter*.1}
+\contentsline {part}{I\hspace {1em}Symfony Testing}{1}{part.1}
+\contentsline {chapter}{\numberline {1}Unit testing in Symfony}{3}{chapter.1}
+\contentsline {section}{\numberline {1.1}Testing in Symfony}{3}{section.1.1}
+\contentsline {section}{\numberline {1.2}Installing Simple-PHPUnit (project \texttt {test01})}{3}{section.1.2}
+\contentsline {section}{\numberline {1.3}Creating a test class}{4}{section.1.3}
+\contentsline {section}{\numberline {1.4}Running our tests}{5}{section.1.4}
+\contentsline {section}{\numberline {1.5}Testing other classes (project \texttt {test02})}{5}{section.1.5}
+\contentsline {section}{\numberline {1.6}The class to test our calculator}{6}{section.1.6}
+\contentsline {section}{\numberline {1.7}Using a data provider to test with multiple datasets}{7}{section.1.7}
+\contentsline {section}{\numberline {1.8}Configuring testing reports}{9}{section.1.8}
+\contentsline {section}{\numberline {1.9}Testing for exceptions (project \texttt {test03})}{10}{section.1.9}
+\contentsline {section}{\numberline {1.10}PHPUnit \texttt {expectException(...)}}{12}{section.1.10}
+\contentsline {section}{\numberline {1.11}Testing for custom Exception classes}{13}{section.1.11}
+\contentsline {section}{\numberline {1.12}Checking Types with assertions}{15}{section.1.12}
+\contentsline {section}{\numberline {1.13}Same vs.\nobreakspace {}Equals}{15}{section.1.13}
+\contentsline {chapter}{\numberline {2}Web testing}{17}{chapter.2}
+\contentsline {section}{\numberline {2.1}Testing controllers with \texttt {WebTestCase}}{17}{section.2.1}
+\contentsline {section}{\numberline {2.2}Creating a new project for web testing (project \texttt {test04})}{17}{section.2.2}
+\contentsline {section}{\numberline {2.3}Create home page with a Default controller}{17}{section.2.3}
+\contentsline {section}{\numberline {2.4}Using the `make' tool to create a web test}{19}{section.2.4}
+\contentsline {section}{\numberline {2.5}Automating a test for the home page contents}{19}{section.2.5}
+\contentsline {section}{\numberline {2.6}Testing text case-insensitively}{21}{section.2.6}
+\contentsline {section}{\numberline {2.7}Test multiple pages with a data provider}{22}{section.2.7}
+\contentsline {section}{\numberline {2.8}Count the number of elements}{23}{section.2.8}
+\contentsline {section}{\numberline {2.9}Testing different content returned by the Response}{23}{section.2.9}
+\contentsline {section}{\numberline {2.10}Testing route followed after link clicked or form submission}{24}{section.2.10}
+\contentsline {section}{\numberline {2.11}Testing links (project \texttt {test05})}{25}{section.2.11}
+\contentsline {subsection}{\numberline {2.11.1}Instruct client to `follow redirects'}{27}{subsection.2.11.1}
+\contentsline {chapter}{\numberline {3}Testing web forms}{29}{chapter.3}
+\contentsline {section}{\numberline {3.1}Testing forms (project \texttt {test06})}{29}{section.3.1}
+\contentsline {section}{\numberline {3.2}Create a \texttt {CalculatorTest} class}{33}{section.3.2}
+\contentsline {section}{\numberline {3.3}Test we can get a reference to the form}{33}{section.3.3}
+\contentsline {section}{\numberline {3.4}Submitting the form}{34}{section.3.4}
+\contentsline {section}{\numberline {3.5}Entering form values then submitting}{35}{section.3.5}
+\contentsline {section}{\numberline {3.6}Testing we get the correct result via form submission}{36}{section.3.6}
+\contentsline {section}{\numberline {3.7}Selecting form, entering values and submitting in one step}{38}{section.3.7}
+\contentsline {section}{\numberline {3.8}Using a Data Provider to test forms}{39}{section.3.8}
+\contentsline {chapter}{\numberline {4}Code coverage and xDebug}{41}{chapter.4}
+\contentsline {section}{\numberline {4.1}xDebug}{41}{section.4.1}
+\contentsline {section}{\numberline {4.2}Code Coverage}{41}{section.4.2}
+\contentsline {section}{\numberline {4.3}Generating Code Coverage HTML report}{42}{section.4.3}
+\contentsline {section}{\numberline {4.4}Tailoring the `whitelist'}{44}{section.4.4}
+\contentsline {part}{II\hspace {1em}Publishing Symfony websites}{45}{part.2}
+\contentsline {chapter}{\numberline {5}Publishing your Symfony website}{47}{chapter.5}
+\contentsline {section}{\numberline {5.1}Requirements for Symfony publishing}{47}{section.5.1}
+\contentsline {section}{\numberline {5.2}Simplest ways to host Symfony projects}{48}{section.5.2}
+\contentsline {chapter}{\numberline {6}Setting up project ready for Fortrabbit}{51}{chapter.6}
+\contentsline {section}{\numberline {6.1}Updating the names of our MySQL variables to match Fortrabbit ones}{51}{section.6.1}
+\contentsline {section}{\numberline {6.2}Create new DB locally, and make fresh migrations}{52}{section.6.2}
+\contentsline {section}{\numberline {6.3}Creating the \texttt {/public/.htaccess} Apache server routing file}{52}{section.6.3}
+\contentsline {chapter}{\numberline {7}Publishing with Fortrabbit.com}{55}{chapter.7}
+\contentsline {section}{\numberline {7.1}Main steps for PAAS publishing with Fortrabbit}{55}{section.7.1}
+\contentsline {section}{\numberline {7.2}Create a new Fortrabbit Symfony project}{56}{section.7.2}
+\contentsline {section}{\numberline {7.3}Choose plan - the Trial is free!}{58}{section.7.3}
+\contentsline {section}{\numberline {7.4}Temporarily set project environment to \texttt {dev} so we can load DB fixtures}{58}{section.7.4}
+\contentsline {section}{\numberline {7.5}Getting a linked Git project on your local computer}{59}{section.7.5}
+\contentsline {section}{\numberline {7.6}Visit site to see if published (although may be DB errors)}{62}{section.7.6}
+\contentsline {section}{\numberline {7.7}Connect command-line terminal to Fortrabbit project via SHH}{64}{section.7.7}
+\contentsline {section}{\numberline {7.8}Use SSH to run DB migrations}{64}{section.7.8}
+\contentsline {section}{\numberline {7.9}Use SSH to load fixtures}{65}{section.7.9}
+\contentsline {section}{\numberline {7.10}Use SSH to clear the Symfony cache}{66}{section.7.10}
+\contentsline {section}{\numberline {7.11}Use Doctrine query to check DB contents}{66}{section.7.11}
+\contentsline {section}{\numberline {7.12}MySQL queries using SSH tunnel \ldots {}}{66}{section.7.12}
+\contentsline {section}{\numberline {7.13}Published website}{68}{section.7.13}
+\contentsline {chapter}{List of References}{69}{chapter*.26}

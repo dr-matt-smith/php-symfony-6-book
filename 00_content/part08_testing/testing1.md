@@ -15,19 +15,35 @@ Symfony is built by an open source community. There is a lot of information abou
 
 ## Installing Simple-PHPUnit (project `test01`)
 
-Symfony has as special 'bridge' to work with PHPUnit. Add this to your project as follows:
+Symfony has as special 'testpack' that works with PHPUnit. Add this to your project as follows:
 
 ```bash
-    $ composer req --dev simple-phpunit
+    $ composer require --dev symfony/test-pack
 ```
 
-You should now see a `/tests` directory created. Let's create a simple test (1 + 1 = 2!) to check everything is working okay.
+You should now see a `/tests` directory created.
+
+Run our tests - we have none, so should get a message telling us no tests were executed:
+
+
+```bash
+    $ bin/phpunit
+
+    PHPUnit 9.5.19
+
+    No tests executed!
+```
+
+
+## Creating a test class
+
+Let's create a simple test (1 + 1 = 2!) to check everything is working okay.
 
 Create a new class `/tests/SimpleTest.php` containing the following:
 
 ```php
     <?php
-    namespace App\Test;
+    namespace App\Tests;
 
     use PHPUnit\Framework\TestCase;
 
@@ -47,12 +63,13 @@ Create a new class `/tests/SimpleTest.php` containing the following:
             $this->assertEquals($expectedResult, $result);
         }
     }
-
 ```
 
 Note the following:
 
 - test classes are located in directory `/tests`
+
+    - or a suitably named sub-directory, matching the `/src` namespaced folder they are testing
 
 - test classes end with the suffix `Test`, e.g. `SimpleTest`
 
@@ -60,59 +77,30 @@ Note the following:
 
     -- if we add a `uses` statement `use PHPUnit\Framework\TestCase` then we can simple extend `TestCase`
 
-- simple test classes are in namespace `App\Test`
+- simple test classes are in namespace `App\Tests`
 
     -- the names and namespaces of test classes testing a class in `/src` will reflect the namespace of the class being tested
 
-    -- i.e. If we write a class to test `/src/Controller/DefaultController.php` it will be `/tests/Controller/DefaultControllerTest.php`, and it will be in namespace `App\Controller\Test`
+    -- i.e. If we write a class to test `/src/Controller/DefaultController.php` it will be `/tests/Controller/DefaultControllerTest.php`, and it will be in namespace `App\Tests\Controller`
 
     -- so our testing class architecture directly matches our source code architecture
 
-## Completing the installation
+## Running our tests
 
-The first time you run Simple-PHPUnit it will probably need to install some more files.
+Run our tests - we have 1 now, so should get a message telling us our test ran and passed:
 
-There is an executable file in `/vendor/bin` named `simple-phpunit`. To run it just type `vendor/bin/simple-phpunit` (or for Windows, to run the BATch file, type `vendor\bin\simple-phpunit` - with backslashes since this is a Windows file path):
 
 ```bash
-    $ vendor/bin/simple-phpunit
-    ./composer.json has been updated
-    Loading composer repositories with package information
-    Updating dependencies
-    Package operations: 19 installs, 0 updates, 0 removals
-      - Installing sebastian/recursion-context (2.0.0): Loading from cache
-      ...
-      - Installing symfony/phpunit-bridge (dev-master): Symlinking from /Users/matt/Library/Mobile Documents/com~apple~CloudDocs/11_Books/symfony/php-symfony4-book-codes/part-testing/test01_simple/vendor/symfony/phpunit-bridge
-    Writing lock file
-    Generating optimized autoload files
-```
+    $ bin/phpunit
 
-
-
-NOTE: Error message about missing `ext-mbstring`:
-
-- if you get a message about "ext mbstring" required - when trying to work in Windows with Simple PHP Unit or make:
-
-- simple solution - in your php.ini file
-
-    -- Just as you did for pdo_mysql, remove the semi-colon in front of the statement in the php.ini file:
-
-    -- e.g. change `;extension=mbstring` to: `extension=mbstring`
-
-
-## Running Simple-PHPUnit
-
-Let's run the tests (using the default configuration settings, in `phpunit.dist.xml`):
-
-```bash
-    $ vendor/bin/simple-phpunit
-    PHPUnit 5.7.27 by Sebastian Bergmann and contributors.
-    Testing Project Test Suite
+    Testing
     .                                                                   1 / 1 (100%)
 
-    Time: 93 ms, Memory: 4.00MB
+    Time: 00:00.022, Memory: 10.00 MB
+
     OK (1 test, 1 assertion)
 ```
+
 
 Dots are good. For each passed test you'll see a full stop. Then after all tests have run, you'll see a summary:
 
@@ -126,11 +114,11 @@ This tells us how many passed, out of how many, and what the pass percentage was
 
 **our testing structure mirrors the code we are testing**
 
-Let's create a very simple class `Calculator.php` in `/src/Util`^[Short for 'Utilty' - i.e. useful stuff!], and then write a class to test our class. Our simple class will be a very simple calculator:
+Let's create a very simple class `Calculator.php` in `/src/Util`^[Short for 'Utility' - i.e. useful stuff!], and then write a class to test our class. Our simple class will be a very simple calculator:
 
 - method `add(...)` accepts 2 numbers and returns the result of adding them
 
-- method `subtract()`  accepts 2 numbers and returns the result of subtractingt the second from the first
+- method `subtract()`  accepts 2 numbers and returns the result of subtracting the second from the first
 
 so our `Calculator` class is as follows:
 
@@ -154,16 +142,16 @@ so our `Calculator` class is as follows:
 
 ## The class to test our calculator
 
-We now need to write a test class to test our calculator class. Since our source code class is `/src/Util/Calculator.php` then our testing class will be `/tests/Util/Calculator.php`. And since the namespace of our source code class was `App\Util` then the namespace of our testing class will be `App\Util\Test`. Let's test making an instance-object of our class `Calculator`, and we will make 2 assertions:
+We now need to write a test class to test our calculator class. Since our source code class is `/src/Util/Calculator.php` then our testing class will be `/tests/Util/CalculatorTest.php`. And since the namespace of our source code class was `App\Util` then the namespace of our testing class will be `App\Tests\Util`. Let's test making an instance-object of our class `Calculator`, and we will make 2 assertions:
 
 - the reference to the new object is not NULL
 
 - invoking the `add(...)` method with arguments of (1,1) and returns the correct answer (2!)
 
-Here's the listing for our class `CalculatorTest`:
+Here's the listing for our new test class `/tests/Util/CalculatorTest.php`:
 
 ```php
-    namespace App\Util\Test;
+    namespace App\Tests\Util;
 
     use App\Util\Calculator;
     use PHPUnit\Framework\TestCase;
@@ -207,16 +195,18 @@ Note:
 Run the tests - if all goes well we should see 3 out of 3 tests passing:
 
 ```bash
-    $ vendor/bin/simple-phpunit
-    PHPUnit 5.7.27 by Sebastian Bergmann and contributors.
-    Testing Project Test Suite
+    $ bin/phpunit
+
+    Testing
     ...                                                                 3 / 3 (100%)
 
-    Time: 64 ms, Memory: 4.00MB
+    Time: 00:00.014, Memory: 10.00 MB
+
     OK (3 tests, 3 assertions)
 ```
 
-## Using a data provider to test with multiple datasets (project `test03`)
+
+## Using a data provider to test with multiple datasets
 
 Rather than writing lots of methods to test different additions, let's use a **data provider** (via an annotation comment), to provide a single method with many sets of input and expected output values:
 
@@ -276,7 +266,7 @@ When we run Simple-PHPUnit now we see lots of tests being executed, repeatedly i
     OK (6 tests, 6 assertions)
 ```
 
-## Configuring testing reports (project `test04`)
+## Configuring testing reports
 
 In additional to instant reporting at the command line, PHPUnit offers several different methods of recording test output text-based files.
 
@@ -288,10 +278,12 @@ Add the following into file  `phpunit.dist.xml`:
 
 ```xml
     <logging>
-        <log type="junit" target="./build/logfile.xml"/>
-        <log type="testdox-html" target="./build/testdox.html"/>
-        <log type="testdox-text" target="./build/testdox.txt"/>
-        <log type="tap" target="./build/logfile.tap"/>
+        <junit outputFile="junit.xml"/>
+        <teamcity outputFile="./build/teamcity.txt"/>
+        <testdoxHtml outputFile="./build/testdox.html"/>
+        <testdoxText outputFile="./build/testdox.txt"/>
+        <testdoxXml outputFile="./build/testdox.xml"/>
+        <text outputFile="./build/logfile.txt"/>
     </logging>
 ```
 
@@ -300,33 +292,22 @@ Figure \ref{build_contents} shows a screenshot of the contents of the created `/
 
 ![Contents of directory `/build`. \label{build_contents}](./03_figures/part_testing/1_build_contents.png)
 
-The `.txt` file version of **testdox** is perhaps the simplest output - showing `[x]` next to a passed method and `[ ]` for a test that didn't pass. The text output turns the test method names into more English-like sentences:
+The `.txt` file version of  **test dox** (**testdoxText**) is perhaps the simplest output - showing `[x]` next to a passed method and `[ ]` for a test that didn't pass. The text output turns the test method names into more English-like sentences:
 
 ```txt
-    App\Test\Simple
-     [x] One plus one equals two
+     Simple (App\Tests\Simple)
+      [x] One plus one equals two
 
-    App\Util\Test\Calculator
-     [x] Can create object
-     [x] Add one and one
-     [x] Additions with provider
-```
-
-Another easy to understand logging format is the TAP (Test-Anywhere Protocol). Although official deprecated by PHPUnit it still seems to work. What is nice about the TAP format is that repeated invocations of test methods iterating through a data-provider are enumerated, with the values. So we can see how many times, and their successes, a method was invoked with test data. This file is named (by our XML configuration above) `logfile.tap`:
-
-```txt
-    TAP version 13
-    ok 1 - App\Test\SimpleTest::testOnePlusOneEqualsTwo
-    ok 2 - App\Util\Test\CalculatorTest::testCanCreateObject
-    ok 3 - App\Util\Test\CalculatorTest::testAddOneAndOne
-    ok 4 - App\Util\Test\CalculatorTest::testAdditionsWithProvider with data set #0 (1, 1, 2)
-    ok 5 - App\Util\Test\CalculatorTest::testAdditionsWithProvider with data set #1 (2, 2, 4)
-    ok 6 - App\Util\Test\CalculatorTest::testAdditionsWithProvider with data set #2 (0, 1, 1)
-    1..6
+     Calculator (App\Tests\Util\Calculator)
+      [x] Can create object
+      [x] Add one and one
+      [x] Additions with provider with data set #0
+      [x] Additions with provider with data set #1
+      [x] Additions with provider with data set #2
 ```
 
 
-## Testing for exceptions (project `test07`)
+## Testing for exceptions (project `test03`)
 
 If our code throws an **Exception** while a test is being executed, and it was not caught, then we'll get an **Error** when we run our test.
 
@@ -389,41 +370,38 @@ But when we run simple-phpunit we'll get an error since the (uncaught) Exception
 
 ```bash
     $ vendor/bin/simple-phpunit
-    PHPUnit 5.7.27 by Sebastian Bergmann and contributors.
+    PHPUnit 9.5.19
 
-    Warning:       Deprecated TAP test listener used
+    Testing
+    .......E                                                            8 / 8 (100%)
 
-    Testing Project Test Suite
-    .........E                                                        10 / 10 (100%)
-
-    Time: 1.21 seconds, Memory: 10.00MB
+    Time: 00:00.028, Memory: 10.00 MB
 
     There was 1 error:
 
-    1) App\Util\Test\CalculatorTest::testDivideOneAndZero
+    1) App\Tests\Util\CalculatorTest::testDivideOneAndZero
     InvalidArgumentException: Divisor must be a number
 
-    .../src/Util/Calculator.php:21
-    /Users/matt/Library/Mobile Documents/com~apple~CloudDocs/11_Books/symfony/php-symfony4-book-codes/part-testing/test07_exceptions/tests/Util/CalculatorTest.php:84
+    /Users/matt/test03/src/Util/Calculator.php:18
+    /Users/matt/test03/tests/Util/CalculatorTest.php:82
 
     ERRORS!
-    Tests: 10, Assertions: 9, Errors: 1.
+    Tests: 8, Assertions: 7, Errors: 1.
+
 ```
 
 And our logs will confirm the failure:
 
 ```
-    App\Tests\Controller\DefaultController
-     [x] Homepage response code okay
-     [x] Homepage content contains hello world
-
-    App\Test\Simple
+    Simple (App\Tests\Simple)
      [x] One plus one equals two
 
-    App\Util\Test\Calculator
+    Calculator (App\Tests\Util\Calculator)
      [x] Can create object
      [x] Add one and one
-     [x] Additions with provider
+     [x] Additions with provider with data set #0
+     [x] Additions with provider with data set #1
+     [x] Additions with provider with data set #2
      [x] Divide one and one
      [ ] Divide one and zero
 ```
@@ -457,41 +435,17 @@ Now all our tests pass:
 
 ```bash
     $ vendor/bin/simple-phpunit
-    PHPUnit 5.7.27 by Sebastian Bergmann and contributors.
+    PHPUnit 9.5.19
 
-    Warning:       Deprecated TAP test listener used
+    Testing
+    ........                                                            8 / 8 (100%)
 
-    Testing Project Test Suite
-    ..........                                                        10 / 10 (100%)
+    Time: 00:00.026, Memory: 10.00 MB
+
+    OK (8 tests, 8 assertions)
 ```
 
 
-## PHPUnit annotation comment `@expectedException`
-
-PHPUnit allows us to use an annotation comment to state that we expect an exception to be thrown during the execution of a particular test. This is a nice way to keep our test logic simple.
-
-Since annotation comments are declared immediately **before** the method, some programmers (I do!) prefer the annotation way of declaring that we expect a test method to result in an exception being thrown:
-
-```php
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testDivideOneAndZeroAnnotation()
-    {
-        // Arrange
-        $calculator = new Calculator();
-        $num1 = 1;
-        $num2 = 0;
-
-        // Act
-        $result = $calculator->divide($num1, $num2);
-
-        // Assert - FAIL - should not get here!
-        $this->fail("Expected exception {\InvalidArgumentException::class} not thrown");
-    }
-```
-
-NOTE: You must ensure the exception class is fully namespaced in the annotation comment (no `::class` shortcuts!).
 
 ## Testing for custom Exception classes
 
@@ -501,12 +455,11 @@ While the built-in PHP Exceptions are find for simple projects, it is very usefu
 
     ```php
         // file: /src/Exception/UnknownCurrencyException.php
+        <?php
 
         namespace App\Exception;
 
-        use Exception;
-
-        class UnknownCurrencyException extends Exception
+        class UnknownCurrencyException extends \Exception
         {
             public function __construct($message = null)
             {
@@ -515,42 +468,52 @@ While the built-in PHP Exceptions are find for simple projects, it is very usefu
                 }
                 parent::__construct($message);
             }
-
         }
     ```
 
-1. Ensure your source code throws an instance of your custom Exception. For example:
+1. Ensure your `/src/Util/Calculator.php` source code throws an instance of your custom Exception. For example:
 
     ```php
         use App\Exception\UnknownCurrencyException;
 
         ...
 
-        public function euroOnlyExchange($currency)
+        public function euroOnlyExchange(string $currency)
         {
             $currency = strtolower($currency);
-            if('euro' != $currency)){
+            if('euro' != $currency){
                 throw new UnknownCurrencyException();
             }
+
+            // other logic here ...
+        }
     ```
 
 1. In your tests your must check for the expected custom Exception class. E.g. using the annotation approach:
 
     ```php
-        /**
-         * @expectedException App\Exception\UnknownCurrencyException
-         */
+        use App\Exception\UnknownCurrencyException;
+
+        ...
+
         public function testInvalidCurrencyException()
         {
-            ... code here to trigger exception to be thrown ...
+            // Arrange
+            $calculator = new Calculator();
+            $currency = 'I am not euro';
+
+            // Expect exception - BEFORE you Act!
+            $this->expectException(UnknownCurrencyException::class);
+
+            // Act
+            // ... code here to trigger exception to be thrown ...
+            $calculator->euroOnlyExchange($currency);
 
             // Assert - FAIL - should not get here!
             $this->fail("Expected exception {\Exception} not thrown");
         }
     ```
 
-
-**NOTE**: You have to provide the full namespace in the annotation comment, i.e. `App\Exception\UnknownCurrencyException`. Having a `use` statement above will not work properly
 
 ## Checking Types with assertions
 
@@ -561,7 +524,7 @@ For example:
 ```php
     $result = 1 + 2;
 
-    // check result is an interger
+    // check result is an integer
     $this->assertInternalType('int', $result);
 ```
 
@@ -586,6 +549,6 @@ The use of  `assertSame(...)` is useful in unit testing to check the types of va
     $expectedResult = 3;
     $result = 1 + 2;
 
-    // check result is an interger
+    // check result is an integer
     $this->assertSame($expectedResult, $result);
 ```

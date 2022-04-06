@@ -1,0 +1,40 @@
+URL to video:
+https://web.microsoftstream.com/video/1c47aa03-65c5-4609-815d-5eba25a97b60
+
+
+
+Publishing to Fortrabbit
+
+---
+create free account on Fortrabbit
+https://www.fortrabbit.com/
+
+---
+create new Fortrabbit symfony app - can use free trial plan (will be deleted after 24-48 hours if using this free option)
+NOTE:
+I like to change the APP_ENV environment variable from "prod" to "dev"
+this means you'll get the Symfony debug toolbar when publishing your site - so can look at routing and things like that ....
+
+---
+git clone to local machine
+copy your Symfony project files into the new folder
+
+---
+generate the Apache ".htaccess" file by adding the Symfony Apache-Pack package to the project
+composer require symfony/apache-pack
+---
+delete any old migrations
+generate a new migration
+
+---
+git add / commit / push updated project to the Fortrabbit git server
+you may need to add / create an SSH key for this: https://help.fortrabbit.com/ssh-troubleshooting
+
+---
+Using SSH run these 3 commands on the remote server:
+NOTE: the symfony CLI is not installed, so write "php bin/console ..."  instead of "symfony console ...."
+
+php bin/console doctrine:migrations:migrate
+php bin/console doctrine:fixtures:load
+php bin/console cache:clear
+

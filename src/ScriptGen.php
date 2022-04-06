@@ -59,10 +59,9 @@ class ScriptGen
         '00_content/part07_associations/chapter20.md',
         '00_content/part07_associations/chapter21_user_as_author.md',
 
-        
         '00_content/part08_security/part06.md',
-        '00_content/part08_security/chapter15.md ',   
-        '00_content/part08_security/chapter16_userFixtures.md ',   
+        '00_content/part08_security/chapter15.md ',
+        '00_content/part08_security/chapter16_userFixtures.md ',
         '00_content/part08_security/chapter17_customLogin.md ',
         '00_content/part08_security/chapter18_accessDenied.md ',
         '00_content/part08_security/chapter18_twigLogger.md',
@@ -72,11 +71,20 @@ class ScriptGen
         // ROLE HIERACHY
 //        '00_content/part08_security/security5_user_roles.md',
 
-//        '00_content/part08_testing/part08.md',
-//        '00_content/part08_testing/testing1.md',
-//        '00_content/part08_testing/testing2_coverage.md ',
-//        '00_content/part08_testing/testing3_controllers.md',
-//        '00_content/part08_testing/testing4_forms.md',
+        '00_content/part08_testing/part08.md',
+        '00_content/part08_testing/testing1.md',
+        '00_content/part08_testing/testing3_web_controllers.md',
+        '00_content/part08_testing/testing3_web2_links.md',
+        '00_content/part08_testing/testing4_forms.md',
+        '00_content/part08_testing/testing5_dbTesting.md',
+        '00_content/part08_testing/testing6_userLogins.md',
+
+        '00_content/part08_testing/testing2_coverage.md ',
+
+        '00_content/part11_publish/part.md',
+        '00_content/part11_publish/publish.md',
+        '00_content/part11_publish/fortrabbit_setup.md',
+        '00_content/part11_publish/fortrabbit.md',
 
         '04_appendices/0_appendices.md',
         '04_appendices/1_software_tools.md',

@@ -2,6 +2,12 @@
 
 # Code coverage and xDebug
 
+## xDebug
+
+for code coverege in PHP almost all projects use the open source xDebug tool. You'll need to have this installed to be able to generate code coverage reports for your project.
+
+- [https://xdebug.org/](https://xdebug.org/)
+
 ## Code Coverage
 
 It's good to know how **much** of our code we have tested, e.g. how many methods or logic paths (e.g. if-else- branches) we have and have not tested.

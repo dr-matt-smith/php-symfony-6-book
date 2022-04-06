@@ -1,7 +1,7 @@
 
 # Testing web forms
 
-## Testing forms (project `test09`)
+## Testing forms (project `test06`)
 
 Testing forms is similar to testing links, in that we need to get a reference to the form  (via its submit button), then insert out data, then submit the form, and examine the content of the new response received after the form submission.
 
@@ -68,24 +68,28 @@ There is a calculator home page that displays the form Twig template at `/templa
 
 
 ```php
-    /**
-     * @Route("/calc", name="calc_home")
-     */
-    public function indexAction()
+    #[Route('/calculator', name: 'app_calculator_index')]
+    public function index(): Response
     {
-        return $this->render('calc/index.html.twig', []);
+        $template = 'calculator/index.html.twig';
+        $args = [];
+        return $this->render($template, $args);
     }
 ```
 
-and a 'process' controller method to recevied the form data (n1, n2, operator) and process it:
-There is a calculator home page that displays the form Twig template at `/templates/calc/index.html.twig`:
+and a 'process' controller method to received the form data (n1, n2, operator) and process it:
+There is a calculator home page that displays the form Twig template at `/templates/calculator/index.html.twig`:
 
 
 ```php
-    /**
-     * @Route("/calc/process", name="calc_process")
-     */
-    public function processAction(Request $request)
+
+    use Symfony\Component\HttpFoundation\Request;
+    use App\Util\Calculator;
+
+    ...
+
+    #[Route('/calculator/process', name: 'app_calculator_process')]
+    public function processAction(Request $request): Response
     {
         // extract name values from POST data
         $n1 = $request->request->get('num1');
@@ -95,19 +99,19 @@ There is a calculator home page that displays the form Twig template at `/templa
         $calc = new Calculator();
         $answer = $calc->process($n1, $n2, $operator);
 
-        return $this->render(
-            'calc/result.html.twig',
-            [
-                'n1' => $n1,
-                'n2' => $n2,
-                'operator' => $operator,
-                'answer' => $answer
-            ]
-        );
+        $template = 'calculator/result.html.twig';
+        $args =  [
+            'n1' => $n1,
+            'n2' => $n2,
+            'operator' => $operator,
+            'answer' => $answer
+        ];
+
+        return $this->render($template, $args);
     }
 ```
 
-The Twig template to display our form looks as follows `/templates/calc/index.html.twig`:
+The Twig template to display our form looks as follows `/templates/calculator/index.html.twig`:
 
 ```twig
     {% extends 'base.html.twig' %}
@@ -115,7 +119,7 @@ The Twig template to display our form looks as follows `/templates/calc/index.ht
     {% block body %}
     <h1>Calculator home</h1>
 
-        <form method="post" action="{{ url('calc_process') }}">
+        <form method="post" action="{{ url('app_calculator_process') }}">
             <p>
                 Num 1:
                 <input type="text" name="num1" value="1">
@@ -161,6 +165,35 @@ and the Twig template to confirm received values, and display the answer `result
         answer = {{ answer }}
 ```
 
+## Create a `CalculatorTest` class
+
+Using the Symfony make tool, let's create a `CalculatorTest` class in `/src/Tests/`:
+
+```bash
+    $symfony console make:test
+
+     Which test type would you like?:
+      [TestCase       ] basic PHPUnit tests
+      [KernelTestCase ] basic tests that have access to Symfony services
+      [WebTestCase    ] to run browser-like scenarios, but that don't execute JavaScript code
+      [ApiTestCase    ] to run API-oriented scenarios
+      [PantherTestCase] to run e2e scenarios, using a real-browser or HTTP client and a real web server
+     > WebTestCase
+
+
+    Choose a class name for your test, like:
+     * UtilTest (to create tests/UtilTest.php)
+     * Service\UtilTest (to create tests/Service/UtilTest.php)
+     * \App\Tests\Service\UtilTest (to create tests/Service/UtilTest.php)
+
+     The name of the test class (e.g. BlogPostTest):
+     > CalculatorTest
+
+     created: tests/CalculatorTest.php
+
+      Success!
+```
+
 ## Test we can get a reference to the form
 
 Let's test that can see the form page
@@ -169,7 +202,7 @@ Let's test that can see the form page
     public function testHomepageResponseCodeOkay()
     {
         // Arrange
-        $url = '/calc';
+        $url = '/calculator';
         $httpMethod = 'GET';
         $client = static::createClient();
         $expectedResult = Response::HTTP_OK;
@@ -189,7 +222,7 @@ Let's test that we can get a reference to the form on this page, via its 'submit
     public function testFormReferenceNotNull()
     {
         // Arrange
-        $url = '/calc';
+        $url = '/calculator';
         $httpMethod = 'GET';
         $client = static::createClient();
         $crawler = $client->request($httpMethod, $url);
@@ -218,7 +251,7 @@ Assuming our form has some default values, we can test submitting the form by th
     public function testCanSubmitAndSeeResultText()
     {
         // Arrange
-        $url = '/calc';
+        $url = '/calculator';
         $httpMethod = 'GET';
         $client = static::createClient();
         $crawler = $client->request($httpMethod, $url);
@@ -233,7 +266,7 @@ Assuming our form has some default values, we can test submitting the form by th
         // submit the form
         $client->submit($form);
 
-        // get content from next Response & make lower case
+        // get content from next Response
         $content = $client->getResponse()->getContent();
         $contentLowerCase = strtolower($content);
 
@@ -260,7 +293,7 @@ Let's submit 1, 2 and `add`:
     public function testSubmitOneAndTwoAndValuesConfirmed()
     {
         // Arrange
-        $url = '/calc';
+        $url = '/calculator';
         $httpMethod = 'GET';
         $client = static::createClient();
         $crawler = $client->request($httpMethod, $url);
@@ -278,20 +311,19 @@ Let's submit 1, 2 and `add`:
         // submit the form & get content
         $crawler = $client->submit($form);
         $content = $client->getResponse()->getContent();
-        $contentLowerCase = strtolower($content);
 
         // Assert
-        $this->assertContains(
+        $this->assertStringContainsString(
             '1',
-            $contentLowerCase
+            $content
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             '2',
-            $contentLowerCase
+            $content
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'add',
-            $contentLowerCase
+            $content
         );
     }
 ```
@@ -309,7 +341,7 @@ Let's submit 1, 2 and `add`, and look for `3` in the final response:
     public function testSubmitOneAndTwoAndResultCorrect()
     {
         // Arrange
-        $url = '/calc';
+        $url = '/calculator';
         $httpMethod = 'GET';
         $client = static::createClient();
         $num1 = 1;
@@ -339,7 +371,7 @@ Let's submit 1, 2 and `add`, and look for `3` in the final response:
         $content = $client->getResponse()->getContent();
 
         // Assert
-        $this->assertContains($expectedResultString, $content);
+        $this->assertStringContainsString($expectedResultString, $content);
 ```
 
 That's it - we can now select forms, enter values, submit the form and interrogate the response after the submitted form has been processed.
@@ -382,6 +414,68 @@ So we can write a test with fewer steps if we wish:
         $content = $client->getResponse()->getContent();
 
         // Assert
-        $this->assertContains($expectedResultString, $content);
+        $this->assertStringContainsString($expectedResultString, $content);
     }
 ```
+
+## Using a Data Provider to test forms
+
+Let's list some operations and numbers and expected answers as a Data Provider array, and have a single test method automatically loop through testing all those data sets.
+
+```php
+    public function equationsProvider(): array
+    {
+        return [
+            [1, 1, 'add', 2],
+            [1, 2, 'add', 3],
+            [5, 2, 'subtract', 3],
+            [5, 4, 'subtract', 1],
+        ]
+    }
+```
+
+We can now write a parameterized test method, with the required speical annotation comment naming the Data Provider method:
+
+```php
+    /**
+     * @dataProvider equationsProvider
+     */
+    public function testSelectSetValuesSubmitInOneGoWithProvider(int $num1, int $num2, string $operator, int $expectedAnswer)
+    {
+        // Arrange
+        $url = '/calculator';
+        $httpMethod = 'GET';
+        $client = static::createClient();
+
+        // must be string for string search
+        $buttonName = 'calc_submit';
+
+        // Act
+        $client->submit($client->request($httpMethod, $url)->selectButton($buttonName)->form([
+            'num1'  => $num1,
+            'num2'  => $num2,
+            'operator'  => $operator,
+        ]));
+        $content = $client->getResponse()->getContent();
+
+        // Assert
+        $this->assertStringContainsString($expectedAnswer, $content);
+    }
+```
+
+We can see our 4 data sets used in teh TextDox output file (`/build/textdox.txt`):
+
+```text
+    Calculator (App\Tests\Controller\Calculator)
+     [x] Can visit calculator page okay
+     [x] Form reference not null
+     [x] Can submit and see result text
+     [x] Submit one and two and values confirmed
+     [x] Submit one and two and result correct
+     [x] Select set values submit in one go
+     [x] Select set values submit in one go with provider with data set #0
+     [x] Select set values submit in one go with provider with data set #1
+     [x] Select set values submit in one go with provider with data set #2
+     [x] Select set values submit in one go with provider with data set #3
+```
+

@@ -1,6 +1,6 @@
 
 
-# Better fixtures with `UserFactory`
+# Better fixtures with `UserFactory` \label{usefactorychapter}
 
 ## Improving UserFixtures with a Foundry `UserFactory` (project `security02`)
 
@@ -18,25 +18,26 @@ Use the Symfony maker feature to make a `UserFactory`:
      > 0
 ```
 
-## Refactor `UserFactory` to hash passwords
+## Refactor `UserFactory` to hash passwords \label{userFactoryHashing}
 
 As we did with simple fixtures last chapter, we need to add a property and constructor action to provide us with a password hasher object.
 
-From the template class generated for us, the first thing we need to do is add a `use` statement, to allow us to make use of the `UserPasswordEncoderInterface` class.
+From the template class generated for us, the first thing we need to do is add a `use` statement, to allow us to make use of the `UserPasswordHasherInterface` class.
 
 Add the following to `/src/Factory/UserFactory.php`:
 
 ```php
-    use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+    use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 ```
 
-Next, to make it easy to encode passwords we'll add a new private instance variable `$passwordHasher`, and a constructor method to initialise this object:
+Next, to make it easy to hash passwords we'll add a new private instance variable `$passwordHasher`, and a constructor method to initialise this object:
 
 ```php
     private UserPasswordHasherInterface $passwordHasher;
 
     public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
+        parent::__construct();
         $this->passwordHasher = $passwordHasher;
     }
 ```

@@ -37,6 +37,15 @@ It's very straightforward to setup a new Symfony project on Fortrabbit:
 
 ![Choose EU data centre.\label{eu}](./03_figures/part11/6_eu.png)
 
+## Choose plan - the Trial is free!
+
+There are several plans available. At the time of writing they offered:
+
+- Light at €5 per month
+- Standard at €15 per month
+- Plus at €30 per month
+
+AND there is also a "free trial" option - this trial app will be available for 24-48 hours - long enough for testing ...
 
 ## Temporarily set project environment to `dev` so we can load DB  fixtures
 
@@ -178,11 +187,23 @@ NOTE:
 
 - don't forget to change the project environment back to `prod` if you want a secure, efficient running web application
 
+## Use SSH to clear the Symfony cache
+
+It's a good idea to CLEAR the CACHE after making changes to your project.
+
+Connected through SSH in the terminal and run the cache clear command:
+
+```bash
+    php bin/console cache:clear
+```
+
 ## Use Doctrine query to check DB contents
 
 We can use the Doctrine `doctrine:query:sql "<SQL>"` command in an SSH terminal to check the contents of the database. See Figure \ref{doctrineSQL}.
 
 ![SSH terminal running SQL query via `doctrine:query:sql`.\label{doctrineSQL}](./03_figures/part11/21_ssh_sql.png)
+
+
 
 
 ## MySQL queries using SSH tunnel ...
@@ -201,4 +222,4 @@ If all has gone well, you should now have a live published Symfony website.
 
 NOTE: If you can see the Symfony profiler debug footer, then you've forgotton to change the envrionment back to `prod` !!!!
 
-![screeshot of published website.](./03_figures/part11/30_published.png)
+![Screenshot of published website.](./03_figures/part11/30_published.png)

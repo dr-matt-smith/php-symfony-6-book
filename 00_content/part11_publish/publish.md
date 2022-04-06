@@ -6,7 +6,7 @@
 
 You need the following to run Symfony on an internet host:
 
-- an up to date version of PHP (7.2.5+ at present)
+- an up to date version of PHP (8.1+ at present)
 
 - a MySQL database (or another DB type supported by Symfony)
 
@@ -20,7 +20,7 @@ Having setup several PHP and Symfony projects for companies and organisations wi
 
 ## Simplest ways to host Symfony projects
 
-There are 2 easy ways to host Symfony websites, both supporting **CD (Continuous Deoployment)** whereby commits pushed to the **master** branch of a Github (or similar) cloud repository are pulled down and the app restarted automatically, triggered by web "hooks" - event messages to the hosting servers each time a new commit is pushed:
+There are 2 easy ways to host Symfony websites, both supporting **CD (Continuous Deployment)** whereby commits pushed to the **master** branch of a Github (or similar) cloud repository are pulled down and the app restarted automatically, triggered by web "hooks" - event messages to the hosting servers each time a new commit is pushed:
 
 - Symfony Cloud, from Sensio Labs, the creators of Symfony. See Figure \ref{sfCloud}.
 
