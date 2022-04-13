@@ -239,7 +239,7 @@ Create a new test class for the `User` CRUD routes, named `UserCrudTest`:
 
 ## Write test methods
 
-To test whether a logged-in user with a role `ROLE_ADMIN` can access the `User` CRUD routes, we can write test methods such as this:
+To test whether a logged-in user with a role `ROLE_ADMIN` (e.g. `matt@matt.com` from our fixtures) can access the `User` CRUD routes, we can write test methods such as this:
 
 ```php
         public function testRoleAdminUserCanSeeUserList(): void
@@ -248,19 +248,24 @@ To test whether a logged-in user with a role `ROLE_ADMIN` can access the `User` 
             $method = 'GET';
             $url = '/user';
             $userEmail = 'matt@matt.com';
+            $okay200Code = Response::HTTP_OK;
+
             // create client that automatically follow re-directs
             $client = static::createClient();
             $client->followRedirects();
 
-            // Act
+            // Login user
             $userRepository = static::getContainer()->get(UserRepository::class);
             $testUser = $userRepository->findOneByEmail($userEmail);
             $client->loginUser($testUser);
 
+            // Act
             $crawler = $client->request($method, $url);
 
             // Assert
             $this->assertResponseIsSuccessful();
+            $responseCode = $client->getResponse()->getStatusCode();
+            $this->assertSame($okay200Code, $responseCode);
 
             $expectedText = 'User index';
             $contentSelector = 'body h1';
@@ -268,7 +273,8 @@ To test whether a logged-in user with a role `ROLE_ADMIN` can access the `User` 
         }
 ```
 
-Likewise, we can write tests to assert that a user **without** `ROLE_ADMIN` cannot access the `User` CRUD routes:
+Likewise, we can write tests to assert that a user **without** `ROLE_ADMIN` (e.g. `user@user.com` from our fixtures) cannot access the `User` CRUD routes, and the result is a 403 access denied response:
+
 
 ```php
     public function testRoleUserUserCanNOTSeeUserList(): void
@@ -277,19 +283,21 @@ Likewise, we can write tests to assert that a user **without** `ROLE_ADMIN` cann
         $method = 'GET';
         $url = '/user';
         $userEmail = 'user@user.com';
-        $okay200Code = Response::HTTP_OK;
         $accessDeniedResponseCode403 = Response::HTTP_FORBIDDEN;
 
         // create client that automatically follow re-directs
         $client = static::createClient();
         $client->followRedirects();
 
-        // Act
+        // login user
         $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail($userEmail);
         $client->loginUser($testUser);
 
+        // Act
         $crawler = $client->request($method, $url);
+
+        // Assert
         $responseCode = $client->getResponse()->getStatusCode();
         $this->assertSame($accessDeniedResponseCode403, $responseCode);
     }
