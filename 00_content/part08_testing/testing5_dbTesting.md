@@ -100,7 +100,7 @@ You can then run the migration for the live database:
 
 ## Creating the test database & running the migration
 
-To tell the Symfony console to work with our test environment settings, we need to use th `--env=test` option.
+To tell the Symfony console to work with our test environment settings, we need to use the `--env=test` option.
 
 So we can create the test database, and run the migration as follows:
 
