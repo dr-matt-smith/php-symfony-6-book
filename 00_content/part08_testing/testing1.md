@@ -552,3 +552,38 @@ The use of  `assertSame(...)` is useful in unit testing to check the types of va
     // check result is an integer
     $this->assertSame($expectedResult, $result);
 ```
+
+## PROBLEM SOLVING: LogicException: You must set the KERNEL_CLASS environment variable
+
+On some student laptops the following error is displayed:
+
+```bash
+    LogicException: You must set the KERNEL_CLASS environment variable to the fully-qualified class name of your Kernel in phpunit.xml / phpunit.xml.dist or override the "App\tests\Entity
+    UsersTest::createKernel()" or "App\tests\Entity\UsersTest::getKernelClass()" method
+```
+
+If you get such an error, if can be resolved by adding the following line to file: `phpunit.xml.dist`:
+
+```xml
+    <php>
+        ...
+        <server name="KERNEL_CLASS" value="App\Kernel" />
+    </php>
+```
+
+So the `php` element in file `phpunit.xml.dist` would look as follows after adding this element:
+
+```xml
+    <php>
+        <ini name="display_errors" value="1" />
+        <ini name="error_reporting" value="-1" />
+        <server name="APP_ENV" value="test" force="true" />
+        <server name="SHELL_VERBOSITY" value="-1" />
+        <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
+        <server name="SYMFONY_PHPUNIT_VERSION" value="9.5" />
+        <server name="KERNEL_CLASS" value="App\Kernel" />
+    </php>
+```
+
+However, for most projects/laptops there is no need to add this line for everything to work fine...
+
